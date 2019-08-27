@@ -8,14 +8,21 @@ body{
     background: none;
     -webkit-appearance: none;
     display: block;
-    float: left;
+    left: 0;
     background-color: #ccddce;
-    padding: 1%;
-    border-color: #748773;
+    border-color: beige;
+    padding-left: 2%;
+    padding-bottom: 2%px;
+    padding-right: 2%;
     outline: none;
     border-radius: 0.2rem;
     border-style: solid;
     list-style-type: none;
+    color: white;
+    font-weight: 900;
+    font-size: 18px;
+    text-align: center;
+    height: 30px;
 }
 h1{
     font-weight: 800;
@@ -35,7 +42,7 @@ h2{
     -webkit-text-stroke-color: white;
     -webkit-text-stroke-width: 1.5px;
 }
-.mine-container{
+.mines-container{
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -50,4 +57,81 @@ h2{
     border-style: solid;
     border-width: 5px;
     border-radius: 0.5em;
+}
+.mines{
+    background: #9bce9c;
+    border-color: #537c58;
+    border-style: solid;
+    border-radius: 0.2rem;
+    border-width: 3px;
+}
+/*变成空地后的class*/
+.floor{
+    background: none;
+    border: none;
+}
+/*变成胡萝卜的class*/
+.orange{
+    background: none;
+    border: none;
+    background-image: url("./assets/orange.png");
+    background-repeat: round;
+}
+/*变成白萝卜的class*/
+.white{
+    background: none;
+    border: none;
+    background-image: url("./assets/white.png");
+    background-repeat: round;
+}
+/*变成邀请卡的class*/
+.welcome{
+    background: none;
+    border: none;
+    background-image: url("./assets/welcome.png");
+    background-repeat: round;
+}
+.yTable{
+    width: 300px;
+    height: 300px;
+    position: relative;
+    margin-top: -300px;
+}
+/*变成梯仔的class*/
+.you{
+    height: max-content;
+    background-image: url(./assets/boy.png);
+    background-repeat: round;
+    background-size: 100%;
+}
+.gaming{
+    visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-items: center;
+    margin-top: 8px;
+}
+.white_carrot{
+    width: 12vh;
+    height: 18vh;
+    background-image: url(./assets/big.png);
+    background-repeat: round;
+    background-size: 100%;
+    margin-left: -150px;
+}
+#statistics{
+    position: absolute;
+    font-size: 50px;
+    font-weight: 1000;
+    color: #607c60;
+    margin-top: 20px;
+}
+#ge{
+    position: absolute;
+    margin-left: 60px;
+    font-size: 55px;
+    font-weight: 700;
+    color: #8e7966;
+    margin-top: 12px;
 }
