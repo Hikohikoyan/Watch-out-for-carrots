@@ -105,7 +105,7 @@ h2{
     background-size: 100%;
 }
 .gaming{
-    visibility: hidden;
+    /* visibility: hidden; */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -134,4 +134,86 @@ h2{
     font-weight: 700;
     color: #8e7966;
     margin-top: 12px;
+}
+.start_cover{
+    display: none;
+    margin-top: 2%;
+    padding: 0%;
+}
+.rules>p{
+    text-align: left;
+    margin: 0;
+    font-size: 2.3vh;
+    padding-left: 6px;
+}
+.rules{
+    background-color: white;
+    border-color: black;
+    border-style: solid;
+    padding: 1%;
+    width: max-content;
+    border-radius: 0.5rem;
+    z-index: 4;
+    height: max-content;
+}
+.rules::before{
+    content: " ";
+    width: 0;
+    height: 0;
+    display: block;
+    border-left: 28px solid black;
+    border-bottom: 6px solid transparent;
+    border-right: 15px solid transparent;
+    border-top: 18px solid transparent;
+    position: relative;
+    top: 15px;
+    left: 294px;
+}
+.rules::after{
+    content: " ";
+    width: 0;
+    height: 0;
+    display: block;
+    border-left: 25px solid white;
+    border-bottom: 6px solid transparent;
+    border-right: 15px solid transparent;
+    border-top: 18px solid transparent;
+    position: relative;
+    top: -63px;
+    left: 290px;
+}
+.boy{
+    width: 50%;
+    height: 35vh;
+    background-color: white;
+    position: relative;
+    float: right;
+    top: -180px;
+    margin: 0;
+
+}
+/*显示游戏规则*/
+td{
+    display: none;
+}
+#yTable{
+    background-image: url("./assets/rule.png");
+    background-size: cover;
+}
+#start{
+    margin-left: 200px;
+    background-color: #f4d087;
+    border-color: #825b3f;
+    border-width: 4px;
+    padding-left: 2%;
+    padding-bottom: 2%;
+    padding-right: 2%;
+    outline: none;
+    border-radius: 0.2rem;
+    border-style: solid;
+    list-style-type: none;
+    color: white;
+    font-weight: 900;
+    font-size: 4vh;
+    text-align: center;
 }
