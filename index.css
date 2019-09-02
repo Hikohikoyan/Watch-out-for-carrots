@@ -67,27 +67,36 @@ h2{
 }
 /*变成空地后的class*/
 .floor{
-    background: none;
-    border: none;
+    border-style: solid;
+    border-radius: 0.2rem;
+    border-width: 3px;
+    background-color: transparent;
+    border-color:transparent; 
 }
 /*变成胡萝卜的class*/
 .orange{
-    background: none;
-    border: none;
+    border-style: solid;
+    border-radius: 0.2rem;
+    border-width: 3px;
+    border-color:transparent; 
     background-image: url("./assets/orange.png");
     background-repeat: round;
 }
 /*变成白萝卜的class*/
 .white{
-    background: none;
-    border: none;
+    border-style: solid;
+    border-radius: 0.2rem;
+    border-width: 3px;
+    border-color:transparent; 
     background-image: url("./assets/white.png");
     background-repeat: round;
 }
 /*变成邀请卡的class*/
 .welcome{
-    background: none;
-    border: none;
+    border-style: solid;
+    border-radius: 0.2rem;
+    border-width: 3px;
+    border-color:transparent; 
     background-image: url("./assets/welcome.png");
     background-repeat: round;
 }
@@ -98,7 +107,7 @@ h2{
     margin-top: -300px;
 }
 /*变成梯仔的class*/
-.you{
+.you-column:hover,.you-column:active{
     height: max-content;
     background-image: url(./assets/boy.png);
     background-repeat: round;
@@ -216,4 +225,10 @@ td{
     font-weight: 900;
     font-size: 4vh;
     text-align: center;
+}
+#start:active{
+    box-shadow: inset 5px 3px 8px 3px #ad7c30;
+}
+td:active{
+    box-shadow: inset 3px 4px 7px 2px #5e9062;
 }
