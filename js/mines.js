@@ -77,8 +77,8 @@ function addCarrots(first){
         var arr1=new Array();
         var arr2=new Array();
         for(let i=0;i<6;i++){
-            arr1[i]=Math.random()*36;
-            arr2[i]=Math.random()*36;
+            arr1[i]=Math.round(Math.random()*100000000)%36;
+            arr2[i]=Math.round(Math.random()*100000000)%36;
         }
         function checkArr(n,m){
             for(let i=0;i<6;i++){
