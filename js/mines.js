@@ -1,152 +1,131 @@
-function premap(){
-    function prenodes(classname,name){
-        var pair="";
-        for(var j=1;j<7;j++){
-            pair=pair+"<td class='"+classname+"'id='"+name+j+"'></td>";
+function premap() {
+    function prenodes(classname, name) {
+        var pair = "";
+        for (var j = 1; j < 7; j++) {
+            pair = pair + "<td class='" + classname + "'id='" + name + j + "'></td>";
         }
         return pair;
     }
-    var pair2="";
-    var pair3="";
-    for(let a=1;a<7;a++){
-        pair2=pair2+"<tr class='line' id='tr"+a+"'>"+prenodes("mines","td")+"</tr>";
-        pair3=pair3+"<tr class='you-map' id='you-line"+a+"'>"+prenodes("you-column","you-column")+"</tr>";
+    var pair2 = "";
+    var pair3 = "";
+    for (let a = 1; a < 7; a++) {
+        pair2 = pair2 + "<tr class='line' id='tr" + a + "'>" + prenodes("mines", "td") + "</tr>";
+        pair3 = pair3 + "<tr class='you-map' id='you-line" + a + "'>" + prenodes("you-column", "you-column") + "</tr>";
     }
-    document.getElementById('gTable').innerHTML=pair2;
-    document.getElementById('yTable').innerHTML=pair3;
+    document.getElementById('gTable').innerHTML = pair2;
+    document.getElementById('yTable').innerHTML = pair3;
+    addCarrots();
 }
-sessionStorage.setItem("isOver","false");
-var num=Number(document.getElementById('statistics').textContent);
+sessionStorage.setItem("isOver", "false");
+var num = Number(document.getElementById('statistics').textContent);
 
 const startbtn = document.querySelector("#start");
 const backbtn = document.querySelector("#back");
-var clicktime=0;
-var minemap=new Map();
-function listener(){
-    var yourmove=document.getElementById('yTable');
-        yourmove.addEventListener('click',function(e){
+var clicktime = 0;
+var minemap = new Map();
 
-            move(e.toElement.id,e.path[1].id);
-            console.log(e.path[1].id+","+e.toElement.id);
-        },false);
+function listener() {
+    var yourmove = document.getElementById('yTable');
+    yourmove.addEventListener('click', function (e) {
+        clicktime++;
+        move(e.toElement.id, e.path[1].id);
+        console.log(e.path[1].id + "," + e.toElement.id);
+    }, false);
 }
 premap();
 startbtn.addEventListener('mousemove', listener, false);
-backbtn.addEventListener('click', function(){
+backbtn.addEventListener('click', function () {
     window.location.reload();
 }, false);
-function move(td,tr){
-    var flag=0;
-    var y=Number(td.replace("you-column",""));
+
+function move(td, tr) {
+    var flag = 0;
+    var y = Number(td.replace("you-column", ""));
     // var elementy=document.getElementById(tr).childNodes[y];
-    var x=Number(tr.replace("you-line",""));
-    var elementg=document.getElementById("tr"+x).childNodes[y-1];
-    if(clicktime==0){
-        addCarrots(elementg);
+    var x = Number(tr.replace("you-line", ""));
+    var elementg = document.getElementById("tr" + x).childNodes[y - 1];
+    var obj = "{" + x + "," + y + "}";
+    var type = String(minemap.get(obj));
+    if (clicktime == 1) {
+        minemap.set(obj, "floor");
     }
-    var obj="{"+x+","+y+"}";
-    var type=String(minemap.get(obj));
-    if(gamer(type)==false){
+    if (gamer(type) == false) {
         flag++;
     }
-    if(flag<=1){
-        removegrass(elementg,obj);
+    if (flag <= 1) {
+        removegrass(elementg, obj);
     }
     // return;
     //if()解锁成就
 }
-function removegrass(elementg,obj){
+
+function removegrass(elementg, obj) {
     // console.log("{"+x+","+y+"}");
     // var obj="{"+x+","+y+"}"
-    var type=String(minemap.get(obj));
-    elementg.setAttribute('class',type);
+    var type = String(minemap.get(obj));
+    elementg.setAttribute('class', type);
 }
-function addCarrots(first){
+
+function addCarrots() {
     //传过来出发点
-    var firstX=first.parentNode.id.replace("you-line","")
-    var firstY=first.id.replace("you-column");
-    var minesnum=0;
-    var whitenum=0;
-    var welcomecard=0;
-    function randommines(x,y){
-        if(x==firstX&&y==firstY){
-            return minemap.set("{"+firstX+","+firstY+"}","floor");
+    var minesnum = 7;
+    var whitenum = 5;
+    var total=whitenum+minesnum+1;
+    randommines();
+
+    function randommines() {
+        var arr1 = new Array();
+        var arr2 = new Array();
+        for (let i = 0; i < total; i++) {
+            arr1[i] = Math.round(Math.random() * 10000000 % 36);
+            arr2[i] = Math.round(Math.random() * 10000000 % 36);
         }
-        let isMine=Boolean;
-        let isWhite=Boolean;
-        var arr1=new Array();
-        var arr2=new Array();
-        for(let i=0;i<6;i++){
-            arr1[i]=Math.round(Math.random()*100000000)%36;
-            arr2[i]=Math.round(Math.random()*100000000)%36;
+        function sortNumber(a, b) {
+            return a - b
         }
-        function checkArr(n,m){
-            for(let i=0;i<6;i++){
-                if(parseInt(arr1[i]/6)==n){
-                    if(arr2[i]%6==m){
-                        isMine=true;
-                        return;
-                    }
-                }
-                isMine=false;
-                isWhite=true;
+        arr1.sort(sortNumber);
+        arr2.sort(sortNumber);
+        for(let i=0;i<minesnum;i++){
+            if(arr1[i]==6||arr1[i]==0){
+                arr1[i]=6;
+            }else{
+                arr1[i]=arr1[i]%6;
             }
-        }
-        if(minesnum<7){
-            checkArr(x,y);
-            if(isMine==true){
-                minemap.set("{"+x+","+y+"}","orange");
-                minesnum++;
-                return;
+            if(arr2[i]==6||arr2[i]==0){
+                arr2[i]=6;
+            }else{
+                arr2[i]=arr2[i]%6;
             }
+            minemap.set("{"+arr1[i]+","+arr2[i]+"}","orange");
         }
-        if(whitenum>3){
-            var another=Math.random()*25;
-            if(another/x>=5){
-                minemap.set("{"+x+","+y+"}","white");
-                whitenum++;
-                return;
+        for(let i=minesnum;i<minesnum+whitenum;i++){
+            if(arr1[i]==6||arr1[i]==0){
+                arr1[i]=6;
+            }else{
+                arr1[i]=arr1[i]%6;
             }
-        }
-        if(welcomecard==0){
-            if(isMine==false&&isWhite==false){
-                minemap.set({x,y},"welcome");
-                welcomecard++;
-                return;
-        }
-    }
-        minemap.set("{"+x+","+y+"}","floor");
-    }
-    function checkMines(x,y){
-        // var left=document.getElementById("tr"+x).childNodes[y-2];
-        // var right=document.getElementById("tr"+x).childNodes[y];
-        var leftX=x-1;var leftY=y;
-        var rightX=x+1;var rightY=y;
-        if(minemap.get({leftX,leftY})=="orange"){
-            if(minemap.get({rightX,rightY})=="orange"){
-                minemap.put("{"+x+","+y+"}","floor");
+            if(arr2[i]==6||arr2[i]==0){
+                arr2[i]=6;
+            }else{
+                arr2[i]=arr2[i]%6;
             }
+            minemap.set("{"+arr1[i]+","+arr2[i]+"}","white");
         }
-    }
-    for(let a=1;a<7;a++){
-        for(let b=1;b<7;b++){
-            randommines(a,b);
-            if((a>2&&b>2)|(a<6&&b<6)){
-                checkMines(a,b);
-            }
-        }
-    }
+        total=total-1;
+        minemap.set("{"+arr1[total]%6+","+arr2[total]%6+"}","welcome");
     console.log(minemap);
 }
-function gamer(type){
-    if(type=="white"){
-        num=num+1;
-        document.getElementById('statistics').textContent=String(num);
+}
+
+function gamer(type) {
+    if (type == "white") {
+        num = num + 1;
+        document.getElementById('statistics').textContent = String(num);
     }
-    if(type=="orange"){
+    if (type == "orange") {
         console.log("GameOver");
-        sessionStorage.setItem("isOver","true");
-        document.getElementById('yTable').style.cssText="background-image:unset;pointer-events: none;";
+        sessionStorage.setItem("isOver", "true");
+        document.getElementById('yTable').style.cssText = "background-image:unset;pointer-events: none;";
         return false;
     }
 }

@@ -6,18 +6,31 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="ISO-8859-1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, 
-    minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes" />
+    minimum-scale=1, maximum-scale=1, user-scalable=no" />
+    <script src="./js/preload.js"></script>
     <meta name="description" content="百步梯2019秋季招新">
-    <meta name="revised" content="PandaPancakes">
     <title>百步梯2019秋季招新</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="preload" href="./assets/ti1.png" as="image">
+    <link rel="preload" href="./assets/ti2.png" as="image">
+    <link rel="stylesheet" type="text/css" media="screen" href="./preload.css" >
     <link rel="stylesheet" type="text/css" media="screen" href='./index.css'>
 </head>
 
 <body>
-    <input type="button" id="back" value="返回">
+    <div id="startboy" class="loading">
+            <h3>页面正在加载中.....</h3>
+            <div class="hello" onclick="function c(){document.getElementById('startboy').style.cssText='display:none;'}">
+                Hello,我是梯仔~<br>一起玩个小游戏叭
+            </div>    
+        <img class="tizai" src="./assets/ti1.png" alt="梯仔" onclick="function c(){document.getElementById('startboy').style.cssText='display:none;'}">
+        <div class="loading" id="loadingbox">
+            </div>
+    </div>
+    <input type="button" class="topbtn" id="back" value="返回">
+    <input type="button" class="topbtn" id="ranklist" value="排行榜">
     <div class="title">
-        <h1>不要胡萝卜</h1>
+        <img src="./assets/title.png" alt="小心胡萝卜" height="60vh">
         <h2>00:00</h2>
     </div>
     <div class="mines-container">
@@ -29,12 +42,6 @@
             <tbody>
             </tbody>
         </table>
-    </div>
-    <div class="start_cover">
-        <div class="rules">
-            <p>找出草丛里所有的白萝卜，不是胡萝卜！</p>
-        </div>
-        <div class="boy"></div>
     </div>
     <div class="gaming">
         <div class="white_carrot"></div>
