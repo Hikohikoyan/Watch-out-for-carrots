@@ -11,7 +11,7 @@ def init_app(app):
 def get_db():
     if 'db' not in g:
         g.db = pymysql.connect(
-            'localhost','root','Xhh12345','game'
+            'localhost','root','*************','game'
         )
     return g.db
 
