@@ -1,5 +1,5 @@
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, url_for
+    Blueprint, flash, g, redirect,session, render_template, request, url_for, abort
 )
 from werkzeug.exceptions import abort
 
@@ -11,157 +11,108 @@ bp = Blueprint('blue', __name__)
 def hello():
     return 'Hello'
 
-
-@bp.route('/rank',methods=('POST','GET'))
+#获取排名
+@bp.route('/rank',methods=('GET'))
 def rank():
-    if request.method == 'GET':
-        db = get_db()
-        cursor = db.cursor()
-        cursor.execute('SELECT * FROM user')
-        description = cursor.description
-        des = []
-        for i in description:
-            des.append(i[0]) 
-        rank = cursor.fetchall()
-        result = []
-        for i in rank:
-            result.append(dict(zip(des,i)))
-        return{
-            'all':result
-        }
-
-    username = request.form['username']
+    username = session['nickname']
+    openid = session['openid']
     error = None
     db = get_db()
     cursor = db.cursor()
-    #名字是空
-    if username.strip() == '':
-        error = 'Invalid username'
-        raise KeyError
     
-    cursor.execute('SELECT * FROM user ORDER BY time ASC')
-    description = cursor.description
-    des = []
-    for i in description:
-        des.append(i[0]) 
+    cursor.execute('SELECT username, time, times FROM user ORDER BY time,times LIMIT 15 ') 
     info = cursor.fetchall()
-
     #没人玩游戏
     if len(info) == 0:
         return {
             'all': None,
             'self': None
         }
-    #有人
+    #有人, 结果为result,'打包'与用户无关的结果
+    description = cursor.description
+    des = []
+    for i in description:
+        des.append(i[0])
     result = []
     for i in info:
         result.append(dict(zip(des,i)))
 
-    #可能存在个人信息
-    self_rank = 1
-    self_info = None
-    exist = False
+    #个人是否存在
+    cursor.execute('SELECT username, time, times FROM user WHERE openid=%s'% openid)
+    exist = cursor.fetchone()
 
-    for item in result:
-        if username == item['username']:
-            self_info = item
-            exist = True
-            break
-        else:
-            self_rank = self_rank + 1
-
-    #查找完毕,锁定rank
-    if len(result) >= 15:
-        result = result[0:15]
-    else:
-        result = result
-    
-    #不存在个人
-    if exist == False:
+    if exist is None:
         return {
             'all':result,
             'self':None
         }
-    return {
-        'all':result,
-        'self':{
-            'self_rank':self_rank,
-            'self_info':self_info
-        }
-    }
-
-@bp.route('/insert', methods=('POST','GET'))
-def insert():
-    if request.method == 'POST':
-        username = request.form['username']
-        time = int(request.form['time'])
-        lose = int(request.form['times'])
-        db = get_db()
-        cursor = db.cursor()
-
-        error = None
-        #名字是空
-        if username.strip() == '':
-            error = 'Invalid username'
-            raise KeyError
-
-        #查询user
-        cursor.execute('SELECT * FROM user WHERE username = %s',(username))
-        user = cursor.fetchone()
-        #用户之前没有玩过游戏
-        if user is None:
-            cursor.execute(
-                'INSERT INTO user (username, time,times) VALUES (?,?,?)',(username,time,lose,)
-            )
-            
-            db.commit()
-            return redirect(url_for('username',username=username))
-
-        #用户又一次玩了游戏
-        else:
-            cursor.execute(
-                'UPDATE user SET time=%d, times=%d WHERE username="%s"'%(time,lose,username)
-            )
-            db.commit()
-            return redirect(url_for('blue.username',username=username))
-    return make_response(404)
-
-#返回前3名和他此时的排名
-@bp.route('/<path:username>')
-def username(username):
-    db = get_db()
-    cursor = db.cursor()
-
-    cursor.execute('SELECT * FROM user ORDER BY time ASC ')
+    #存在个人, 结果为self_result,'打包'
     description = cursor.description
     des = []
     for i in description:
-        des.append(i[0]) 
-    
-    info = cursor.fetchall()
-    rank = []
-    for i in info:
-        rank.append(dict(zip(des,i)))
-    
-    self_rank = 1
-    self_info = None
+        des.append(i[0])
+    self_result = dict(zip(des, exist))
+    #计算个人排名
+    self_time = self_result['time']
+    cursor.execute('SELECT COUNT(time) AS nums FROM user WHERE time<%d'%self_time)
+    num = cursor.fetchone()
+    num = num[0][0]
+    self_result['rank'] = num + 1
+    return {
+        'all':result,
+        'self':self_result
+    }
 
-    for item in rank:
-        if username == item['username']:
-            self_info = item
-            break
-        else:
-            self_rank = self_rank + 1
-    #查找完毕,锁定rank
-    if len(rank) >= 3:
-        rank = rank[0:3]
+#插入一个成绩
+@bp.route('/insert', methods=('GET'))
+def insert():
+    times = request.args.get('times')
+    time = request.args.get('time')
+    openid = session['openid']
+    username = session['nickname']
+    db = get_db()
+    cursor = db.cursor()
+
+    #查询user
+    cursor.execute('SELECT username, time, times FROM user WHERE openid =%s'%openid)
+    exist = cursor.fetchone()
+    #用户之前没有玩过游戏
+    if len(exist) == 0:
+        cursor.execute(
+            'INSERT INTO user (username, time,times, openid) VALUES (?,?,?,?)',(username,time,lose,openid)
+        )
+        db.commit()
+    #用户又一次玩了游戏
     else:
-        rank = rank
-    
-    return{
-        'all':rank,
-        'self':{
-            'self_rank':self_rank,
-            'self_info':self_info
-        }
+        description = cursor.description
+        des = []
+        for i in description:
+            des.append(i[0])
+        self_result = dict(zip(des,exist))
+
+        past_time = self_result['time']
+        past_times = self_result['times']
+
+        if (past_time < time) or (past_time == time and past_times < times):
+            pass
+        else:
+            cursor.execute(
+                'UPDATE user SET time=%d, times=%d WHERE openid=%s'%(time,times,openid)
+            )
+            db.commit()
+    #返回前3名和他 此时的信息(和排名)
+    cursor.execute('SELECT username, time, times FROM user ORDER BY time,times LIMIT 3')
+    description = cursor.description
+    des = []
+    for i in description:
+        des.append(i[0])
+    result = []
+    for i in info:
+        result.append(dict(zip(des,i)))
+    cursor.execute('SELECT COUNT(time) AS nums FROM user WHERE time <%d'%time)
+    num = cursor.fetchone()[0][0]
+    self_result['rank'] = num + 1
+    return {
+        'all': result,
+        'self':self_result
     }
