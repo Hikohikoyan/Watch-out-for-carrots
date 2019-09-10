@@ -14,6 +14,9 @@ h3{
     position: relative;
     z-index: 20;
 }
+#startboy{
+    display: none;
+}
 .loading{
     z-index: 15;
     position: absolute;
@@ -40,4 +43,5 @@ h3{
     margin-top: 240px;
     /* padding: 20px; */
     margin-left: -100px;
+
 }
