@@ -1,3 +1,4 @@
+#coding:utf-8
 from flask import (
     Blueprint, flash, g, redirect,session, render_template, request, url_for, abort
 )
