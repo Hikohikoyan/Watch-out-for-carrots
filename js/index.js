@@ -4,6 +4,7 @@ function rank(){
     document.querySelector("#yTable").style.cssText = "background-image:unset;";
     get("js/rank.json","ranklist");
     var totallist=Number(sessionStorage.getItem("listnum"));
+    totallist=16;
     function prenodes(classname, name) {
         var pair = "";
         for (var j = 0; j < 4; j++) {
@@ -27,7 +28,8 @@ function rank(){
     document.getElementById('rankline1').childNodes[3].innerText="失败次数";
     document.getElementsByClassName('gaming')[0].style.cssText="visibility:hidden;"
     if(totallist==0){
-        
+        document.getElementById('rankline2').innerText="暂时没人玩";
+        document.getElementById('rankline2').style.cssText="padding: 10%;font-size: 160%;text-align: center;"
     }
 }
 //常用的按钮

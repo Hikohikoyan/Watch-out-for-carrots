@@ -130,8 +130,10 @@ h2 {
     height: 300px;
     position: relative;
     margin-top: -300px;
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
-
+.yTable::-webkit-scrollbar {display:none}
 /*变成梯仔的class*/
 .you-column:hover,
 .you-column:active {
