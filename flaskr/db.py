@@ -1,4 +1,4 @@
-
+#coding:utf-8
 import pymysql
 import click
 from flask import current_app, g
