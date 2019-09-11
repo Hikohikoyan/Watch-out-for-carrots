@@ -1,16 +1,18 @@
-
-body{
+body {
     background-color: #cbe0ba;
     background-image: url(./assets/background.png);
     background-repeat: repeat;
     background-size: 45%;
-    margin: 2%;    padding: 0;
+    margin: 2%;
+    padding: 0;
     overflow: hidden;
 }
-.title{
+
+.title {
     text-align: center;
 }
-.topbtn{
+
+.topbtn {
     background: none;
     -webkit-appearance: none;
     display: block;
@@ -33,7 +35,8 @@ body{
     margin-right: 10px;
     margin-bottom: 10px;
 }
-h1{
+
+h1 {
     font-weight: 800;
     font-size: 7vh;
     text-align: center;
@@ -42,7 +45,8 @@ h1{
     -webkit-text-stroke-width: 2px;
     margin: 0%;
 }
-h2{
+
+h2 {
     text-align: center;
     padding: 0;
     margin: 0;
@@ -52,13 +56,15 @@ h2{
     -webkit-text-stroke-color: white;
     -webkit-text-stroke-width: 1.5px;
 }
-.mines-container{
+
+.mines-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-items: center;
 }
-#gTable{
+
+#gTable {
     margin: 0;
     width: 300px;
     height: 300px;
@@ -68,62 +74,74 @@ h2{
     border-width: 5px;
     border-radius: 0.5em;
 }
-.mines{
+
+.mines {
     background: #9bce9c;
     border-color: #537c58;
     border-style: solid;
     border-radius: 0.2rem;
     border-width: 3px;
 }
+
 /*变成空地后的class*/
-.floor{
+.floor {
     border-style: solid;
     border-radius: 0.2rem;
     border-width: 3px;
     background-color: transparent;
-    border-color:transparent; 
+    border-color: transparent;
 }
+
 /*变成胡萝卜的class*/
-.orange{
+.orange {
     border-style: solid;
     border-radius: 0.2rem;
     border-width: 3px;
-    border-color:transparent; 
+    border-color: transparent;
     background-image: url("./assets/orange.png");
     background-size: cover;
-    background-repeat: no-repeat;}
+    background-repeat: no-repeat;
+}
+
 /*变成白萝卜的class*/
-.white{
+.white {
     border-style: solid;
     border-radius: 0.2rem;
     border-width: 3px;
-    border-color:transparent; 
+    border-color: transparent;
     background-image: url("./assets/white.png");
     background-size: cover;
-    background-repeat: no-repeat;}
+    background-repeat: no-repeat;
+}
+
 /*变成邀请卡的class*/
-.welcome{
+.welcome {
     border-style: solid;
     border-radius: 0.2rem;
     border-width: 3px;
-    border-color:transparent; 
+    border-color: transparent;
     background-image: url("./assets/welcome.png");
     background-size: cover;
-    background-repeat: no-repeat;}
-.yTable{
+    background-repeat: no-repeat;
+}
+
+.yTable {
     width: 300px;
     height: 300px;
     position: relative;
     margin-top: -300px;
 }
+
 /*变成梯仔的class*/
-.you-column:hover,.you-column:active{
+.you-column:hover,
+.you-column:active {
     height: max-content;
     background-image: url(./assets/boy.png);
     background-repeat: round;
     background-size: 100%;
 }
-.gaming{
+
+.gaming {
     /* visibility: hidden; */
     display: flex;
     flex-direction: column;
@@ -131,7 +149,8 @@ h2{
     justify-items: center;
     margin-top: 8px;
 }
-.white_carrot{
+
+.white_carrot {
     width: 12vh;
     height: 18vh;
     background-image: url(./assets/big.png);
@@ -139,14 +158,16 @@ h2{
     background-size: 100%;
     margin-left: -150px;
 }
-#statistics{
+
+#statistics {
     position: absolute;
     font-size: 50px;
     font-weight: 1000;
     color: #607c60;
     margin-top: 20px;
 }
-#ge{
+
+#ge {
     position: absolute;
     margin-left: 60px;
     font-size: 55px;
@@ -154,18 +175,21 @@ h2{
     color: #8e7966;
     margin-top: 12px;
 }
-.start_cover{
+
+.start_cover {
     display: none;
     margin-top: 2%;
     padding: 0%;
 }
-.rules>p{
+
+.rules>p {
     text-align: left;
     margin: 0;
     font-size: 2.3vh;
     padding-left: 6px;
 }
-.rules{
+
+.rules {
     background-color: white;
     border-color: black;
     border-style: solid;
@@ -175,7 +199,8 @@ h2{
     z-index: 4;
     height: max-content;
 }
-.rules::before{
+
+.rules::before {
     content: " ";
     width: 0;
     height: 0;
@@ -188,7 +213,8 @@ h2{
     top: 15px;
     left: 294px;
 }
-.rules::after{
+
+.rules::after {
     content: " ";
     width: 0;
     height: 0;
@@ -201,7 +227,8 @@ h2{
     top: -63px;
     left: 290px;
 }
-.boy{
+
+.boy {
     width: 50%;
     height: 35vh;
     background-color: white;
@@ -211,17 +238,20 @@ h2{
     margin: 0;
 
 }
+
 /*显示游戏规则*/
-td{
+td {
     display: none;
 }
-#yTable{
+
+#yTable {
     background-image: url("./assets/rule.png");
     background-size: 96%;
     background-repeat: no-repeat;
     background-position: center;
 }
-#start{
+
+#start {
     margin-left: 200px;
     background-color: #f4d087;
     border-color: #825b3f;
@@ -238,9 +268,145 @@ td{
     font-size: 4vh;
     text-align: center;
 }
-#start:active{
+
+#start:active {
     box-shadow: inset 5px 3px 8px 3px #ad7c30;
 }
-td:active{
+
+td:active {
     box-shadow: inset 3px 4px 7px 2px #5e9062;
+}
+
+#attentionbox {
+    position: absolute;
+    top: 0;
+    text-align: center;
+    background-color: orange;
+    opacity: 0.76;
+    border-color: white;
+    border-width: 2px;
+    border-style: solid;
+    width: 300px;
+    /* margin-right: 15px; */
+    top: 2%;
+    padding: 5px;
+    height: max-content;
+    /* flex: auto; */
+    /* align-items: inherit; */
+}
+
+#attcha {
+    width: 20px;
+    position: absolute;
+    right: 0;
+    margin: 5px;
+}
+
+.icon_att {
+    width: 40px;
+    position: relative;
+    float: left;
+    margin-left: 4px;
+}
+#attention {
+    white-space: normal;
+    /* position: absolute; */
+    /* height: 20px; */
+    color: white;
+    /* margin: 0; */
+    padding: 0;
+    font-size: 20px;
+    height: min-content;
+    margin: 0;
+    padding: 0;
+    margin-left: 50px;
+    width: 200px;
+    margin-top: 15px;
+}
+
+@keyframes shake {
+
+    0%,
+    100% {
+        -webkit-transform: translateX(0);
+    }
+
+    10%,
+    30%,
+    50%,
+    70%,
+    90% {
+        -webkit-transform: translateX(-5px);
+    }
+
+    20%,
+    40%,
+    60%,
+    80% {
+        -webkit-transform: translateX(5px);
+    }
+}
+
+@-webkit-keyframes shake {
+    0%,
+    100% {
+        -webkit-transform: translateX(0);
+    }
+
+    10%,
+    30%,
+    50%,
+    70%,
+    90% {
+        -webkit-transform: translateX(-5px);
+    }
+
+    20%,
+    40%,
+    60%,
+    80% {
+        -webkit-transform: translateX(5px);
+    }
+}
+
+#attentionbox:hover,#attentionbox:active {
+    animation: shake 1s linear forwards;
+    -webkit-animation: shake 1s linear forwards;
+
+}
+.ranklist{
+    background-color: #f9f4ea;
+    border-color: #8c6e62;
+    border-style: solid;
+    border-width: 5px;
+    /* border-radius: 0.5em; */
+    border-top-width: 0;
+    border-right-width: 0;
+    z-index: 100;
+    display:  inline-block;
+    /* float: left; */
+    color: #8c6e62;
+    /* font-size: 20px; */
+    text-align: center;
+    padding: 3px;
+    height: 30px;
+    position: relative;
+    margin-top: 5px;
+    padding-bottom: 0px;
+    width: max-content;
+    margin-left: -4px;
+    /* top: 0; */
+    padding-left: 10.5px;
+    padding-right: 11.5px;
+}
+.rankcaption{
+    height: 38px !important;
+}
+.rankline{
+    height: 38px !important;
+    display: block;
+    margin: 0;
+    position: relative;
+    margin-top: -5px;
+    margin-bottom: 5px;
 }

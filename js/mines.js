@@ -1,5 +1,10 @@
 var minemap = new Map();
+var rankarr = new Array();
 var num = 0;
+
+var clicktime = 0;
+
+
 function premap() {
     function prenodes(classname, name) {
         var pair = "";
@@ -25,37 +30,35 @@ function premap() {
 
 function createTd() {
     minemap.clear();
-    for (let a = 0; a <6; a++) {
-        let line = a+1;
-        for (let b = 0; b <6; b++) {
-            let column = b+1;
+    for (let a = 0; a < 6; a++) {
+        let line = a + 1;
+        for (let b = 0; b < 6; b++) {
+            let column = b + 1;
             var td = createEle("false", "floor");
             minemap.set("{" + line + "," + column + "}", td);
         }
     }
 }
 
-function createEle( flag, type) {
+function createEle(flag, type) {
     // console.log(line+"_____________"+column);
     let obj = new Object;
     // obj.line = line;
     // obj.column = column;
     obj.flag = flag;
     obj.type = type;
+    obj.nunm = 0;
     return obj;
 }
 
-const startbtn = document.querySelector("#start");
-const backbtn = document.querySelector("#back");
-var clicktime = 0;
 
 function listener() {
     var yourmove = document.getElementById('yTable');
     yourmove.addEventListener('click', function (e) {
-        // console.log(e.target)
+        console.log(e);
         // console.log(document.getElementById(e.toElement.id).dataset);
         clicktime++;
-        move(e.toElement.id, e.path[1].id,e.target);
+        move(e.toElement.id, e.path[1].id, e.target);
         console.log(e.path[1].id + "," + e.toElement.id);
     }, false);
 }
@@ -65,8 +68,8 @@ backbtn.addEventListener('click', function () {
     window.location.reload();
 }, false);
 
-function move(td, tr,target) {
-    if(tr==""||td==undefined||tr==undefined||td=="yTable"){
+function move(td, tr, target) {
+    if (tr == "" || td == undefined || tr == undefined || td == "yTable") {
         return;
     }
     var y = Number(td.replace("you-column", ""));
@@ -89,39 +92,51 @@ function move(td, tr,target) {
         document.getElementById('statistics').textContent = String(num);
         removegrass(elementg, grass);
         inside.flag = "true";
-        target.removeEventListener('click',function (e) {
+        target.removeEventListener('click', function (e) {
             clicktime++;
-            move(e.toElement.id, e.path[1].id,e.target);
+            move(e.toElement.id, e.path[1].id, e.target);
             console.log(e.path[1].id + "," + e.toElement.id);
         }, false);
         return;
-    } else if(flag=="false"){
+    } else if (flag == "false") {
         removegrass(elementg, grass);
-        for (let a = 0; a <6; a++) {
-            let line = a+1;
-            for (let b = 0; b <6; b++) {
-                let column = b+1;
+        for (let a = 0; a < 6; a++) {
+            let line = a + 1;
+            for (let b = 0; b < 6; b++) {
+                let column = b + 1;
                 let element = document.getElementById("tr" + line).childNodes[column - 1];
-                if(element==undefined){
-                    console.log(line+","+column);
+                if (element == undefined) {
+                    console.log(line + "," + column);
                     return;
                 }
-                removegrass(element, "{"+line+","+column+"}");
+                removegrass(element, "{" + line + "," + column + "}");
             }
         }
         sessionStorage.setItem("isOver", "true");
         document.getElementById('yTable').style.cssText = "background-image:unset;pointer-events: none;";
-        return;       
+        return;
     }
-    if(flag==2){
+    if (flag == 2) {
         removegrass(elementg, grass);
         return;
     }
-    if(flag==-1){
+    if (flag == -1) {
         //welcome
         console.log("welcome");
         return;
     }
+}
+
+function complete(num) {
+    var url = "http://203.195.221.189:5000/insert";
+    var casename = "complete";
+    var finaltime = Number(document.querySelector("h2").textContent.split(":")[0]) * 60 + Number(document.querySelector("h2").textContent.split(":")[1]);
+    if (num == 5) {
+        url = url + "?time=" + finaltime;
+    } else {
+        url = url + "?time=" + 0;
+    }
+    get(url, casename);
 }
 
 function removegrass(elementg, obj) {
@@ -168,7 +183,7 @@ function addCarrots() {
                     arr2[i] = 1;
                 }
             }
-            let obj = createEle( "false", "orange")
+            let obj = createEle("false", "orange")
             minemap.set("{" + arr1[i] + "," + arr2[i] + "}", obj);
         }
         for (let i = 8; i < 12; i++) {
@@ -188,22 +203,22 @@ function addCarrots() {
                     arr2[i] = 1;
                 }
             }
-            let obj = createEle( "false", "white")
+            let obj = createEle("false", "white")
             minemap.set("{" + arr1[i] + "," + arr2[i] + "}", obj);
         }
-        let obj = createEle( "false", "welcome")
-        if(arr1[12]%6==0){
-            arr1[12]=arr1[12]%6+1;
+        let obj = createEle("false", "welcome")
+        if (arr1[12] % 6 == 0) {
+            arr1[12] = arr1[12] % 6 + 1;
         }
-        if(arr2[12]%6==0){
-            arr2[12]=arr2[12]%6+1;
+        if (arr2[12] % 6 == 0) {
+            arr2[12] = arr2[12] % 6 + 1;
         }
-        minemap.set("{" + arr1[12]%6+","+ arr2[12]%6 + "}", obj);
+        minemap.set("{" + arr1[12] % 6 + "," + arr2[12] % 6 + "}", obj);
         console.log(minemap);
     }
 }
 
-function addColor() {
+function addColor(pos) {
     function check(type) {
         if (type == "orange") {
             return true;
@@ -213,10 +228,11 @@ function addColor() {
     }
 
     function switchColor(num, x, y) {
-        y=y+1;
-        console.log(x+y);
+        y = y + 1;
+        console.log(x + y);
         var elementg = document.getElementById("tr" + x).childNodes[y - 1].id; //x line y column
         console.log(elementg);
+
         function paint(color) {
             console.log("background-color:" + color + ";");
             document.getElementById(String(elementg)).style.cssText = "background-color:" + color + ";";
@@ -241,7 +257,7 @@ function addColor() {
     for (let x = 1; x < 7; x++) {
         for (let y = 1; y < 7; y++) {
             let current = minemap.get("{" + x + "," + y + "}"); //line column
-            if(current.type=="floor"){
+            if (current.type == "floor") {
                 return;
             }
             let mine = 0;
@@ -269,7 +285,7 @@ function addColor() {
                     mine++;
                 }
             }
-            switchColor(mine,x,y);
+            switchColor(mine, x, y);
         }
     }
 }

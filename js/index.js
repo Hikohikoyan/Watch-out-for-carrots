@@ -1,80 +1,45 @@
-// const startbtn = document.querySelector("#start");
 var storage = JSON;
+document.getElementById('ranklist').addEventListener('click',rank,false);
+function rank(){
+    document.querySelector("#yTable").style.cssText = "background-image:unset;";
+    get("js/rank.json","ranklist");
+    var totallist=Number(sessionStorage.getItem("listnum"));
+    function prenodes(classname, name) {
+        var pair = "";
+        for (var j = 0; j < 4; j++) {
+            pair = pair + "<td class='" + classname + "'id='" + name + Number(j+1) + "'></td>";
+        }
+        return pair;
+    }
+    var list2 = "";
+    for (let a = 0; a <=totallist+1; a++) {
+        if(a==0){
+            var linename="rankcaption";
+        }else{
+            linename="rankline";
+        }
+        list2 = list2 + "<tr class='"+linename+"' id='rankline" +Number( a +1)+ "' >" + prenodes("ranklist", "rankitem") + "</tr>";
+    }
+    document.getElementById('yTable').innerHTML = list2;
+    document.getElementById('rankline1').childNodes[0].innerText="名次";
+    document.getElementById('rankline1').childNodes[1].innerText="用户名";
+    document.getElementById('rankline1').childNodes[2].innerText="成功用时";
+    document.getElementById('rankline1').childNodes[3].innerText="失败次数";
+    document.getElementsByClassName('gaming')[0].style.cssText="visibility:hidden;"
+    if(totallist==0){
+        
+    }
+}
 //常用的按钮
-function read_statuscode(statusCode, responseText) { //用来提示的 仅此而已
-    if (statusCode == 200) {
-        console.log("Success!");
-        response = JSON.stringify(responseText);
-        if (response.errcode == "40003") {
-            console.log("Wrong!");
-        }
-        return responseText;
-    } else {
-        switch (statusCode) {
-            case 419:
-                console.log("还没有关注公众号");
-                window.location.href = "https://hemc.100steps.net/2018/fireman/auth.php?redirect=https://hemc.100steps.net/2019/wish-pokemon/api/Check_login&state=gsudndu13Sd";
-                break;
-            case 430:
-                console.log("活动还没开始哦, 敬请期待~");
-                break;
-            case 431:
-                console.log("活动已经结束啦, 感谢关注~");
-                break;
-            case 500:
-                console.log("网络出了点小问题");
-                break;
-            case 402:
-                console.log("网络出了点小问题");
-                break;
-            case 404:
-                console.log("网络出了点小问题");
-                break;
-        }
-    }
-}
-
-function post(url, package, casename) {
-    var xmlhttp2 = new XMLHttpRequest();
-    let obj = package;
-    xmlhttp2.open("POST", url, true);
-    xmlhttp2.setRequestHeader("Content-Type", "application/json");
-    xmlhttp2.send(JSON.stringify(obj));
-    xmlhttp2.onreadystatechange = function () {
-        if (xmlhttp2.readyState == 4) {
-            read_statuscode(xmlhttp2.status, xmlhttp2.responseText);
-            storage = JSON.parse(xmlhttp2.responseText);
-            return;
-        }
-    }
-};
-
-function get(url, casename) {
-    var xmlhttp = new XMLHttpRequest();
-    xmlhttp.open("GET", url, true);
-    xmlhttp.setRequestHeader("Content-Type", "application/json");
-    xmlhttp.send();
-    xmlhttp.onreadystatechange = function () {
-        if (xmlhttp.readyState == 4) {
-            read_statuscode(xmlhttp.status, xmlhttp.responseText);
-            if (casename == "getyou") {
-                storage = JSON.parse(xmlhttp.responseText);
-                localStorage.setItem("you", storage.name);
-                return;
-            }
-        }
-    }
-}
 
 function checkBBT() {
     //授权
-    //get(https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect)
-    get("js/login.json", "getyou");
+    //get(https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect,"getyou")
+
 }
 startbtn.addEventListener('click', clearTable, false);
 
 function clearTable() {
-    //开始按钮 1.撤掉规则→布雷
     document.querySelector("#yTable").style.cssText = "background-image:unset;";
     let num = document.querySelectorAll("td").length;
     for (let i = 0; i < num; i++) {
@@ -92,6 +57,7 @@ function start() {
     startbtn.addEventListener('click',function(){
         premap();listener();clearTable();
         document.getElementById('statistics').textContent="0";
+        num=0;
         document.querySelector('h2').textContent="00:00";
         sessionStorage.setItem("isOver","false");
 
@@ -147,9 +113,7 @@ function stop() {
     }
 }
 
-function attention(text) {
-    /*把这个display的对象中文本改掉 */
-}
+
 
 function show(id) {
     var obj = document.getElementById(String(id));
