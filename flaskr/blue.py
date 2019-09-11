@@ -12,10 +12,10 @@ def hello():
     return 'Hello'
 
 #获取排名
-@bp.route('/rank',methods=('GET'))
+@bp.route('/rank',methods=('GET',))
 def rank():
-    username = session['nickname']
-    openid = session['openid']
+    username = 'ooo'
+    openid = '5959'
     error = None
     db = get_db()
     cursor = db.cursor()
@@ -40,7 +40,7 @@ def rank():
     #个人是否存在
     cursor.execute('SELECT username, time, times FROM user WHERE openid=%s'% openid)
     exist = cursor.fetchone()
-
+    
     if exist is None:
         return {
             'all':result,
@@ -51,25 +51,25 @@ def rank():
     des = []
     for i in description:
         des.append(i[0])
+    self_result = {}
     self_result = dict(zip(des, exist))
     #计算个人排名
     self_time = self_result['time']
     cursor.execute('SELECT COUNT(time) AS nums FROM user WHERE time<%d'%self_time)
-    num = cursor.fetchone()
-    num = num[0][0]
+    num = cursor.fetchone()[0]
     self_result['rank'] = num + 1
+    self_result['username']=username
     return {
         'all':result,
         'self':self_result
     }
 
 #插入一个成绩
-@bp.route('/insert', methods=('GET'))
+@bp.route('/insert', methods=('GET',))
 def insert():
-    times = request.args.get('times')
-    time = request.args.get('time')
-    openid = session['openid']
-    username = session['nickname']
+    time = int(request.args.get('time'))
+    openid = '5959'
+    username = 'ooo'
     db = get_db()
     cursor = db.cursor()
 
@@ -77,12 +77,40 @@ def insert():
     cursor.execute('SELECT username, time, times FROM user WHERE openid =%s'%openid)
     exist = cursor.fetchone()
     #用户之前没有玩过游戏
-    if len(exist) == 0:
-        cursor.execute(
-            'INSERT INTO user (username, time,times, openid) VALUES (?,?,?,?)',(username,time,lose,openid)
-        )
-        db.commit()
-    #用户又一次玩了游戏
+    self_result = {}
+    if exist is None:
+        if time == 0:
+            cursor.execute(
+                'INSERT INTO user (username, openid) VALUES ("%s","%s")' % (username,openid,)
+            )
+            db.commit()
+            cursor.execute(
+                'UPDATE user SET times = times+1 WHERE openid =%s'%openid
+            )
+            db.commit()
+
+            cursor.execute(
+                'SELECT COUNT(time) AS nums FROM user WHERE time<10000000'
+            )
+            num = cursor.fetchone()[0]
+            self_result['times'] = 1
+            self_result['username'] = username
+            self_result['time'] = 10000000
+            self_result['rank'] = num + 1
+        else:
+            cursor.execute(
+                'INSERT INTO user(username, time,openid,) VALUES ("%s",%d,"%s")' %(username,time,openid,)
+            )
+            db.commit()
+            cursor.execute(
+                'SELECT COUNT(time) AS nums FROM user WHERE time<%d'%time
+            )
+            num = cursor.fetchone()[0]
+            self_result['times'] = 0
+            self_result['username'] = username
+            self_result['time'] = time
+            self_result['rank'] = num + 1
+    #用户youwan了一次游戏
     else:
         description = cursor.description
         des = []
@@ -90,28 +118,51 @@ def insert():
             des.append(i[0])
         self_result = dict(zip(des,exist))
 
-        past_time = self_result['time']
-        past_times = self_result['times']
-
-        if (past_time < time) or (past_time == time and past_times < times):
-            pass
-        else:
+        if time == 0:
             cursor.execute(
-                'UPDATE user SET time=%d, times=%d WHERE openid=%s'%(time,times,openid)
+                'UPDATE user SET times = times+1 WHERE openid=%s'%openid
             )
             db.commit()
-    #返回前3名和他 此时的信息(和排名)
+            cursor.execute(
+                'SELECT COUNT(time) FROM user WHERE time<%d'%self_result['time']
+            )
+            num = cursor.fetchone()[0]
+            self_result['times']=self_result['times']+1
+            self_result['rank']=num+1
+            self_result['username'] = username
+            self_result['time'] = 10000000
+        else:
+            past_time = self_result['time']
+            if  past_time <= time :
+                cursor.execute('SELECT COUNT(time) FROM user WHERE time<%d'%past_time)
+                num = cursor.fetchone()[0]
+                self_result['times']=self_result['times']
+                self_result['rank'] = num + 1
+                self_result['username']=username
+                self_result['time']=past_time
+
+            else:
+                cursor.execute('UPDATE user SET time =%d WHERE openid=%s'%(time,openid))
+                db.commit()
+                cursor.execute('SELECT COUNT(time) FROM user WHERE time<%d'%time)
+                num = cursor.fetchone()[0]
+                self_result['times']=self_result['times']
+                self_result['rank'] = num+1
+                self_result['username']=username
+                self_result['time']=time
+    
+    #返回前3ming
     cursor.execute('SELECT username, time, times FROM user ORDER BY time,times LIMIT 3')
     description = cursor.description
+    res = cursor.fetchall()
+
     des = []
     for i in description:
         des.append(i[0])
     result = []
-    for i in info:
+    for i in res:
         result.append(dict(zip(des,i)))
-    cursor.execute('SELECT COUNT(time) AS nums FROM user WHERE time <%d'%time)
-    num = cursor.fetchone()[0][0]
-    self_result['rank'] = num + 1
+
     return {
         'all': result,
         'self':self_result
