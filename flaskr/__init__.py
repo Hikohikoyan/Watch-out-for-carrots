@@ -1,10 +1,12 @@
 import os
 from flask import Flask
+from flask_cors import *
 
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__)
     
+    CORS(app,resources=r'/*')
     from . import db
     db.init_app(app)
 
