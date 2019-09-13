@@ -1,10 +1,14 @@
 var storage = JSON;
 document.getElementById('ranklist').addEventListener('click',rank,false);
 function rank(){
-    document.querySelector("#yTable").style.cssText = "background-image:unset;";
-    get("js/rank.json","ranklist");
+    var flag;
+    document.querySelector('h2').textContent="排行榜";
+    document.getElementById('gTable').style.cssText="display:none;";
+    document.getElementById('dengji_img').style.cssText="display:none;";
+    document.getElementById('ranklist').removeEventListener('click',rank);
+    attention("新鲜出炉的排行榜！");
     var totallist=Number(sessionStorage.getItem("listnum"));
-    totallist=16;
+    var your=sessionStorage.getItem("yourrank");
     function prenodes(classname, name) {
         var pair = "";
         for (var j = 0; j < 4; j++) {
@@ -22,15 +26,65 @@ function rank(){
         list2 = list2 + "<tr class='"+linename+"' id='rankline" +Number( a +1)+ "' >" + prenodes("ranklist", "rankitem") + "</tr>";
     }
     document.getElementById('yTable').innerHTML = list2;
+    document.getElementById('yTable').setAttribute('class',"ranktable")
     document.getElementById('rankline1').childNodes[0].innerText="名次";
     document.getElementById('rankline1').childNodes[1].innerText="用户名";
     document.getElementById('rankline1').childNodes[2].innerText="成功用时";
     document.getElementById('rankline1').childNodes[3].innerText="失败次数";
     document.getElementsByClassName('gaming')[0].style.cssText="visibility:hidden;"
     if(totallist==0){
-        document.getElementById('rankline2').innerText="暂时没人玩";
-        document.getElementById('rankline2').style.cssText="padding: 10%;font-size: 160%;text-align: center;"
+        flag="false";//没有人玩
+        document.getElementById('rankline2').innerText="暂时无人上榜";
+        document.getElementById('rankline2').style.cssText="color:#8c6e62;padding: 10%;font-size: 160%;text-align: center;"
+        if(your==0){
+            document.getElementById('rankline3').innerText="你还没有玩呢";
+            document.getElementById('rankline3').style.cssText="color:#8c6e62;padding: 10%;font-size: 160%;text-align: center;"
+            return;
+        }
     }
+
+
+    var list="";
+    document.querySelector("#yTable").style.cssText = "background-image:unset;";
+    get("js/rank.json","ranklist",function(data){
+        list=data;
+        list=JSON.parse(list);
+        var yourline=document.querySelector("#yTable>tbody").lastChild.id;
+        document.getElementById(yourline).childNodes[0].innerText=Number(list.self[0].rank);
+        document.getElementById(yourline).childNodes[0].innerText=list.self[0].username;
+        console.log(list.self[0]);
+        if(list.self[0].time==10000){
+            document.getElementById(yourline).childNodes[0].innerText=0;
+        }else{
+            document.getElementById(yourline).childNodes[0].innerText=list.self[0].time;
+        }
+        document.getElementById(yourline).childNodes[0].innerText=list.self[0].time3;
+        if(flag!=false&&list.all!=undefined){
+            let len=11;
+            console.log(list.all);
+            for(let i=0;i<=len;i++){
+                let linename="rankline"+i;
+                for(let j=0;j<=3;j++){
+                    if(j==0){
+                        document.getElementById(linename).childNodes[j].innerText=sessionStorage.getItem("yourrank");
+                    }
+                    if(j==1){
+                        document.getElementById(linename).childNodes[j].innerText=list.self[0].username;
+                    }
+                    if(j==2){
+                        document.getElementById(linename).childNodes[j].innerText=list.self[0].time;
+                    }else{
+                        document.getElementById(linename).childNodes[j].innerText=list.self[0].times;
+                    }
+                }
+            }
+        }
+    });
+
+    setTimeout(() => {
+        document.getElementById('ranklist').addEventListener('click',rank,false);
+
+    }, 60000);
 }
 //常用的按钮
 
@@ -117,22 +171,7 @@ function stop() {
 
 
 
-function show(id) {
-    var obj = document.getElementById(String(id));
-}
 
-function close(type, name, method) {
-    if (type == "classname") {
-        var obj = document.getElementsByClassName(String(name));
-    } else {
-        var obj = document.getElementById(String(name));
-    }
-    if (method == "vis") {
-        /*visiablity */
-    } else {
-        /* disaplay none*/
-    }
-}
 window.onload = function () {
     checkBBT();
     var name = localStorage.getItem("you");

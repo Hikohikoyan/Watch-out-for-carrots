@@ -47,7 +47,7 @@ function createEle(flag, type) {
     // obj.column = column;
     obj.flag = flag;
     obj.type = type;
-    obj.nunm = 0;
+    obj.num = 0;
     return obj;
 }
 
@@ -55,11 +55,11 @@ function createEle(flag, type) {
 function listener() {
     var yourmove = document.getElementById('yTable');
     yourmove.addEventListener('click', function (e) {
-        console.log(e);
+        // console.log(e);
         // console.log(document.getElementById(e.toElement.id).dataset);
         clicktime++;
         move(e.toElement.id, e.path[1].id, e.target);
-        console.log(e.path[1].id + "," + e.toElement.id);
+        // console.log(e.path[1].id + "," + e.toElement.id);
     }, false);
 }
 premap();
@@ -78,14 +78,14 @@ function move(td, tr, target) {
     var elementg = document.getElementById("tr" + x).childNodes[y - 1];
     var grass = "{" + x + "," + y + "}";
     var inside = minemap.get(grass);
-    if (clicktime == 1) {
+    if (clicktime == 1) {//第一次点击时设置为0 地板
         inside.type = "floor";
         removegrass(elementg, grass);
         return;
     }
-    var flag = gamer(inside.type);
+    var flag = gamer(inside.type);//游戏是否结束
     if (flag == true) {
-        if (inside.flag == "true") {
+        if (inside.flag == "true") {//有没有点过这个el
             return;
         }
         num = num + 1;
@@ -98,7 +98,7 @@ function move(td, tr, target) {
             console.log(e.path[1].id + "," + e.toElement.id);
         }, false);
         return;
-    } else if (flag == "false") {
+    } else if (flag == "false") {//游戏结束 但是要把胡萝卜显示出来
         removegrass(elementg, grass);
         for (let a = 0; a < 6; a++) {
             let line = a + 1;
@@ -120,14 +120,15 @@ function move(td, tr, target) {
         removegrass(elementg, grass);
         return;
     }
-    if (flag == -1) {
+    if (flag == -1) {//部门邀请卡
         //welcome
-        console.log("welcome");
+        attention("welcome");
         return;
     }
 }
 
 function complete(num) {
+    //游戏完成  失败则给时间=0 成功给实际用时
     var url = "http://203.195.221.189:5000/insert";
     var casename = "complete";
     var finaltime = Number(document.querySelector("h2").textContent.split(":")[0]) * 60 + Number(document.querySelector("h2").textContent.split(":")[1]);
@@ -140,16 +141,60 @@ function complete(num) {
 }
 
 function removegrass(elementg, obj) {
+    //对应type切换class 显示草下面的萝卜
     elementg.setAttribute('class', minemap.get(obj).type);
 }
-
+function addmineNum(x,y,total){
+    //以floor 类型的草为中心 从上下左右找雷 雷的obj.num为1  只需要一直叠加最后输出这个数
+    var havetop=true;
+    var havebottom=true;
+    var haveleft=true;
+    var haveright=true;
+    switch (x) {
+        case 1:
+            havetop=false;
+            break;
+        case 6:
+            havebottom=false;
+            break;
+        default:
+            break;
+    }
+    switch (y) {
+        case 1:
+            haveleft=false;
+            break;
+        case 6:
+            haveright=false;
+            break;
+        default:
+            break;
+    }
+    if(havetop==true){
+        var top=Number(minemap.get("{"+x-1+","+y+"}").num);
+        total=total+top;
+    }
+    if(havebottom==true){
+        var bottom=Number(minemap.get("{"+x+1+","+y+"}").num);
+        total=total+bottom;
+    }
+    if(haveleft==true){
+        var left=Number(minemap.get("{"+x+","+y-1+"}").num);
+        total=total+left;
+    }
+    if(haveright==true){
+        var right=Number(minemap.get("{"+x+","+y+1+"}").num);
+        total=total+right;
+    }
+    return total;
+}
 function addCarrots() {
-    //传过来出发点
+    //有点点随机的布雷
     var minesnum = 7;
     var whitenum = 5;
     var total = whitenum + minesnum + 1;
     randommines();
-
+    addColor();
     function randommines() {
         var arr1 = new Array();
         var arr2 = new Array();
@@ -183,7 +228,7 @@ function addCarrots() {
                     arr2[i] = 1;
                 }
             }
-            let obj = createEle("false", "orange")
+            let obj = createEle("false", "orange",1);
             minemap.set("{" + arr1[i] + "," + arr2[i] + "}", obj);
         }
         for (let i = 8; i < 12; i++) {
@@ -218,78 +263,46 @@ function addCarrots() {
     }
 }
 
-function addColor(pos) {
-    function check(type) {
-        if (type == "orange") {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    function switchColor(num, x, y) {
-        y = y + 1;
-        console.log(x + y);
-        var elementg = document.getElementById("tr" + x).childNodes[y - 1].id; //x line y column
-        console.log(elementg);
-
-        function paint(color) {
-            console.log("background-color:" + color + ";");
-            document.getElementById(String(elementg)).style.cssText = "background-color:" + color + ";";
-        }
-        switch (num) {
-            case 1:
-                paint("#a1dbcb");
-                break;
-            case 2:
-                paint("#ffdb80");
-                break;
-            case 3:
-                paint("#ffb583");
-                break;
-            case 4:
-                paint("#ff8080");
-                break;
-            default:
-                break;
-        }
-    }
+function addColor() {
+    //先遍历找floor再传过去找上下左右的雷 然后给地板添加颜色
+    let obj=createEle("false", "floor");
     for (let x = 1; x < 7; x++) {
-        for (let y = 1; y < 7; y++) {
-            let current = minemap.get("{" + x + "," + y + "}"); //line column
-            if (current.type == "floor") {
-                return;
+        for (let y = 1; y < 7; y++){
+            var now=minemap.get("{"+x+","+y+"}");
+            if(now==obj){
+                minemap.set("{"+x+","+y+"}",addmineNum(x,y,0));
+                switchColor(addmineNum(x,y,0),x,y);
             }
-            let mine = 0;
-            if (minemap.has("{" + x + "," + y - 1 + "}")) {
-                var left = minemap.get("{" + x + "," + y - 1 + "}");
-                if (check(left.type)) {
-                    mine++;
-                }
-            }
-            if (minemap.has("{" + x + "," + y + 1 + "}")) {
-                var right = minemap.get("{" + x + "," + y + 1 + "}");
-                if (check(right.type)) {
-                    mine++;
-                }
-            }
-            if (minemap.has("{" + x - 1 + "," + y + "}")) {
-                var top = minemap.get("{" + x - 1 + "," + y + "}");
-                if (check(top.type)) {
-                    mine++;
-                }
-            }
-            if (minemap.has("{" + x + 1 + "," + y + "}")) {
-                var bottom = minemap.get("{" + x + 1 + "," + y + "}");
-                if (check(bottom.type)) {
-                    mine++;
-                }
-            }
-            switchColor(mine, x, y);
         }
     }
 }
+function switchColor(num, x, y) {
+    y = y + 1;
+    console.log(x + y);
+    var elementg = document.getElementById("tr" + x).childNodes[y - 1].id; //x line y column
+    console.log(elementg);
 
+    function paint(color) {
+        console.log("background-color:" + color + ";");
+        document.getElementById(String(elementg)).style.cssText = "background-color:" + color + ";";
+    }
+    switch (num) {
+        case 1:
+            paint("#a1dbcb");
+            break;
+        case 2:
+            paint("#ffdb80");
+            break;
+        case 3:
+            paint("#ffb583");
+            break;
+        case 4:
+            paint("#ff8080");
+            break;
+        default:
+            break;
+    }
+}
 function gamer(type) {
     // console.log(num);
     console.log(type);
@@ -297,7 +310,7 @@ function gamer(type) {
         return true;
     }
     if (type == "orange") {
-        console.log("GameOver");
+        attention("GameOver");
         return false;
     }
     if (type == "welcome") {

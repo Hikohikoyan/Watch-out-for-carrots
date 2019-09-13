@@ -153,9 +153,8 @@ h2 {
 }
 
 .white_carrot {
-    width: 12vh;
-    height: 18vh;
-    background-image: url(./assets/big.png);
+    width: 9vh;
+    height: 13vh;    background-image: url(./assets/big.png);
     background-repeat: round;
     background-size: 100%;
     margin-left: -150px;
@@ -295,6 +294,7 @@ td:active {
     height: max-content;
     /* flex: auto; */
     /* align-items: inherit; */
+    visibility: hidden;
 }
 
 #attcha {
@@ -385,7 +385,7 @@ td:active {
     border-top-width: 0;
     border-right-width: 0;
     z-index: 100;
-    display:  inline-block;
+    display: inline-block;
     /* float: left; */
     color: #8c6e62;
     /* font-size: 20px; */
@@ -393,8 +393,8 @@ td:active {
     padding: 3px;
     height: 30px;
     position: relative;
-    margin-top: 5px;
-    padding-bottom: 0px;
+    /* margin-top: 5px; */
+    /* padding-bottom: 0px; */
     width: max-content;
     margin-left: -4px;
     /* top: 0; */
@@ -410,5 +410,85 @@ td:active {
     margin: 0;
     position: relative;
     margin-top: -5px;
-    margin-bottom: 5px;
+    /* margin-bottom: 5px; */
+}
+#rankitem1{
+    width: 32px;
+}
+#rankitem2{
+    width: 48px;
+}
+#rankitem3,#rankitem4{
+    width: 64px;
+}
+#dengji_img>img{
+    width: 180px;
+    margin-top: 5px;
+    /* float: right; */
+    position: relative;
+    right: -60px;
+    pointer-events: none;
+}
+.ranktable{
+    height: auto;
+    background-color: #f9f4ea;
+    border-color: #8c6e62;
+    border-style: solid;
+    border-width: 5px;
+    border-radius: 0.5em;
+    width: 300px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+.completebox{
+    z-index: 200;
+    position: absolute;
+    background: bisque;
+    opacity: 0.85;
+    width: 320px;
+    height: 420px;
+    border-style: solid;
+    border-color: white;
+    border-width: 5px;
+    border-radius: 1.2rem;
+    /* flex: auto; */
+    /* align-items: center; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-items: center;
+    display: none;
+
+}
+h4{
+    color: chocolate;
+    font-size: 25px;
+    padding: 0;
+    margin: 0;
+}
+.yours{
+    color: brown;
+    font-size: unset;
+    padding: 5px;
+    margin: 0;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+.showlist,.currentlist{
+    display: flex;
+    list-style: none;
+    margin: 0;
+}
+.table_title{
+    margin-right: 10px;
+    position: relative;
+    left: -10px;
+
+}
+li.show{
+    color: brown;
+    margin-right: 10px;
+    position: relative;
+    margin-left: 20px;
+    left: -25px;
 }

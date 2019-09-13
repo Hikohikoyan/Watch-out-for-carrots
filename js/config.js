@@ -41,29 +41,29 @@ function read_statuscode(statusCode, responseText) { //用来提示的 仅此而
         }
     }
 }
-
-function post(url, package, casename) {
-    var xmlhttp2 = new XMLHttpRequest();
-    let obj = package;
-    xmlhttp2.open("POST", url, true);
-    xmlhttp2.setRequestHeader("Content-Type", "application/json");
-    xmlhttp2.send(JSON.stringify(obj));
-    xmlhttp2.onreadystatechange = function () {
-        if (xmlhttp2.readyState == 4) {
-            read_statuscode(xmlhttp2.status, xmlhttp2.responseText);
-            storage = JSON.parse(xmlhttp2.responseText);
-            return;
-        }
-    }
-};
-
-function get(url, casename) {
+// Object.prototype.length = function() {
+//     　　var count = 0;
+//        for(var i in obj){
+//            if(obj.hasOwnProperty(i)){
+//                count++;
+//            };
+//        };
+//        return count;   
+   
+//     };
+function get(url, casename,sync,fun) {
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.open("GET", url, true);
     xmlhttp.setRequestHeader("Content-Type", "application/json");
+    if(typeof sync === 'function') {
+        fun = sync;sync =true;
+    }else if(typeof sync === 'undefined'){
+         sync =true;
+    }
     xmlhttp.send();
     xmlhttp.onreadystatechange = function () {
-        if (xmlhttp.readyState == 4) {
+        if (xmlhttp.readyState == 4&&xmlhttp.status==200) {
+            fun.call(this,xmlhttp.responseText);
             read_statuscode(xmlhttp.status, xmlhttp.responseText);
             if (casename == "getyou") {
                 storage = JSON.parse(xmlhttp.responseText);
@@ -72,7 +72,7 @@ function get(url, casename) {
             }
             if (casename == "complete") {
                 storage = JSON.parse(xmlhttp.responseText);
-                var len = storage.all.length;
+                var len = storage.all.prototype.length;
                 var rank3 = new Object;
                 for (let i = 0; i <= len; i++) {
                     rank3.username = storage.all[i].username;
@@ -88,24 +88,34 @@ function get(url, casename) {
             }
             if (casename == "ranklist") {
                 storage = JSON.parse(xmlhttp.responseText);
-                console.log(storage);
-                if(storage.all!=null&&storage.self!=null){
-                var len = storage.all.length;
-                sessionStorage.setItem("listnum",len);
-                sessionStorage.setItem("yourrank",1);
-                let rankobj = new Object;
-                for (let i = 0; i <= len; i++) {
-                    rankobj.username = storage.all[i].username;
-                    rankobj.time = storage.all[i].time;
-                    rankobj.times = storage.all[i].times;
-                    rankarr[i] = rankobj;
+                var list=new Array();
+
+                console.log(storage.all);
+                if(storage.all!=undefined){
+                    sessionStorage.setItem("listnum",1);
+                    var len = storage.all.prototype.length;
+                    sessionStorage.setItem("listnum",len);
+                    sessionStorage.setItem("yourrank",1);
+                    // let rankobj = new Object;
+                    for (let i = 0; i <= len; i++) {
+                        // rankobj.username = storage.all[i].username;
+                        // rankobj.time = storage.all[i].time;
+                        // rankobj.times = storage.all[i].times;
+                        // rankarr[i] = rankobj;
+                        list[i]=storage.all[i];
+                    }    
                 }
-                let mine =storage.self;
-                sessionStorage.setItem("yourrank",String(mine));
-                return;
+                if(storage.self!=""||storage.self!=null){
+                sessionStorage.setItem("yourrank",storage.self[0].rank);
+                list[list.length+1]=storage.self;
+                return list;
             }else{
                 sessionStorage.setItem("listnum",0);
-                sessionStorage.setItem("yourrank",0);
+                if(storage.self==undefined){
+                    sessionStorage.setItem("yourrank",0);
+                }else{
+                    return list[0]=storage.self;
+                }
             }
             }
         }

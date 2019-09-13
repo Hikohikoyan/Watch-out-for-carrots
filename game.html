@@ -7,10 +7,12 @@
     <meta charset="ISO-8859-1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, 
     minimum-scale=1, maximum-scale=1, user-scalable=no" />
-    <script src="./js/preload.js"></script>
     <meta name="description" content="百步梯2019秋季招新">
     <title>百步梯2019秋季招新</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="./js/preload.js">
+    </script>
+
     <link rel="preload" href="./assets/ti1.png" as="image">
     <link rel="preload" href="./assets/ti2.png" as="image">
     <link rel="stylesheet" type="text/css" media="screen" href="./preload.css" >
@@ -21,22 +23,22 @@
 
     <div id="startboy" class="loading">
             <h3>页面正在加载中.....</h3>
-            <div class="hello" onclick="function c(){document.getElementById('startboy').style.cssText='display:none;'}">
+            <div class="hello" ">
                 Hello,我是梯仔~<br>一起玩个小游戏叭
             </div>    
-        <img class="tizai" src="./assets/ti1.png" alt="梯仔" onclick="function c(){document.getElementById('startboy').style.cssText='display:none;'}">
+        <input type="image" id="start_tizai" class="tizai" src="./assets/ti1.png" alt="梯仔" >
         <div class="loading" id="loadingbox">
             </div>
     </div>
     <input type="button" class="topbtn" id="back" value="返回">
     <input type="button" class="topbtn" id="ranklist" value="排行榜">
     <div class="title">
-        <img src="./assets/title.png" alt="小心胡萝卜" height="60vh">
+        <img src="./assets/title.png" alt="小心胡萝卜" height="60vh" style="pointer-events: none;">
         <h2>00:00</h2>
     </div>
     <div class="mines-container">            
         <div id="attentionbox">
-            <img id="attcha" src="assets/chacha.png">
+            <img id="attcha" src="assets/chacha.png" >
             <input type="image" class="icon_att" src="./assets/ti1.png" >
             <p id="attention">提示框</p>
         </div>            
@@ -45,11 +47,43 @@
             </tbody>
         </table>
         <table id="yTable" class="yTable" cellpadding="0" cellspacing="0">
-            <tbody>
+            <tbody id="yTb">
             </tbody>
         </table>
         <div id="dengji_img">
             <img src="assets/dengji.png">
+        </div>
+        <div class="completebox">
+            <img src="assets/complete.png" style="width: 300px;">
+            <h4>恭喜你第n次挑战失败！</h4>
+            <p class="yours">你一共挑战了n次，成功0次，最短用时无</p>
+            <p class="show">当前霸占排行榜前三名的是：</p>
+            <ul class="showlist">
+                <li class="table_title">名次</li>
+                <li class="table_title">用户名</li>
+                <li class="table_title">成功用时</li>
+                <li class="table_title">失败次数</li>
+            </ul>
+            <ul class="currentlist">
+                    <li class="show">1</li>
+                    <li class="show">xxxx</li>
+                    <li class="show">00:15</li>
+                    <li class="show">99</li>
+            </ul>
+            <ul class="currentlist">
+                    <li class="show">2</li>
+                    <li class="show">xx</li>
+                    <li class="show">01:15</li>
+                    <li class="show">9</li>
+            </ul>
+            <ul class="currentlist">
+                    <li class="show">3</li>
+                    <li class="show">xx</li>
+                    <li class="show">11:15</li>
+                    <li class="show">96</li>
+            </ul>
+            <img src="assets/wow.png" style="width: 50px;position: absolute;bottom: 0;left: 30px;">
+            <span>不可思议你居然成功了！不可思议你居然失败了！</span>
         </div>
     </div>
     <div class="gaming">

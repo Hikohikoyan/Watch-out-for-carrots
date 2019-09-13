@@ -4,6 +4,7 @@
     height: 60vh;
     bottom: -80px;
     right: -25px;
+    outline: none;
 }
 h3{
     font-family: serif;
