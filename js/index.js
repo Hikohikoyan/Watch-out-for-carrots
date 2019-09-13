@@ -43,12 +43,9 @@ function rank(){
         }
     }
 
-
-    var list="";
     document.querySelector("#yTable").style.cssText = "background-image:unset;";
     get("js/rank.json","ranklist",function(data){
-        list=data;
-        list=JSON.parse(list);
+        list = JSON.parse(data);
         var yourline=document.querySelector("#yTable>tbody").lastChild.id;
         document.getElementById(yourline).childNodes[0].innerText=Number(list.self[0].rank);
         document.getElementById(yourline).childNodes[0].innerText=list.self[0].username;
@@ -88,11 +85,6 @@ function rank(){
 }
 //常用的按钮
 
-function checkBBT() {
-    //授权
-    //get(https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect,"getyou")
-
-}
 startbtn.addEventListener('click', clearTable, false);
 
 function clearTable() {
@@ -108,20 +100,7 @@ function clearTable() {
 
 function start() {
     /* 2.开始记录session 用户名+开始时间 */
-    timer();
-    document.getElementById("start").value="重新开始";
-    startbtn.addEventListener('click',function(){
-        premap();listener();clearTable();
-        document.getElementById('statistics').textContent="0";
-        num=0;
-        document.querySelector('h2').textContent="00:00";
-        sessionStorage.setItem("isOver","false");
-
-    });
-}
-
-function timer() {
-
+    //时间会乱跳
     var startTime = new Date().getTime();
     /*计时器启动 启动时切换描边颜色 */
     document.querySelector("h2").style.cssText = " -webkit-text-stroke-color: #8c6e62;-webkit-text-stroke-width: 2.5px;";
@@ -138,7 +117,7 @@ function timer() {
         if (min < 10 && min > 0 || min == 0) {
             min = String("0" + min);
         } else if (min == 15) {
-            clearInterval(timer);
+            clearInterval(tinterval);
             console.log("GameOver");
         } else {
             min = String(min);
@@ -150,30 +129,21 @@ function timer() {
             document.querySelector("h2").textContent = min + ":" + second;
             // console.log("change");
         }
-
-
     }
-    var timer = setInterval(function () {
+    tinterval = setInterval(function () {
         addTime();
-        if(sessionStorage.getItem("isOver")=="true"){
-            clearInterval(timer);
+        if(JSON.parse(sessionStorage.getItem("isOver"))) {
+            clearInterval(tinterval);
         }
     }, 1000);
 
-}
-
-function stop() {
-    /*踩到雷了或邀请卡或游戏时长大于10min*/
-    if (something) {
-
-    }
-}
-
-
-
-
-window.onload = function () {
-    checkBBT();
-    var name = localStorage.getItem("you");
-
+    document.getElementById("start").value="重新开始";
+    startbtn.addEventListener('click',function(){
+        clearInterval(tinterval);
+        premap();listener();clearTable();
+        document.getElementById('statistics').textContent="0";
+        num=0;
+        document.querySelector('h2').textContent="00:00";
+        sessionStorage.setItem("isOver", false);
+    });
 }
