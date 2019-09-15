@@ -93,31 +93,31 @@ function start() {
     //时间会乱跳
     var startTime = new Date().getTime();
     /*计时器启动 启动时切换描边颜色 */
+    document.getElementById('completebox').style.cssText +="display:none";
     document.querySelector("h2").style.cssText = " -webkit-text-stroke-color: #8c6e62;-webkit-text-stroke-width: 2.5px;";
-
-    function addTime() {
-        var second = parseInt((new Date().getTime() - startTime) / 1000);
-        var min = parseInt(second / 60);
+        // var second = parseInt((new Date().getTime() - startTime) / 1000);
+        var second= 58;
+        var min = 1;
+         function addTime() {
+            second++;
+            //  console.log(second);
         if (second > 59) {
-            second = String(second-min*60);
+            min++;
+            second =second-60;
         }
-        if (second < 10) {
-            second = String("0" + second);
-        }
-        if (min < 10 && min > 0 || min == 0) {
-            min = String("0" + min);
-        } else if (min == 15) {
+         if (min == 5) {
             clearInterval(tinterval);
             console.log("GameOver");
-        } else {
-            min = String(min);
         }
-
         add(min, second);
-
         function add(min, second) {
-            document.querySelector("h2").textContent = min + ":" + second;
+            str_second=String(second);
+            str_min=0+String(min);
+            if(second<10){
+                str_second=0+str_second;
+            }
             // console.log("change");
+            document.querySelector("h2").textContent = str_min + ":" + str_second;
         }
     }
     tinterval = setInterval(function () {
@@ -141,10 +141,10 @@ function start() {
         sessionStorage.setItem("isOver", false);
         setTimeout(() => {
             startbtn.setAttribute('disabled','disabled');
-            attention("地图更新过于频繁");
+            // attention("地图更新过于频繁");
         }, 2000);
         setTimeout(() => {
             startbtn.removeAttribute('disabled');
-        }, 4000);
+        }, 2300);
     });
 }

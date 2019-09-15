@@ -86,6 +86,7 @@ function move(td, tr, target) {
             }
             num = num + 1;
             document.getElementById('statistics').textContent = String(num);
+            if(num==5){complete(num);}
             removegrass(elementg, grass);
             inside.flag = true;
             target.removeEventListener('click', function (e) {
@@ -109,6 +110,7 @@ function move(td, tr, target) {
                 }
             }
             sessionStorage.setItem("isOver", true);
+            complete(0);
             document.getElementById('yTable').style.cssText = "background-image:unset;pointer-events: none;";
             break;
         }
@@ -122,6 +124,8 @@ function move(td, tr, target) {
         {
             removegrass(elementg, grass);
             attention("welcome");
+            sessionStorage.setItem("isOver", true);
+            // if(document.getElementsByClassName('cha')[1].)
             break;
         }
     }
@@ -137,9 +141,10 @@ function complete(num) {
     } else {
         url = url + "?time=" + 0;
     }
+    sessionStorage.setItem('isOver',true);
+    document.getElementById('completebox').style.cssText +="display:unset";
     get(url, casename,function(data){
         data=JSON.parse(data);
-        attention("你做到了！");
     });
 }
 
