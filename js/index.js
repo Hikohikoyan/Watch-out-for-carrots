@@ -96,8 +96,8 @@ function start() {
     document.getElementById('completebox').style.cssText +="display:none";
     document.querySelector("h2").style.cssText = " -webkit-text-stroke-color: #8c6e62;-webkit-text-stroke-width: 2.5px;";
         // var second = parseInt((new Date().getTime() - startTime) / 1000);
-        var second= 58;
-        var min = 1;
+        var second= 0;
+        var min = 0;
          function addTime() {
             second++;
             //  console.log(second);
