@@ -137,7 +137,10 @@ function complete(num) {
     } else {
         url = url + "?time=" + 0;
     }
-    get(url, casename);
+    get(url, casename,function(data){
+        data=JSON.parse(data);
+        attention("你做到了！");
+    });
 }
 
 function removegrass(elementg, obj) {

@@ -7,7 +7,11 @@ body {
     padding: 0;
     overflow: hidden;
 }
+element {
 
+    -webkit-touch-callout: none;
+   
+   }
 .title {
     text-align: center;
 }
@@ -132,15 +136,16 @@ h2 {
     margin-top: -300px;
     overflow-x: hidden;
     overflow-y: scroll;
+    cursor:pointer;
 }
 .yTable::-webkit-scrollbar {display:none}
 /*变成梯仔的class*/
 .you-column:hover,
 .you-column:active {
-    height: max-content;
-    background-image: url(./assets/boy.png);
+    /* height: max-content; */
+    /* background-image: url(./assets/boy.png);
     background-repeat: round;
-    background-size: 100%;
+    background-size: 100%; */
 }
 
 .gaming {

@@ -2,16 +2,19 @@ const startbtn = document.querySelector("#start");
 const backbtn = document.querySelector("#back");
 document.getElementById('attcha').addEventListener('click',cha,false);
 function cha(){
-    document.getElementById('attentionbox').style.cssText='visibility: hidden;';
+    document.getElementById('attentionbox').style.cssText +='visibility: hidden;';
 }
 
 function attention(text) {
     document.getElementById('attention').textContent=String(text);
-    document.getElementById('attentionbox').style.cssText="visibility: unset;";
+    document.getElementById('attentionbox').style.cssText += "visibility: unset;";
+    setTimeout(() => {
+        document.getElementById('attentionbox').style.cssText +='visibility: hidden;';
+    }, 5000);
 }
 function read_statuscode(statusCode, responseText) { //用来提示的 仅此而已
     if (statusCode == 200) {
-        attention("Success!");
+        // attention("Success!");
         response = JSON.stringify(responseText);
         if (response.errcode == "40003") {
             attention("Wrong!");

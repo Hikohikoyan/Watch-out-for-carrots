@@ -33,7 +33,7 @@ function rank(){
     document.getElementById('rankline1').childNodes[3].innerText="失败次数";
     document.getElementsByClassName('gaming')[0].style.cssText="visibility:hidden;"
     if(totallist==0){
-        flag="false";//没有人玩
+        flag=false;//没有人玩
         document.getElementById('rankline2').innerText="暂时无人上榜";
         document.getElementById('rankline2').style.cssText="color:#8c6e62;padding: 10%;font-size: 160%;text-align: center;"
         if(your==0){
@@ -59,21 +59,12 @@ function rank(){
         if(flag!=false&&list.all!=undefined){
             let len=11;
             console.log(list.all);
-            for(let i=0;i<=len;i++){
+            for(let i=0;i<=len;i++) {
                 let linename="rankline"+i;
-                for(let j=0;j<=3;j++){
-                    if(j==0){
-                        document.getElementById(linename).childNodes[j].innerText=sessionStorage.getItem("yourrank");
-                    }
-                    if(j==1){
-                        document.getElementById(linename).childNodes[j].innerText=list.self[0].username;
-                    }
-                    if(j==2){
-                        document.getElementById(linename).childNodes[j].innerText=list.self[0].time;
-                    }else{
-                        document.getElementById(linename).childNodes[j].innerText=list.self[0].times;
-                    }
-                }
+                document.getElementById(linename).childNodes[0].innerText=sessionStorage.getItem("yourrank");
+                document.getElementById(linename).childNodes[1].innerText=list.self[0].username;
+                document.getElementById(linename).childNodes[2].innerText=list.self[0].time;
+                document.getElementById(linename).childNodes[3].innerText=list.self[0].times;
             }
         }
     });
@@ -136,6 +127,10 @@ function start() {
             clearInterval(tinterval);
         }
     }, 1000);
+
+    document.getElementById('ranklist').addEventListener('click', function() {
+        clearInterval(tinterval);
+    }, false);
 
     document.getElementById("start").value="重新开始";
     startbtn.addEventListener('click',function(){
