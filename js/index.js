@@ -71,7 +71,6 @@ function rank(){
 
     setTimeout(() => {
         document.getElementById('ranklist').addEventListener('click',rank,false);
-
     }, 60000);
 }
 //常用的按钮
@@ -140,5 +139,12 @@ function start() {
         num=0;
         document.querySelector('h2').textContent="00:00";
         sessionStorage.setItem("isOver", false);
+        setTimeout(() => {
+            startbtn.setAttribute('disabled','disabled');
+            attention("地图更新过于频繁");
+        }, 2000);
+        setTimeout(() => {
+            startbtn.removeAttribute('disabled');
+        }, 4000);
     });
 }
