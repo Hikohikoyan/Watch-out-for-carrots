@@ -146,7 +146,7 @@ function start() {
     addTime();
     function addTime() {
         //  console.log(second);
-        var second = 50;
+        var second = 0;
         var min = 0;
         // var startTime = new Date().getTime();
         // var second = parseInt((new Date().getTime() - startTime) / 1000);
