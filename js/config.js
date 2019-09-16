@@ -75,9 +75,9 @@ function get(url, casename,sync,fun) {
             }
             if (casename == "complete") {
                 storage = JSON.parse(xmlhttp.responseText);
-                var len = storage.all.prototype.length;
+                var len = storage.all.length;
                 var rank3 = new Object;
-                for (let i = 0; i <= len; i++) {
+                for (let i = 0; i <len; i++) {
                     rank3.username = storage.all[i].username;
                     rank3.time = storage.all[i].time;
                     rank3.times = storage.all[i].times;
@@ -89,6 +89,8 @@ function get(url, casename,sync,fun) {
                 // let your.rank = storage.self.rank;
                 return;
             }
+
+
             // if (casename == "ranklist") {
             //     //获取ranklist
             //     storage = JSON.parse(xmlhttp.responseText);

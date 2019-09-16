@@ -22,7 +22,7 @@ def rank():
     db = get_db()
     cursor = db.cursor()
     
-    cursor.execute('SELECT username, time, times FROM user ORDER BY time,times LIMIT 15 ') 
+    cursor.execute('SELECT username, time, times FROM user WHERE time != 10000000 ORDER BY time,times LIMIT 15 ') 
     info = cursor.fetchall()
     #没人玩游戏
     if len(info) == 0:
@@ -131,7 +131,7 @@ def insert():
             self_result['times']=self_result['times']+1
             self_result['rank']=num+1
             self_result['username'] = username
-            self_result['time'] = 10000000
+            self_result['time'] = self_result['time']
         else:
             past_time = self_result['time']
             if  past_time <= time :
@@ -153,7 +153,7 @@ def insert():
                 self_result['time']=time
     
     #返回前3ming
-    cursor.execute('SELECT username, time, times FROM user ORDER BY time,times LIMIT 3')
+    cursor.execute('SELECT username, time, times FROM user WHERE time != 10000000 ORDER BY time,times LIMIT 3')
     description = cursor.description
     res = cursor.fetchall()
 
