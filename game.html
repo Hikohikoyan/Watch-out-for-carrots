@@ -10,26 +10,11 @@
     <meta name="description" content="百步梯2019秋季招新">
     <title>百步梯2019秋季招新</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="./js/preload.js">
-    </script>
     <script src="http://res2.wx.qq.com/open/js/jweixin-1.4.0.js "></script>
-    <link rel="preload" href="./assets/ti1.png" as="image">
-    <link rel="preload" href="./assets/ti2.png" as="image">
-    <link rel="stylesheet" type="text/css" media="screen" href="./preload.css" >
     <link rel="stylesheet" type="text/css" media="screen" href='./index.css'>
 </head>
 
 <body>
-
-    <div id="startboy" class="loading">
-            <h3>页面正在加载中.....</h3>
-            <div class="hello" ">
-                Hello,我是梯仔~<br>一起玩个小游戏叭
-            </div>    
-        <input type="image" id="start_tizai" class="tizai" src="./assets/ti1.png" alt="梯仔" >
-        <div class="loading" id="loadingbox">
-            </div>
-    </div>
     <input type="button" class="topbtn" id="back" value="返回">
     <input type="button" class="topbtn" id="ranklist" value="排行榜">
     <div class="title">
@@ -38,7 +23,7 @@
     </div>
     <div class="mines-container">            
         <div id="attentionbox">
-            <img id="attcha" src="assets/chacha.png" >
+            <img id="attcha" class="chacha" src="assets/chacha.png" >
             <input type="image" class="icon_att" src="./assets/ti1.png" >
             <p id="attention">提示框</p>
         </div>            
@@ -54,15 +39,19 @@
             <img src="assets/dengji.png">
         </div>
         <div id="welcomebox">
-            <p>时间已为你暂停 点击关闭恢复游戏并-1s</p>
-            <p class="welcometext">恭喜你收到了来自</p><span class="welcometext">部门</span>
-            <p class="welcometext">的邀请卡</p>
+            <img id="welcomecha" class="chacha" src="assets/chacha.png" >
+            <p style="font-size: 80%;color: white;">时间已为你暂停 点击关闭恢复游戏并-1s</p>
+            <p class="welcometext">恭喜你收到了来自</p><span class="welcometext" id="depart">部门</span>
             <div id="welcomebox2">
-                <p class="showtext">我们是dsahjbdjhakvdvDAHVGMCVAHGDVSDVSHGAVDhdsvajdgsajhdjhkaKGDJHKAgdashdhsajdvahjsvdhavghdn</p>
+                我们是dsahjbdjhakvdvDAHVGMCVAHGDVSDVSHGA<br>
+                VDhdsvajdgsajhdjhkaKGDJHKAgdashdhsajdvahjsvdhavghdn
             </div>
+            <a href="./" >点我立刻去报名</a>
+            <img src="./assets/haha.png" alt="梯仔" width="50px">
         </div>
         <div id="completebox">
-            <img src="assets/complete.png" style="width: 300px;">
+            <img id="finalcha" class="chacha" src="assets/chacha.png" style="top:-8px;">
+            <img src="assets/complete.png" style=" width: 300px;padding: 10px;top: 8px;">
             <h4>恭喜你第n次挑战失败！</h4>
             <p class="yours">你一共挑战了n次，成功0次，最短用时无</p>
             <p class="show">当前霸占排行榜前三名的是：</p>
@@ -90,8 +79,6 @@
                     <li class="show">11:15</li>
                     <li class="show">96</li>
             </ul>
-            <img src="assets/wow.png" style="    width: 50px;position: absolute;bottom: 30px;right: 30px;">
-            <span id="finaltext">真是不可思议！</span>
         </div>
     </div>
     <div class="gaming">

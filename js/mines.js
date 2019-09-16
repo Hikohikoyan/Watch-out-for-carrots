@@ -77,13 +77,14 @@ function move(td, tr, target) {
     var elementg = document.querySelectorAll("#td" + y)[x - 1];
     var grass = "{" + x + "," + y + "}";
     var inside = minemap.get(grass);
+    if (inside.flag) {//有没有点过这个el
+        return;
+    }
     switch(gamer(inside.type)) {
+
         // 踩到白萝卜
         case 1:
         {
-            if (inside.flag) {//有没有点过这个el
-                return;
-            }
             num = num + 1;
             document.getElementById('statistics').textContent = String(num);
             if(num==5){complete(num);}
@@ -116,15 +117,18 @@ function move(td, tr, target) {
         }
         case 2:
         {
+            inside.flag = true;
             removegrass(elementg, grass);
             break;
         }
         //部门邀请卡
         case -1:
         {
+            inside.flag = true;
+            welcome();
             removegrass(elementg, grass);
-            attention("welcome");
-            sessionStorage.setItem("isOver", true);
+            attention("你发现了草丛中的礼物！");
+            sessionStorage.setItem("isOver", false);
             // if(document.getElementsByClassName('cha')[1].)
             break;
         }
@@ -136,16 +140,30 @@ function complete(num) {
     var url = "http://203.195.221.189:5000/insert";
     var casename = "complete";
     var finaltime = Number(document.querySelector("h2").textContent.split(":")[0]) * 60 + Number(document.querySelector("h2").textContent.split(":")[1]);
+
     if (num == 5) {
+        if(finaltime<5){
+        attention("时间错乱了！");
+        return;
+        }
+        document.querySelector('h4').textContent="恭喜你成功了！"
         url = url + "?time=" + finaltime;
+        sessionStorage.setItem('isOver',true);
+        document.getElementById('completebox').style.cssText +="display:block";
+        get(url, casename,function(data){
+            data=JSON.parse(data);
+
+        });    
     } else {
+        document.querySelector('h4').textContent="别灰心！再试一次吧~"
         url = url + "?time=" + 0;
+        sessionStorage.setItem('isOver',true);
+        document.getElementById('completebox').style.cssText +="display:block";
+        get(url, casename,function(data){
+            data=JSON.parse(data);
+        });    
     }
-    sessionStorage.setItem('isOver',true);
-    document.getElementById('completebox').style.cssText +="display:unset";
-    get(url, casename,function(data){
-        data=JSON.parse(data);
-    });
+    return;
 }
 
 function removegrass(elementg, obj) {
@@ -226,6 +244,7 @@ function addCarrots() {
         var obj = createEle(false, "welcome", 0);
         minemap.set("{" + x + "," + y + "}", obj);
     }
+    console.log(minemap)
 }
 
 function addColor() {
@@ -265,7 +284,7 @@ function gamer(type) {
         return 1;
     }
     if (type == "orange") {
-        attention("GameOver");
+        attention("哎呀！是胡萝卜！");
         return 0;
     }
     if (type == "welcome") {

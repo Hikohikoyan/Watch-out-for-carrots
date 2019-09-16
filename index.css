@@ -303,7 +303,7 @@ td:active {
     visibility: hidden;
 }
 
-#attcha {
+#attcha ,.chacha{
     width: 20px;
     position: absolute;
     right: 0;
@@ -447,7 +447,53 @@ td:active {
     overflow-x: hidden;
 }
 #welcomebox{
+    z-index: 100;
+    position: absolute;
+    width: 300px;
+    height: 400px;
+    background-color: burlywood;
+    border-style: solid;
+    border-color: white;
+    border-width: 5px;
+    border-radius: 0.4rem;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
     display: none;
+}
+a{
+    text-decoration: none;
+    color: white;
+    position: relative;
+    padding-top: 5px;
+    margin-bottom: -50px;
+    font-size: 20px;
+}
+#welcomebox2{
+    background-image: url(./assets/letter.png);
+    width: 180px;
+    position: relative;
+    background-repeat: round;
+    background-size: cover;
+    left: 50px;
+    padding: 10px;
+    padding-right: 10px;
+    text-align: left;
+    white-space: normal;
+    height:400px;
+    word-wrap: break-word;
+    overflow-y: scroll;
+    padding-bottom: 30px;
+}
+.welcometext{
+    font-size: 20px;
+    margin: 0;
+    color: chocolate;
+    margin-top: -5px;
+    margin-bottom: 5px;
+}
+span.welcometext{
+    font-weight: 800;
 }
 #completebox{
     z-index: 200;
@@ -474,33 +520,40 @@ h4{
     font-size: 25px;
     padding: 0;
     margin: 0;
+    text-align: center;
+    margin-top: -10px;
 }
 .yours{
     color: brown;
-    font-size: unset;
+    font-size: 100%;
     padding: 5px;
     margin: 0;
-    margin-left: 15px;
+    margin-left: 10px;
     margin-right: 15px;
+}
+p.show{
+    padding-left: 20px;
 }
 .showlist,.currentlist{
     display: flex;
     list-style: none;
-    margin: 0;
+    width: 270px;
 }
 .table_title{
     margin-right: 10px;
     position: relative;
-    left: -10px;
-
+    width: 60px;
+    height: 35px;
+    white-space: pre;
 }
 li.show{
     color: brown;
-    margin-right: 20px;
+    margin-left: 4px;
+    margin-right: 1px;
     position: relative;
-    margin-left: 20px;
-    left: -25px;
-    width: 5px;
+    width: 60px;
+    height: 35px;
+    white-space: pre;
 }
 #finaltext{
     position: relative;
