@@ -104,41 +104,42 @@ startbtn.addEventListener('click', clearTable, false);
 
 function clearTable() {
     // clearInterval(tinterval);
-    document.getElementById("start").value = "提交成绩";
+    document.getElementById("start").value = "重新开始";
     document.querySelector("#yTable").style.cssText = "background-image:unset;";
     let num = document.querySelectorAll("td").length;
     for (let i = 0; i < num; i++) {
         document.querySelectorAll("td")[i].style.cssText = "display:table-cell;";
     }
     startbtn.removeEventListener('click', clearTable);
-    // startbtn.addEventListener('click', restart, false);
     start();
     setTimeout(() => {
-        sessionStorage.setItem("isOver", false);
         startbtn.setAttribute('disabled', 'disabled');
+        startbtn.addEventListener('click', restart, false);
     }, 100);
-    if (clicktime > 3) {
-        attention("慢慢来不要急");
-    }
+    // if (clicktime > 3) {
+    //     attention("慢慢来不要急");
+    // }
     setTimeout(() => {
         startbtn.removeAttribute('disabled');
     }, 5000);
 }
 
 function restart() {
-    startbtn.addEventListener('click', function () {
-        // clearInterval(tinterval);
-        premap();
-        listener();
-        sessionStorage.setItem("isOver", true);
-        clearTable();
-        document.getElementById('statistics').textContent = "0";
-        num = 0;
-        document.querySelector('h2').textContent = "00:00";
-
-    });
+    // startbtn.addEventListener('click', function () {
+        // // clearInterval(tinterval);
+        // premap();
+        // listener();
+        // sessionStorage.setItem("isOver", false);
+        // console.log(timeout1);
+        // clearTimeout(timeout1);
+        // clearTable();
+        // document.getElementById('statistics').textContent = "0";
+        // num = 0;
+        // document.querySelector('h2').textContent = "00:00";
+        window.location.reload();
+    // });
 }
-
+var timeout1;
 function start() {
     document.getElementById('completebox').style.cssText += "display:none";
     document.querySelector("h2").style.cssText = " -webkit-text-stroke-color: #8c6e62;-webkit-text-stroke-width: 2.5px;";
@@ -146,10 +147,9 @@ function start() {
     addTime();
     function addTime() {
         //  console.log(second);
-        var second = 0;
+        // var second = 0;
         var min = 0;
-        // var startTime = new Date().getTime();
-        // var second = parseInt((new Date().getTime() - startTime) / 1000);
+        var startTime = new Date().getTime();
         startCount();
         
         function add(min, second) {
@@ -162,7 +162,14 @@ function start() {
             document.querySelector("h2").textContent = str_min + ":" + str_second;
         }
         function startCount() {
-            second++;
+            var second = parseInt((new Date().getTime() - startTime) / 1000);
+            if (JSON.parse(sessionStorage.getItem("isOver"))) {
+                console.log(0000);
+                //clearTimeout(timeout2);
+                clearTimeout(timeout1);
+                return;
+            }
+            // second++;
 
             if (second > 59) {
                 min++;
@@ -172,14 +179,10 @@ function start() {
                 console.log(timeout1);
                 sessionStorage.setItem('isOver',true);
                 attention("时间到！！");
+                complete(0);
             }
             add(min, second);
-            timeout2 = setTimeout(startCount, 1000);
-            if (JSON.parse(sessionStorage.getItem("isOver"))) {
-                clearTimeout(timeout2);
-                clearTimeout(timeout1);
-                return;
-            }
+            timeout1 = setTimeout(startCount, 1000);
         }
         timeout1 = setTimeout(startCount, 500);
     }

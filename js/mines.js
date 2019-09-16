@@ -18,7 +18,6 @@ function premap() {
         pair2 = pair2 + "<tr class='line' id='tr" + a + "' >" + prenodes("mines", "td") + "</tr>";
         pair3 = pair3 + "<tr class='you-map' id='you-line" + a + "' data-index='1'" + ">" + prenodes("you-column", "you-column") + "</tr>";
     }
-
     document.getElementById('gTable').innerHTML = pair2;
     document.getElementById('yTable').innerHTML = pair3;
     createTd();
@@ -40,10 +39,7 @@ function createTd() {
 }
 
 function createEle(flag, type, num) {
-    // console.log(line+"_____________"+column);
     let obj = new Object;
-    // obj.line = line;
-    // obj.column = column;
     obj.flag = flag;
     obj.type = type;
     obj.num = num;
@@ -54,17 +50,13 @@ function createEle(flag, type, num) {
 function listener() {
     var yourmove = document.getElementById('yTable');
     yourmove.addEventListener('click', function (e) {
-        // console.log(e);
-        // console.log(document.getElementById(e.toElement.id).dataset);
-        clicktime++;
         move(e.toElement.id, e.path[1].id, e.target);
-        // console.log(e.path[1].id + "," + e.toElement.id);
     }, false);
 }
 premap();
 startbtn.addEventListener('mousemove', listener, false);
 backbtn.addEventListener('click', function () {
-    window.location.reload();
+    window.location.href="http://"
 }, false);
 
 function move(td, tr, target) {
@@ -72,7 +64,6 @@ function move(td, tr, target) {
         return;
     }
     var y = Number(td.replace("you-column", ""));
-    // var elementy = document.getElementById(tr).childNodes[y-1];
     var x = Number(tr.replace("you-line", ""));
     var elementg = document.querySelectorAll("#td" + y)[x - 1];
     var grass = "{" + x + "," + y + "}";
@@ -106,7 +97,6 @@ function move(td, tr, target) {
                 for (let b = 0; b < 6; b++) {
                     let column = b + 1;
                     let element = document.querySelectorAll("#td" + column)[line - 1];
-
                     removegrass(element, "{" + line + "," + column + "}");
                 }
             }
@@ -129,7 +119,6 @@ function move(td, tr, target) {
             removegrass(elementg, grass);
             attention("你发现了草丛中的礼物！");
             sessionStorage.setItem("welcome",1)
-            // if(document.getElementsByClassName('cha')[1].)
             break;
         }
     }
@@ -156,6 +145,8 @@ function complete(num) {
         document.getElementById('completebox').style.cssText +="display:block";
         get(url, casename,function(data){
             data=JSON.parse(data);
+            document.querySelector("p.yours").textContent="你曾经失败了"+String(data.self.times)+",挑战成功最短用时"+String(data.self.time)+"\
+            目前排名第"+data.self.rank+"位!"
         });    
     } else {
         document.querySelector('h4').textContent="别灰心！再试一次吧~"
@@ -164,6 +155,8 @@ function complete(num) {
         document.getElementById('completebox').style.cssText +="display:block";
         get(url, casename,function(data){
             data=JSON.parse(data);
+            document.querySelector("p.yours").textContent="你曾经失败了"+String(data.self.times)+",挑战成功最短用时"+String(data.self.time)+"\
+            目前排名第"+data.self.rank+"位!"
         });    
     }
     return;
@@ -209,13 +202,10 @@ function addmineNum(x,y){
 }
 
 function addCarrots() {
-    //有点点随机的布雷
     var minesnum = 7, whitenum = 5, welcomenum = 1;
     var total = whitenum + minesnum + welcomenum;
-
     randommines();
     addColor();
-
     function randommines() {
         var arr = [];
         for (var i = 0; i < 6 * 6; i++) {
@@ -256,7 +246,6 @@ function addColor() {
             var now=minemap.get("{"+x+","+y+"}");
             if(now.type == 'floor') {
                 minemap.set("{"+x+","+y+"}",addmineNum(x,y));
-                // console.log(minemap.get("{"+x+","+y+"}"));
             }
         }
     }
