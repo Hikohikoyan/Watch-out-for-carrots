@@ -7,8 +7,16 @@ function rank(){
     document.querySelector("#yTable").style.cssText = "background-image:unset;";
     document.getElementById('ranklist').removeEventListener('click',rank);
     attention("新鲜出炉的排行榜！");
+    //写表
+    function prenodes(classname, name) {
+        var pair = "";
+        for (var j = 1; j <= 4; j++) {
+            pair = pair + "<td class='" + classname + "'id='" + name + Number(j) + "'></td>";
+        }
+        return pair;
+    }
     //请求
-    get("http://111.231.174.100:5000/rank","ranklist",function(data){
+    get("http://203.195.221.189:5000/rank","ranklist",function(data){
         list = JSON.parse(data);
         var totallist = 0
         if(list.all == null){
@@ -17,15 +25,9 @@ function rank(){
             totallist = list.all.length;
         }
         //准备布局
-        function prenodes(classname, name) {
-            var pair = "";
-            for (var j = 1; j <= 4; j++) {
-                pair = pair + "<td class='" + classname + "'id='" + name + Number(j) + "'></td>";
-            }
-            return pair;
-        }
+
         var list2 = "";
-        var linename;
+        var linename="";
         for (let a = 0; a <=totallist+1; a++) {
             if(a==0){
                 linename="rankcaption";
@@ -74,7 +76,27 @@ function rank(){
             document.getElementById('ranklist').addEventListener('click',rank,false);
         }, 60000);
     });
-   
+    if(get("http://203.195.221.189:5000/rank","ranklist")==undefined){
+        var list2 = "";
+        var linename="";
+        for (let a = 0; a <=1; a++) {
+            if(a==0){
+                linename="rankcaption";
+            }else{
+                linename="rankline";
+            }
+            list2 = list2 + "<tr class='"+linename+"' id='rankline" +Number(a)+ "' >" + prenodes("ranklist", "rankitem") + "</tr>";
+        }
+        document.getElementById('yTable').innerHTML = list2;
+        document.getElementById('yTable').setAttribute('class',"ranktable")
+        document.getElementById('rankline0').childNodes[0].innerText="名次";
+        document.getElementById('rankline0').childNodes[1].innerText="用户名";
+        document.getElementById('rankline0').childNodes[2].innerText="成功用时";
+        document.getElementById('rankline0').childNodes[3].innerText="失败次数";
+        document.getElementsByClassName('gaming')[0].style.cssText="visibility:hidden;"
+        document.getElementById('rankline1').innerText="暂时无人上榜";
+        document.getElementById('rankline1').style.cssText="color:#8c6e62;padding: 10%;font-size: 160%;text-align: center;"
+    }
 }
 //常用的按钮
 
@@ -129,7 +151,7 @@ function start() {
         // var startTime = new Date().getTime();
         // var second = parseInt((new Date().getTime() - startTime) / 1000);
         startCount();
-
+        
         function add(min, second) {
             str_second = String(second);
             str_min = 0 + String(min);
@@ -141,13 +163,7 @@ function start() {
         }
         function startCount() {
             second++;
-            if (sessionStorage.getItem('welcome') == 1) {
-                if(second==0){
-                    second=0;
-                }
-                second = second - 1;
-                sessionStorage.setItem('welcome', 0);
-            }
+
             if (second > 59) {
                 min++;
                 second = second - 60;

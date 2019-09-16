@@ -128,7 +128,7 @@ function move(td, tr, target) {
             welcome();
             removegrass(elementg, grass);
             attention("你发现了草丛中的礼物！");
-            sessionStorage.setItem("isOver", false);
+            sessionStorage.setItem("welcome",1)
             // if(document.getElementsByClassName('cha')[1].)
             break;
         }
@@ -137,22 +137,25 @@ function move(td, tr, target) {
 
 function complete(num) {
     //游戏完成  失败则给时间=0 成功给实际用时
-    var url = "http://111.231.174.100:5000/insert";
+    var url = "http://203.195.221.189:5000/insert";
     var casename = "complete";
     var finaltime = Number(document.querySelector("h2").textContent.split(":")[0]) * 60 + Number(document.querySelector("h2").textContent.split(":")[1]);
 
     if (num == 5) {
+        document.querySelector('h4').textContent="恭喜你成功了！";
+        url = url + "?time=" + finaltime;
         if(finaltime<5){
         attention("时间错乱了！");
         return;
         }
-        document.querySelector('h4').textContent="恭喜你成功了！"
-        url = url + "?time=" + finaltime;
+        if(sessionStorage.getItem('welcome')==1){
+            document.querySelector('h4').textContent="恭喜你成功了！";
+            url = url + "?time=" + (finaltime-1);
+        }
         sessionStorage.setItem('isOver',true);
         document.getElementById('completebox').style.cssText +="display:block";
         get(url, casename,function(data){
             data=JSON.parse(data);
-
         });    
     } else {
         document.querySelector('h4').textContent="别灰心！再试一次吧~"
@@ -244,7 +247,6 @@ function addCarrots() {
         var obj = createEle(false, "welcome", 0);
         minemap.set("{" + x + "," + y + "}", obj);
     }
-    console.log(minemap)
 }
 
 function addColor() {

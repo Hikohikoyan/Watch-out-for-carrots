@@ -61,16 +61,25 @@ function read_statuscode(statusCode, responseText) { //用来提示的 仅此而
         }
     }
 }
-// Object.prototype.length = function() {
-//     　　var count = 0;
-//        for(var i in obj){
-//            if(obj.hasOwnProperty(i)){
-//                count++;
-//            };
-//        };
-//        return count;   
-   
-//     };
+function post(url, package,sync,fun) {
+    var xmlhttp2 = new XMLHttpRequest();
+    if(typeof sync === 'function') {
+        fun = sync;sync =true;
+    }else if(typeof sync === 'undefined'){
+        sync =true;
+    }
+    let obj = package;
+    xmlhttp2.open("POST", url, true);
+    xmlhttp2.setRequestHeader("Content-Type", "application/json");
+    xmlhttp2.send(JSON.stringify(obj));
+    xmlhttp2.onreadystatechange = function () {
+        if (xmlhttp2.readyState == 4) {
+            read_statuscode(xmlhttp2.status, xmlhttp2.responseText);
+            storage = JSON.parse(xmlhttp2.responseText);
+            return;
+        }
+    }
+};
 function get(url, casename,sync,fun) {
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.open("GET", url, true);
@@ -102,46 +111,28 @@ function get(url, casename,sync,fun) {
                 return;
             }
 
-
-            // if (casename == "ranklist") {
-            //     //获取ranklist
-            //     storage = JSON.parse(xmlhttp.responseText);
-            //     //先判断all
-            //     if(storage.all == null){
-            //         sessionStorage.setItem('listnum',0);
-            //         sessionStorage.setItem('yourank',0);
-            //         return ;
-            //     }
-            //     else{
-            //         var len = storage.all.prototype.length
-            //         sessionStorage.setItem("listnum",storage.all.prototype.length);
-            //         // let rankobj = new Object;   
-            //         if(storage.self == null){
-            //             sessionStorage.setItem("yourrank",storage.self.rank);
-            //             return;
-            //         }else{
-            //             sessionStorage.setItem("yourank",0);
-            //             return;
-            //         }
-            //     }
-            // }
         }
     }
 }
 function checkBBT(){
-    get("https://hemc.100steps.net/2019/fleeting-station-test/api/station",function(res,statusCode){
-        wx.config({
-            debug: false,
-            appId: res.appId,
-            timestamp: res.timestamp,
-            nonceStr: res.nonceStr,
-            signature: res.signature,
-            jsApiList: [
-            ]
-        });
-        wx.ready(function(){
-            console.log("OK")
-        });
+    url="http://203.195.221.189/Watch-out-for-carrots/game.html";
+    var data = JSON.stringify({
+        "url": url
+    });
+    post("https://hemc.100steps.net/2019/fleeting-station-test/api/station",data,function(){
+        
+    // wx.config({
+        //     debug: false,
+        //     appId: res.appId,
+        //     timestamp: res.timestamp,
+        //     nonceStr: res.nonceStr,
+        //     signature: res.signature,
+        //     jsApiList: [
+        //     ]
+        // });
+        // wx.ready(function(){
+        //     console.log("OK")
+        // });
     })
 }
 var depart=new Array();
