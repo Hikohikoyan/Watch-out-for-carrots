@@ -56,10 +56,10 @@ function listener() {
 premap();
 startbtn.addEventListener('mousemove', listener, false);
 backbtn.addEventListener('click', function () {
-    window.location.href="http://"
+    window.location.href="http://134.175.124.192/autumn"
 }, false);
 
-function move(td, tr, target) {
+function move(td, tr) {
     if (tr == "" || td == undefined || tr == undefined || td == "yTable") {
         return;
     }
@@ -78,14 +78,9 @@ function move(td, tr, target) {
         {
             num = num + 1;
             document.getElementById('statistics').textContent = String(num);
-            if(num==5){complete(num);}
+            if(num==5&&sessionStorage.getItem('isOver')){complete(num);}
             removegrass(elementg, grass);
             inside.flag = true;
-            target.removeEventListener('click', function (e) {
-                clicktime++;
-                move(e.toElement.id, e.path[1].id, e.target);
-                console.log(e.path[1].id + "," + e.toElement.id);
-            }, false);
             break;
         }
         //游戏结束 但是要把胡萝卜显示出来
@@ -146,7 +141,8 @@ function complete(num) {
         get(url, casename,function(data){
             data=JSON.parse(data);
             document.querySelector("p.yours").textContent="你曾经失败了"+String(data.self.times)+",挑战成功最短用时"+String(data.self.time)+"\
-            目前排名第"+data.self.rank+"位!"
+            目前排名第"+data.self.rank+"位!";
+            document.getElementsByClassName('show')[2].textContent=String(data.all[0].username);
         });    
     } else {
         document.querySelector('h4').textContent="别灰心！再试一次吧~"
@@ -156,7 +152,7 @@ function complete(num) {
         get(url, casename,function(data){
             data=JSON.parse(data);
             document.querySelector("p.yours").textContent="你曾经失败了"+String(data.self.times)+",挑战成功最短用时"+String(data.self.time)+"\
-            目前排名第"+data.self.rank+"位!"
+            目前排名第"+data.self.rank+"位!";
         });    
     }
     return;

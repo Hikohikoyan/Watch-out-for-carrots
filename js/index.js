@@ -105,37 +105,23 @@ startbtn.addEventListener('click', clearTable, false);
 function clearTable() {
     // clearInterval(tinterval);
     document.getElementById("start").value = "重新开始";
-    document.querySelector("#yTable").style.cssText = "background-image:unset;";
+    document.querySelector("#yTable").style.cssText += "background-image:unset;";
+    startbtn.removeEventListener('click', clearTable);
     let num = document.querySelectorAll("td").length;
     for (let i = 0; i < num; i++) {
-        document.querySelectorAll("td")[i].style.cssText = "display:table-cell;";
+        document.querySelectorAll("td")[i].style.cssText += "display:table-cell;";
     }
-    startbtn.removeEventListener('click', clearTable);
     start();
     setTimeout(() => {
         startbtn.setAttribute('disabled', 'disabled');
         startbtn.addEventListener('click', restart, false);
     }, 100);
-    // if (clicktime > 3) {
-    //     attention("慢慢来不要急");
-    // }
     setTimeout(() => {
         startbtn.removeAttribute('disabled');
     }, 5000);
 }
 
 function restart() {
-    // startbtn.addEventListener('click', function () {
-        // // clearInterval(tinterval);
-        // premap();
-        // listener();
-        // sessionStorage.setItem("isOver", false);
-        // console.log(timeout1);
-        // clearTimeout(timeout1);
-        // clearTable();
-        // document.getElementById('statistics').textContent = "0";
-        // num = 0;
-        // document.querySelector('h2').textContent = "00:00";
         window.location.reload();
     // });
 }
