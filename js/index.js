@@ -1,77 +1,80 @@
 var storage = JSON;
 document.getElementById('ranklist').addEventListener('click',rank,false);
 function rank(){
-    var flag;
     document.querySelector('h2').textContent="排行榜";
     document.getElementById('gTable').style.cssText="display:none;";
     document.getElementById('dengji_img').style.cssText="display:none;";
+    document.querySelector("#yTable").style.cssText = "background-image:unset;";
     document.getElementById('ranklist').removeEventListener('click',rank);
     attention("新鲜出炉的排行榜！");
-    var totallist=Number(sessionStorage.getItem("listnum"));
-    var your=sessionStorage.getItem("yourrank");
-    function prenodes(classname, name) {
-        var pair = "";
-        for (var j = 0; j < 4; j++) {
-            pair = pair + "<td class='" + classname + "'id='" + name + Number(j+1) + "'></td>";
-        }
-        return pair;
-    }
-    var list2 = "";
-    for (let a = 0; a <=totallist+1; a++) {
-        if(a==0){
-            var linename="rankcaption";
-        }else{
-            linename="rankline";
-        }
-        list2 = list2 + "<tr class='"+linename+"' id='rankline" +Number( a +1)+ "' >" + prenodes("ranklist", "rankitem") + "</tr>";
-    }
-    document.getElementById('yTable').innerHTML = list2;
-    document.getElementById('yTable').setAttribute('class',"ranktable")
-    document.getElementById('rankline1').childNodes[0].innerText="名次";
-    document.getElementById('rankline1').childNodes[1].innerText="用户名";
-    document.getElementById('rankline1').childNodes[2].innerText="成功用时";
-    document.getElementById('rankline1').childNodes[3].innerText="失败次数";
-    document.getElementsByClassName('gaming')[0].style.cssText="visibility:hidden;"
-    if(totallist==0){
-        flag=false;//没有人玩
-        document.getElementById('rankline2').innerText="暂时无人上榜";
-        document.getElementById('rankline2').style.cssText="color:#8c6e62;padding: 10%;font-size: 160%;text-align: center;"
-        if(your==0){
-            document.getElementById('rankline3').innerText="你还没有玩呢";
-            document.getElementById('rankline3').style.cssText="color:#8c6e62;padding: 10%;font-size: 160%;text-align: center;"
-            return;
-        }
-    }
-
-    document.querySelector("#yTable").style.cssText = "background-image:unset;";
-    get("js/rank.json","ranklist",function(data){
+    //请求
+    get("http://111.231.174.100:5000/rank","ranklist",function(data){
         list = JSON.parse(data);
-        var yourline=document.querySelector("#yTable>tbody").lastChild.id;
-        document.getElementById(yourline).childNodes[0].innerText=Number(list.self[0].rank);
-        document.getElementById(yourline).childNodes[0].innerText=list.self[0].username;
-        console.log(list.self[0]);
-        if(list.self[0].time==10000){
-            document.getElementById(yourline).childNodes[0].innerText=0;
+        var totallist = 0
+        if(list.all == null){
+            totallist = 0
         }else{
-            document.getElementById(yourline).childNodes[0].innerText=list.self[0].time;
+            totallist = list.all.length;
         }
-        document.getElementById(yourline).childNodes[0].innerText=list.self[0].time3;
-        if(flag!=false&&list.all!=undefined){
-            let len=11;
-            console.log(list.all);
-            for(let i=0;i<=len;i++) {
-                let linename="rankline"+i;
-                document.getElementById(linename).childNodes[0].innerText=sessionStorage.getItem("yourrank");
-                document.getElementById(linename).childNodes[1].innerText=list.self[0].username;
-                document.getElementById(linename).childNodes[2].innerText=list.self[0].time;
-                document.getElementById(linename).childNodes[3].innerText=list.self[0].times;
+        //准备布局
+        function prenodes(classname, name) {
+            var pair = "";
+            for (var j = 1; j <= 4; j++) {
+                pair = pair + "<td class='" + classname + "'id='" + name + Number(j) + "'></td>";
             }
+            return pair;
         }
-    });
+        var list2 = "";
+        var linename;
+        for (let a = 0; a <=totallist+1; a++) {
+            if(a==0){
+                linename="rankcaption";
+            }else{
+                linename="rankline";
+            }
+            list2 = list2 + "<tr class='"+linename+"' id='rankline" +Number(a)+ "' >" + prenodes("ranklist", "rankitem") + "</tr>";
+        }
+        document.getElementById('yTable').innerHTML = list2;
+        document.getElementById('yTable').setAttribute('class',"ranktable")
+        document.getElementById('rankline0').childNodes[0].innerText="名次";
+        document.getElementById('rankline0').childNodes[1].innerText="用户名";
+        document.getElementById('rankline0').childNodes[2].innerText="成功用时";
+        document.getElementById('rankline0').childNodes[3].innerText="失败次数";
+        document.getElementsByClassName('gaming')[0].style.cssText="visibility:hidden;"
+        if(totallist==0){
+            document.getElementById('rankline1').innerText="暂时无人上榜";
+            document.getElementById('rankline1').style.cssText="color:#8c6e62;padding: 10%;font-size: 160%;text-align: center;"
+            return ;
+        }
+        else{
+            //证明还是有的
+            document.querySelector("#yTable").style.cssText = "background-image:unset;";
+             //先处理一下自己的
+            var yourline=document.querySelector("#yTable>tbody").lastChild.id;
+            if(list.self == null){
+                document.getElementById(yourline).innerText="你还没有玩游戏"
+                document.getElementById(yourline).style.cssText="color:#8c6e62;padding: 10%;font-size: 160%;text-align: center;"
+            }else{
+                document.getElementById(yourline).childNodes[0].innerText=Number(list.self.rank);
+                document.getElementById(yourline).childNodes[1].innerText=list.self.username;
+                document.getElementById(yourline).childNodes[2].innerText=(list.self.time == 10000000?0:list.self.time);
+                document.getElementById(yourline).childNodes[3].innerText=list.self.times;
+            }
+            //在先试一下所有的排名
+            for(let i = 1;i <= totallist;++i){
+                let linename="rankline"+i;
+                document.getElementById(linename).childNodes[0].innerText=i;
+                document.getElementById(linename).childNodes[1].innerText=list.all[i-1].username
+                document.getElementById(linename).childNodes[2].innerText=(list.all[i-1].time == 10000000?0:list.all[i-1].time)
+                document.getElementById(linename).childNodes[3].innerText=list.all[i-1].times;
+            }
 
-    setTimeout(() => {
-        document.getElementById('ranklist').addEventListener('click',rank,false);
-    }, 60000);
+        }
+        setTimeout(() => {
+            document.getElementById('ranklist').addEventListener('click',rank,false);
+        }, 60000);
+    });
+   
 }
 //常用的按钮
 

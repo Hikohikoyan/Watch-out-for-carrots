@@ -12,6 +12,7 @@ bp = Blueprint('blue', __name__)
 def hello():
     return 'Hello'
 
+
 #获取排名
 @bp.route('/rank',methods=('GET',))
 def rank():
@@ -73,7 +74,6 @@ def insert():
     username = 'ooo'
     db = get_db()
     cursor = db.cursor()
-
     #查询user
     cursor.execute('SELECT username, time, times FROM user WHERE openid =%s'%openid)
     exist = cursor.fetchone()
@@ -100,7 +100,7 @@ def insert():
             self_result['rank'] = num + 1
         else:
             cursor.execute(
-                'INSERT INTO user(username, time,openid,) VALUES ("%s",%d,"%s")' %(username,time,openid,)
+                'INSERT INTO user(username,time,openid,) VALUES ("%s",%d,"%s")' %(username,time,openid,)
             )
             db.commit()
             cursor.execute(
