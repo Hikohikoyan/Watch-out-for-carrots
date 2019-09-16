@@ -137,7 +137,7 @@ function move(td, tr, target) {
 
 function complete(num) {
     //游戏完成  失败则给时间=0 成功给实际用时
-    var url = "http://203.195.221.189:5000/insert";
+    var url = "http://111.231.174.100:5000/insert";
     var casename = "complete";
     var finaltime = Number(document.querySelector("h2").textContent.split(":")[0]) * 60 + Number(document.querySelector("h2").textContent.split(":")[1]);
 

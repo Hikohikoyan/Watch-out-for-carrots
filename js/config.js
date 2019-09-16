@@ -87,13 +87,13 @@ function get(url, casename,sync,fun) {
             read_statuscode(xmlhttp.status, xmlhttp.responseText);
             if (casename == "complete") {
                 storage = JSON.parse(xmlhttp.responseText);
-                var len = storage.all.prototype.length;
+                var len = storage.all.length;
                 var rank3 = new Object;
                 for (let i = 0; i <= len; i++) {
                     rank3.username = storage.all[i].username;
                     rank3.time = storage.all[i].time;
                     rank3.times = storage.all[i].times;
-                    sessionStorage.set("now" + i, rank3);
+                    sessionStorage.setItem("now" + i, rank3);
                 }
                 // let your = new Object;
                 // let your = storage.self.times;
@@ -101,38 +101,28 @@ function get(url, casename,sync,fun) {
                 // let your.rank = storage.self.rank;
                 return;
             }
-            if (casename == "ranklist") {
-                storage = JSON.parse(xmlhttp.responseText);
-                var list=new Array();
-
-                console.log(storage.all);
-                if(storage.all!=undefined){
-                    sessionStorage.setItem("listnum",1);
-                    var len = storage.all.prototype.length;
-                    sessionStorage.setItem("listnum",len);
-                    sessionStorage.setItem("yourrank",1);
-                    // let rankobj = new Object;
-                    for (let i = 0; i <= len; i++) {
-                        // rankobj.username = storage.all[i].username;
-                        // rankobj.time = storage.all[i].time;
-                        // rankobj.times = storage.all[i].times;
-                        // rankarr[i] = rankobj;
-                        list[i]=storage.all[i];
-                    }    
-                }
-                if(storage.self!=""||storage.self!=null){
-                sessionStorage.setItem("yourrank",storage.self[0].rank);
-                list[list.length+1]=storage.self;
-                return list;
-            }else{
-                sessionStorage.setItem("listnum",0);
-                if(storage.self==undefined){
-                    sessionStorage.setItem("yourrank",0);
-                }else{
-                    return list[0]=storage.self;
-                }
-            }
-            }
+            // if (casename == "ranklist") {
+            //     //获取ranklist
+            //     storage = JSON.parse(xmlhttp.responseText);
+            //     //先判断all
+            //     if(storage.all == null){
+            //         sessionStorage.setItem('listnum',0);
+            //         sessionStorage.setItem('yourank',0);
+            //         return ;
+            //     }
+            //     else{
+            //         var len = storage.all.prototype.length
+            //         sessionStorage.setItem("listnum",storage.all.prototype.length);
+            //         // let rankobj = new Object;   
+            //         if(storage.self == null){
+            //             sessionStorage.setItem("yourrank",storage.self.rank);
+            //             return;
+            //         }else{
+            //             sessionStorage.setItem("yourank",0);
+            //             return;
+            //         }
+            //     }
+            // }
         }
     }
 }
