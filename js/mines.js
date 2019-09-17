@@ -49,14 +49,20 @@ function createEle(flag, type, num) {
 
 function listener() {
     var yourmove = document.getElementById('yTable');
-    yourmove.addEventListener('click', function (e) {
-        e.preventDefault();
-        move(e.toElement.id, e.path[1].id, e.target);
-    }, false);
-    document.body.addEventListener('touchstart', function (e) {
-        // e.preventDefault();
+    if(isAndroid==true){
+        yourmove.addEventListener('click', function (e) {
+            e.preventDefault();
+            move(e.toElement.id, e.path[1].id, e.target);
+        }, false);
+    }
+    if(isiOS==true){
+        document.body.addEventListener('touchstart', function (e) {
         move(e.target.id,e.path[1].id);
-    }, false);
+        }, false);
+    }
+    if(isiOS==false&&isAndroid==false){
+        attention("不支持该设备");
+    }
 }
 premap();
 startbtn.addEventListener('mousemove', function(e){
@@ -65,11 +71,11 @@ startbtn.addEventListener('mousemove', function(e){
 }, false);
 function move(td, tr) {
     console.time('move')
-    if (tr == "" || td == undefined || tr == undefined || td == "yTable") {
-        return;
-    }
     var y = Number(td.replace("you-column", ""));
     var x = Number(tr.replace("you-line", ""));
+    if (x == "" || x == undefined || y == undefined || y == "yTable"||y == " ") {
+        return;
+    }
     var elementg = document.querySelectorAll("#td" + y)[x - 1];
     var grass = "{" + x + "," + y + "}";
     var inside = minemap.get(grass);
