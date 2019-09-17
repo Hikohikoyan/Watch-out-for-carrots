@@ -44,8 +44,17 @@ function createEle(flag, type, num) {
 function listener() {
     var yourmove = document.getElementById('yTable');
     if(isiOS==true){
-        alert('ios');
-    }
+        // alert('ios');
+        for(var y=1;y<=6;y++){
+             for(var x=1;x<=6;x++){
+                 let tdname="you-column"+x+","+y;
+                document.getElementById(tdname).addEventListener('click', function(e) {
+                    e.preventDefault();
+                    move(tdname);
+                },false);
+            }
+        }
+    }else{
     // document.getElementsByClassName('you-column').length;
         // document.body.addEventListener('touchstart', function (e) {
         //     yourmove.addEventListener('click', function (e) {
@@ -62,7 +71,7 @@ function listener() {
             move(e.target.id);//, e.path[1].id
             // move(e.toElement.id);//, e.path[1].id
         }, false);
-    // }
+    }
 
     // if(isiOS==false&&isAndroid==false){
     //     attention("不支持该设备");
