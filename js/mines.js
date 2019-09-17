@@ -27,12 +27,13 @@ function premap() {
         for (var y = 1; y <= 6; y++) {
             for (var x = 1; x <= 6; x++) {
                 let tdname = "you-column" + x + "," + y;
-                document.getElementById(tdname).addEventListener('click', function(e) {
+                var grid=document.getElementById(tdname);
+                grid.addEventListener('click', function(e) {
                     e.preventDefault();
                     alert("click"+tdname);
                     alert(this.id);
                     move(this.id);
-                }.bind(document.getElementById(tdname)),false);
+                }.bind(grid),false);
                 // document.body.addEventListener('touchstart', function (e) {
                 //     alert("touch"+e.target);
                 //     move(e.target.id);
