@@ -55,27 +55,17 @@ function listener() {
                 document.getElementById(tdname).addEventListener('click', function(e) {
                     e.preventDefault();
                     alert("click"+tdname);
-                    alert(e.target.id);
-                    move(e.target.id);
+                    alert(this.id);
+                    move(this.id).bind(document.getElementById(tdname));
                 },false);
-                document.body.addEventListener('touchstart', function (e) {
-                    e.stopPropagation();
-                    alert("touch"+e.target.id);
-                    move(e.target.id);
-                }, false);
+                // document.body.addEventListener('touchstart', function (e) {
+                //     alert("touch"+e.target);
+                //     move(e.target.id);
+                //     e.stopPropagation();
+                // }, false);
             }
         }
     } else {
-        // document.getElementsByClassName('you-column').length;
-        // document.body.addEventListener('touchstart', function (e) {
-        //     yourmove.addEventListener('click', function (e) {
-        //     alert(e.toElement);
-        //     console.log(e.toElement);
-        // move(e.toElement.id);
-        // }, false);
-        //     return;
-        // }
-        // if(isAndroid==true){
         yourmove.addEventListener('click', function (e) {
             e.preventDefault();
             // alert(e.target.id);
