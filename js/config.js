@@ -24,7 +24,7 @@ function attention(text) {
         if(document.getElementById('welcomebox').style.display!="none"){
             document.getElementById('welcomebox').style.cssText +='display:none';
         }
-        if(document.getElementById('completebox').style.display!="none"){
+        if(JSON.parse(sessionStorage.getItem('ranklist'))==true){
             document.getElementById('completebox').style.cssText +='display: none;';
         }
     }, 7000);
@@ -120,7 +120,6 @@ function checkBBT(){
         "url": url
     });
     post("https://hemc.100steps.net/2019/fleeting-station-test/api/station",data,function(){
-        
     // wx.config({
         //     debug: false,
         //     appId: res.appId,

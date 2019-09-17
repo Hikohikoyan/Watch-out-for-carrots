@@ -35,7 +35,7 @@ function rank(){
         for (let a = 0; a <=totallist+1; a++) {
             if(a==0){
                 linename="rankcaption";
-                head= "<div class='"+linename+"' id='rankline" +Number(a)+ "' >" + prenodes("ranklist", "rankitem") + "</div>";
+                head= "<div class='"+linename+"' id='rankline" +Number(a)+ "' >" + prenodes("rankhead", "rankitem") + "</div>";
             }else{
                 linename="rankline";
                 list2 = list2 + "<div class='"+linename+"' id='rankline" +Number(a)+ "' >" + prenodes("ranklist", "rankitem") + "</div>";
@@ -71,6 +71,10 @@ function rank(){
                 document.getElementById(yourline).childNodes[1].innerText=list.self.username;
                 document.getElementById(yourline).childNodes[2].innerText=(list.self.time == 10000000?0:list.self.time);
                 document.getElementById(yourline).childNodes[3].innerText=list.self.times;
+                // document.getElementById(yourline).childNodes[0].style.cssText +="border-bottom: none;";
+                // document.getElementById(yourline).childNodes[1].style.cssText +="border-bottom: none;";
+                // document.getElementById(yourline).childNodes[2].style.cssText +="border-bottom: none;";
+                // document.getElementById(yourline).childNodes[3].style.cssText +="border-bottom: none;";
             }
             //在先试一下所有的排名
             for(let i = 1;i <= totallist;++i){

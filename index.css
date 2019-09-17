@@ -139,7 +139,7 @@ h2 {
     overflow-y: scroll;
 
 }
-.yTable::-webkit-scrollbar {display:none}
+.yTable::-webkit-scrollbar ,.ranklist::-webkit-scrollbar ,#rankcontainer::-webkit-scrollbar {display:none}
 /*变成梯仔的class*/
 .you-column:hover,
 .you-column:active {
@@ -399,6 +399,32 @@ td:active {
 
 }
 .ranklist{
+    background-color: #f9f4ea;
+    border-color: #8c6e62;
+    border-style: solid;
+    border-width: 5px;
+    /* border-radius: 0.5em; */
+    border-bottom-width: 0;
+    border-right-width: 0;
+    z-index: 100;
+    display: inline-block;
+    float: left;
+    color: #8c6e62;
+    /* font-size: 20px; */
+    text-align: center;
+    padding: 3px;
+    height: 30px;
+    position: relative;
+    /* margin-top: 5px; */
+    /* padding-bottom: 0px; */
+    width: max-content;
+    margin-left: -4px;
+    /* top: 0; */
+    padding-left: 10.5px;
+    padding-right: 11.5px;
+    overflow-x: scroll;
+}
+.rankhead{
     background-color: #f9f4ea;
     border-color: #8c6e62;
     border-style: solid;
