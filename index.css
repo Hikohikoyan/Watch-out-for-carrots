@@ -137,6 +137,7 @@ h2 {
     margin-top: -300px;
     overflow-x: hidden;
     overflow-y: scroll;
+    pointer-events: none;
 }
 .yTable::-webkit-scrollbar ,.ranklist::-webkit-scrollbar ,#rankcontainer::-webkit-scrollbar {display:none}
 /*变成梯仔的class*/
