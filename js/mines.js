@@ -28,9 +28,9 @@ function premap() {
             for (var x = 1; x <= 6; x++) {
                 let tdname = "you-column" + x + "," + y;
                 var grid=document.getElementById(tdname);
-                grid.addEventListener('click', function(e) {
+                grid.addEventListener('touchend', function(e) {
                     e.preventDefault();
-                    alert("click"+tdname);
+                    alert("touchend"+tdname);
                     alert(this.id);
                     move(this.id);
                 }.bind(grid),false);
