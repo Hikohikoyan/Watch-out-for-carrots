@@ -105,6 +105,14 @@ function move(td) { //, tr
             document.getElementById('statistics').textContent = String(num);
             if (num == 5 && sessionStorage.getItem('isOver')) {
                 complete(num);
+                for (let a = 0; a < 6; a++) {
+                    let line = a + 1;
+                    for (let b = 0; b < 6; b++) {
+                        let column = b + 1;
+                        let element = document.getElementById("td" + line + "," + column);
+                        removegrass(element, "{" + line + "," + column + "}");
+                    }
+                }
             }
             removegrass(elementg, grass);
             inside.flag = true;

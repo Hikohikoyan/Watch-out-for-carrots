@@ -13,12 +13,16 @@ document.getElementById('attcha').addEventListener('click',function(){
     // e.preventDefault();
     document.getElementById('attentionbox').style.cssText +='visibility: hidden;';
 },false);
-document.getElementById('welcomebox').addEventListener('click',function(){
+document.getElementById('welcomecha').addEventListener('click',function(){
     // e.preventDefault();
-    document.getElementById('welcomebox').style.cssText +='display:none';
+    setTimeout(() => {
+        document.getElementById('welcomebox').style.cssText +='display:none';
+    }, 300);
 },false);
 document.getElementById('completebox').addEventListener('click',function(e){
-    document.getElementById('completebox').style.cssText +='display:none';
+    setTimeout(() => {
+        document.getElementById('completebox').style.cssText +='display:none';
+    }, 200);
 },false);
 
 
@@ -32,9 +36,9 @@ function attention(text) {
         if(document.getElementById('attentionbox').style.visibility!="hidden"){
             document.getElementById('attentionbox').style.cssText +='visibility: hidden;';
         }
-        if(document.getElementById('welcomebox').style.display!="none"){
-            document.getElementById('welcomebox').style.cssText +='display:none';
-        }
+        // if(document.getElementById('welcomebox').style.display!="none"){
+        //     document.getElementById('welcomebox').style.cssText +='display:none';
+        // }
         if(JSON.parse(sessionStorage.getItem('ranklist'))==true){
             document.getElementById('completebox').style.cssText +='display: none;';
         }

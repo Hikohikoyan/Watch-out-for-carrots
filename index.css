@@ -152,10 +152,14 @@ h2 {
 .gaming {
     /* visibility: hidden; */
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     justify-items: center;
     margin-top: 8px;
+    /* position: absolute; */
+    bottom: 0px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .white_carrot {
@@ -163,24 +167,22 @@ h2 {
     height: 13vh;    background-image: url(./assets/big.png);
     background-repeat: round;
     background-size: 100%;
-    margin-left: -150px;
 }
 
 #statistics {
-    position: absolute;
-    font-size: 50px;
+    font-size: 6.6vh;
     font-weight: 1000;
     color: #607c60;
     margin-top: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 12px;
 }
 
 #ge {
-    position: absolute;
-    margin-left: 60px;
-    font-size: 55px;
+    font-size: 7vh;
     font-weight: 700;
     color: #8e7966;
-    margin-top: 12px;
 }
 
 .start_cover {
@@ -275,13 +277,12 @@ td {
     display: none;
 }
 #start {
-    margin-left: 200px;
     background-color: #f4d087;
     border-color: #825b3f;
     border-width: 4px;
-    padding-left: 2%;
+    /* padding-left: 2%; */
     padding-bottom: 2%;
-    padding-right: 2%;
+    /* padding-right: 2%; */
     outline: none;
     border-radius: 0.2rem;
     border-style: solid;
@@ -290,6 +291,10 @@ td {
     font-weight: 900;
     font-size: 4vh;
     text-align: center;
+    position: absolute;
+    bottom: 30px;
+    right: 20vw;
+    float: right;
 }
 
 #start:active {
@@ -301,7 +306,6 @@ td:active {
 }
 
 #attentionbox {
-    position: absolute;
     top: 0;
     text-align: center;
     background-color: orange;
@@ -311,11 +315,16 @@ td:active {
     border-style: solid;
     width: 300px;
     /* margin-right: 15px; */
-    top: 2%;
     padding: 5px;
     height: max-content;
     /* flex: auto; */
     /* align-items: inherit; */
+    position: fixed;
+    top: 8vh;
+    left: 0; right: 0;
+    margin-left: auto;
+    margin-right: auto;
+
     visibility: hidden;
 }
 
@@ -491,9 +500,13 @@ td:active {
 }
 #welcomebox{
     z-index: 100;
-    position: absolute;
+    position: fixed;
+    top: 20vh;
+    left: 0; right: 0;
     width: 300px;
     height: 400px;
+    margin-left: auto;
+    margin-right: auto;
     background-color: burlywood;
     border-style: solid;
     border-color: white;
@@ -540,18 +553,22 @@ span.welcometext{
 }
 #completebox{
     z-index: 200;
-    position: absolute;
     background: bisque;
     opacity: 0.85;
     width: 320px;
     /* height: 420px; */
     border-style: solid;
     border-color: white;
-    top: 180px;
     border-width: 5px;
     border-radius: 1.2rem;
     /* flex: auto; */
     /* align-items: center; */
+    position: fixed;
+    top: 27vh;
+    left: 0; right: 0;
+    margin-left: auto;
+    margin-right: auto;
+
     display: flex;
     flex-direction: column;
     align-items: center;
