@@ -109,26 +109,10 @@ function get(url, casename,sync,fun) {
     }
     xmlhttp.send();
     xmlhttp.onreadystatechange = function () {
-        if (xmlhttp.readyState == 4&&xmlhttp.status==200) {
+        if (xmlhttp.readyState == 4) {//&&xmlhttp.status==200
             fun.call(this,xmlhttp.responseText);
             read_statuscode(xmlhttp.status, xmlhttp.responseText);
-            if (casename == "complete") {
-                storage = JSON.parse(xmlhttp.responseText);
-                var len = storage.all.length;
-                var rank3 = new Object;
-                for (let i = 0; i <len; i++) {
-                    rank3.username = storage.all[i].username;
-                    rank3.time = storage.all[i].time;
-                    rank3.times = storage.all[i].times;
-                    sessionStorage.setItem("now" + i, rank3);
-                }
-                // let your = new Object;
-                // let your = storage.self.times;
-                // let your.time = storage.self.time;
-                // let your.rank = storage.self.rank;
                 return;
-            }
-
         }else{
             console.log(xmlhttp.status);
         }
@@ -139,7 +123,7 @@ function checkBBT(){
     var data = JSON.stringify({
         "url": url
     });
-    post("",data,function(){
+    post("//认证链接",data,function(){
     // wx.config({
         //     debug: false,
         //     appId: res.appId,
