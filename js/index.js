@@ -171,7 +171,7 @@ function clearTable() {
     document.querySelector("#yTable").style.cssText = "background-image:unset;";
     let num = document.querySelectorAll("td").length;
     for (let i = 0; i < num; i++) {
-        document.querySelectorAll("td")[i].style.cssText = "display:table-cell;";
+        document.querySelectorAll("td")[i].style.cssText += "display:table-cell;";
     }
     document.getElementById("start").value = "重新开始";
     startbtn.setAttribute('disabled', 'disabled');

@@ -7,7 +7,7 @@ function premap() {
     function prenodes(classname, name, line) {
         var pair = "";
         for (var j = 1; j < 7; j++) {
-            pair = pair + "<td class='" + classname + "'id='" + name + line + ',' + j + "' style='cursor:pointer;'></td>";
+            pair = pair + "<td class='" + classname + "'id='" + name + line + ',' + j + "' style='cursor:pointer;' onclick='move(this.id)''></td>";
         }
         return pair;
     }
