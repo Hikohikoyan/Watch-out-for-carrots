@@ -1,22 +1,25 @@
 var storage = JSON;
 document.getElementById('ranklist').addEventListener('click',rank,false);
 function rank(){
+    sessionStorage.setItem('ranklist',true);
     document.querySelector('h2').textContent="排行榜";
+    document.getElementById('yTable').style.cssText="display:none;";
     document.getElementById('gTable').style.cssText="display:none;";
+    document.getElementById('gamebox').style.cssText="display:none;";
     document.getElementById('dengji_img').style.cssText="display:none;";
-    document.querySelector("#yTable").style.cssText = "background-image:unset;";
+    document.querySelector("#rankcontainer").style.cssText += "display:block;";
     document.getElementById('ranklist').removeEventListener('click',rank);
     attention("新鲜出炉的排行榜！");
     //写表
     function prenodes(classname, name) {
         var pair = "";
         for (var j = 1; j <= 4; j++) {
-            pair = pair + "<td class='" + classname + "'id='" + name + Number(j) + "'></td>";
+            pair = pair + "<div class='" + classname + "'id='" + name + Number(j) + "'></div>";
         }
         return pair;
     }
     //请求
-    get("http://203.195.221.189:5000/rank","ranklist",function(data){
+    get("js/rank.json","ranklist",function(data){
         list = JSON.parse(data);
         var totallist = 0
         if(list.all == null){
@@ -27,17 +30,24 @@ function rank(){
         //准备布局
 
         var list2 = "";
+        var head = "";
         var linename="";
         for (let a = 0; a <=totallist+1; a++) {
             if(a==0){
                 linename="rankcaption";
+                head= "<div class='"+linename+"' id='rankline" +Number(a)+ "' >" + prenodes("ranklist", "rankitem") + "</div>";
             }else{
                 linename="rankline";
+                list2 = list2 + "<div class='"+linename+"' id='rankline" +Number(a)+ "' >" + prenodes("ranklist", "rankitem") + "</div>";
             }
-            list2 = list2 + "<tr class='"+linename+"' id='rankline" +Number(a)+ "' >" + prenodes("ranklist", "rankitem") + "</tr>";
         }
-        document.getElementById('yTable').innerHTML = list2;
-        document.getElementById('yTable').setAttribute('class',"ranktable")
+
+        list2 =head+ '<div style="max-height: 400px; overflow-y: scroll;overflow-x: hidden;">'+list2+'</div>';  
+        console.log(list2);
+        console.log(head);
+
+        document.getElementById('rankcontainer').innerHTML = list2;
+        document.getElementById('rankcontainer').setAttribute('class',"ranktable");
         document.getElementById('rankline0').childNodes[0].innerText="名次";
         document.getElementById('rankline0').childNodes[1].innerText="用户名";
         document.getElementById('rankline0').childNodes[2].innerText="成功用时";
@@ -50,7 +60,7 @@ function rank(){
         }
         else{
             //证明还是有的
-            document.querySelector("#yTable").style.cssText = "background-image:unset;";
+            document.querySelector("#rankcontainer").style.cssText = "display:block;";
              //先处理一下自己的
             var yourline=document.querySelector("#yTable>tbody").lastChild.id;
             if(list.self == null){
@@ -76,27 +86,44 @@ function rank(){
             document.getElementById('ranklist').addEventListener('click',rank,false);
         }, 60000);
     });
-    if(get("http://203.195.221.189:5000/rank","ranklist")==undefined){
+    /*
+    if(get("js/rank.json","ranklist")==undefined){
         var list2 = "";
+        var head = "";
         var linename="";
         for (let a = 0; a <=1; a++) {
             if(a==0){
                 linename="rankcaption";
+                head= "<div class='"+linename+"' id='rankline" +Number(a)+ "' >" + prenodes("ranklist", "rankitem") + "</div>";
             }else{
                 linename="rankline";
+                list2 = list2 + "<div class='"+linename+"' id='rankline" +Number(a)+ "' >" + prenodes("ranklist", "rankitem") + "</div>";
             }
-            list2 = list2 + "<tr class='"+linename+"' id='rankline" +Number(a)+ "' >" + prenodes("ranklist", "rankitem") + "</tr>";
         }
-        document.getElementById('yTable').innerHTML = list2;
-        document.getElementById('yTable').setAttribute('class',"ranktable")
+        
+        list2 =head+ '<div style="max-height: 400px; overflow-y: scroll;overflow-x: hidden;">'+list2+'</div>';  
+        
+        console.log(head)
+        console.log(list2)
+
+        document.getElementById('rankcontainer').innerHTML = list2;
+        document.getElementById('rankcontainer').setAttribute('class',"ranktable")
         document.getElementById('rankline0').childNodes[0].innerText="名次";
         document.getElementById('rankline0').childNodes[1].innerText="用户名";
         document.getElementById('rankline0').childNodes[2].innerText="成功用时";
         document.getElementById('rankline0').childNodes[3].innerText="失败次数";
-        document.getElementsByClassName('gaming')[0].style.cssText="visibility:hidden;"
+        document.getElementsByClassName('gaming')[0].style.cssText="visibility:hidden;";
+
         document.getElementById('rankline1').innerText="暂时无人上榜";
         document.getElementById('rankline1').style.cssText="color:#8c6e62;padding: 10%;font-size: 160%;text-align: center;"
-    }
+        
+        
+        let objects = document.getElementsByClassName('ranklist');
+        console.log(objects)
+        for (let i = 0; i < objects.length; i++) {
+            objects[i].style.cssText += "display:table-cell;";
+        }
+    }*/
 }
 //常用的按钮
 
@@ -112,11 +139,13 @@ function clearTable() {
         startbtn.removeAttribute('disabled');
     }, 300);
     document.querySelector("#yTable").style.cssText += "background-image:unset;";
-    startbtn.removeEventListener('click', clearTable);
-    let num = document.querySelectorAll("td").length;
-    for (let i = 0; i < num; i++) {
-        document.querySelectorAll("td")[i].style.cssText += "display:table-cell;";
+    let objects =document.getElementsByClassName('mines');
+    let objects2 =document.getElementsByClassName('you-column');
+    for (let i = 0; i < objects.length; i++) {
+        objects[i].style.cssText += "display:table-cell;";
+        objects2[i].style.cssText += "display:table-cell;";
     }
+    
     console.timeEnd('startbtn');
     start();
 
@@ -170,18 +199,24 @@ function start() {
             add(min, second);
             timeout1 = setTimeout(startCount, 1000);
         }
-        timeout1 = setTimeout(startCount, 500);
+        timeout1 = setTimeout(startCount, 1000);
     }
     document.getElementById('ranklist').addEventListener('click', function () {
         sessionStorage.setItem('isOver',true);
+        sessionStorage.setItem('ranklist',true);
     }, false);
     console.timeEnd('start');
 }
 
 function restart() {
-    // window.location.href="192.168.137.1/Watch-out-for-carrots/game.html";
-    clearTimeout(timeout1);
-    premap();
-    start();
-// });
+    console.log('restart');
+    window.location.href="http://192.168.137.1/Watch-out-for-carrots/game.html"+"?="+Math.random()*5;
 }
+backbtn.addEventListener('click', function () {
+    if(JSON.parse(sessionStorage.getItem('ranklist'))){
+        sessionStorage.setItem('ranklist',false);
+        window.location.href="http://192.168.137.1/Watch-out-for-carrots/game.html"+"?="+Math.random()*5; 
+        return;
+    }
+    window.location.href="http://134.175.124.192/autumn"
+}, false);

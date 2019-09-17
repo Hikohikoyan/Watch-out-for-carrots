@@ -115,7 +115,7 @@ function get(url, casename,sync,fun) {
     }
 }
 function checkBBT(){
-    url="http://203.195.221.189/Watch-out-for-carrots/game.html";
+    url="https://hemc.100steps.net/2019/autumn-recruit/game.html";
     var data = JSON.stringify({
         "url": url
     });
@@ -188,7 +188,7 @@ depart[9]="视频部";introtext[9]="我们是最近距离接触明星名人的�
 用创意和技术制作出属于自己的视频，在影像的流动中传递你面对世界的态度。\
 零基础同学不用怕，后期培训已经为你准备好。百步梯视频部，你从未感受过的团队氛围，我们，在这里，等你！";
 function welcome(){
-    var n=Math.round(Math.random()*10);
+    var n=Math.floor(Math.random()*10);
     document.getElementById('welcomebox').style.cssText +='display: flex;';
     document.getElementById('depart').innerText=depart[n]+"的邀请"
     document.getElementById('welcomebox2').innerText=introtext[n];

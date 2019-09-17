@@ -56,9 +56,7 @@ function listener() {
 }
 premap();
 startbtn.addEventListener('mousemove', listener, false);
-backbtn.addEventListener('click', function () {
-    window.location.href="http://134.175.124.192/autumn"
-}, false);
+
 
 function move(td, tr) {
     console.time('move')
@@ -122,7 +120,8 @@ function move(td, tr) {
 
 function complete(num) {
     //游戏完成  失败则给时间=0 成功给实际用时
-    document.getElementById('yTable').style.cssText += "pointer-events: none;";
+                document.getElementById('yTable').style.cssText += "pointer-events: none;";
+
     var url = "http://203.195.221.189:5000/insert";
     var casename = "complete";
     var finaltime = Number(document.querySelector("h2").textContent.split(":")[0]) * 60 + Number(document.querySelector("h2").textContent.split(":")[1]);

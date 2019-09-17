@@ -259,7 +259,21 @@ td {
     background-position: center;
     cursor:pointer;
 }
-
+#rankcontainer{
+    width: 300px;
+    position: relative;
+    margin-top: 0px;
+    overflow-x: hidden;
+    background-color: #f9f4ea;
+    border-color: #8c6e62;
+    border-style: solid;
+    border-width: 5px;
+    overflow-y: scroll;
+    background-size: 96%;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: none;
+}
 #start {
     margin-left: 200px;
     background-color: #f4d087;
@@ -410,6 +424,7 @@ td:active {
     padding-right: 11.5px;
 }
 .rankcaption{
+    display: inline-block;
     height: 38px !important;
 }
 .rankline{
