@@ -53,8 +53,8 @@ function listener() {
         e.preventDefault();
         move(e.toElement.id, e.path[1].id, e.target);
     }, false);
-    yourmove.addEventListener('touchstart', function (e) {
-        e.preventDefault();
+    document.body.addEventListener('touchstart', function (e) {
+        // e.preventDefault();
         move(e.target.id,e.path[1].id);
     }, false);
 }
