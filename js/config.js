@@ -1,19 +1,24 @@
 const startbtn = document.querySelector("#start");
 const backbtn = document.querySelector("#back");
+const rankurl="http://111.231.174.100:5000/rank";//查看排行榜
+const completeurl="http://111.231.174.100:5000/insert";//提交成绩
+const indexurl="";//报名表
 var u = navigator.userAgent;
 var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
 var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
-document.getElementById('attcha').addEventListener('click',function(e){
-    e.preventDefault();
+if(window.location.href.split('/')[window.location.href.split('/').length-1]!="game.html"){
+    window.location.href="http://localhost/Watch-out-for-carrots/game.html";
+}
+document.getElementById('attcha').addEventListener('click',function(){
+    // e.preventDefault();
     document.getElementById('attentionbox').style.cssText +='visibility: hidden;';
 },false);
-document.getElementById('welcomecha').addEventListener('click',function(e){
-    e.preventDefault();
+document.getElementById('welcomecha').addEventListener('click',function(){
+    // e.preventDefault();
     document.getElementById('welcomebox').style.cssText +='display:none';
 },false);
-document.getElementById('finalcha').addEventListener('click',function(e){
-    e.preventDefault();
-    document.getElementById('completebox').style.cssText +='display: none;';
+document.getElementById('completebox').addEventListener('click',function(e){
+    document.getElementById('completebox').style.cssText +='display:none';
 },false);
 
 
@@ -34,6 +39,9 @@ function attention(text) {
             document.getElementById('completebox').style.cssText +='display: none;';
         }
     }, 7000);
+}
+function rewriteTime(second){
+    return String(Math.floor(second/60)+":"+(second%=60));
 }
 function read_statuscode(statusCode, responseText) { //用来提示的 仅此而已
     if (statusCode == 200) {
@@ -117,6 +125,8 @@ function get(url, casename,sync,fun) {
                 return;
             }
 
+        }else{
+            console.log(xmlhttp.status);
         }
     }
 }

@@ -16,8 +16,8 @@ def hello():
 #获取排名
 @bp.route('/rank',methods=('GET',))
 def rank():
-    username = 'ooo'
-    openid = '5959'
+    username = 'o5o'
+    openid = '5953'
     error = None
     db = get_db()
     cursor = db.cursor()

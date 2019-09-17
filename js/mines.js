@@ -8,7 +8,7 @@ function premap() {
     function prenodes(classname, name) {
         var pair = "";
         for (var j = 1; j < 7; j++) {
-            pair = pair + "<td class='" + classname + "'id='" + name + j + "'></td>";
+            pair = pair + "<td class='" + classname + "'id='" + name + j + "' style='cursor:pointer;'></td>";
         }
         return pair;
     }
@@ -49,26 +49,23 @@ function createEle(flag, type, num) {
 
 function listener() {
     var yourmove = document.getElementById('yTable');
-    if(isAndroid==true){
+    // if(isAndroid==true){
         yourmove.addEventListener('click', function (e) {
             e.preventDefault();
             move(e.toElement.id, e.path[1].id, e.target);
         }, false);
-    }
-    if(isiOS==true){
-        document.body.addEventListener('touchstart', function (e) {
-        move(e.target.id,e.path[1].id);
-        }, false);
-    }
-    if(isiOS==false&&isAndroid==false){
-        attention("不支持该设备");
-    }
+    // }
+    // if(isiOS==true){
+    //     document.body.addEventListener('touchstart', function (e) {
+    //     move(e.target.id,e.path[1].id);
+    //     }, false);
+    // }
+    // if(isiOS==false&&isAndroid==false){
+    //     attention("不支持该设备");
+    // }
 }
 premap();
-startbtn.addEventListener('mousemove', function(e){
-    listener();
-    e.preventDefault();
-}, false);
+startbtn.addEventListener('mousemove', listener, false);
 function move(td, tr) {
     console.time('move')
     var y = Number(td.replace("you-column", ""));
@@ -132,7 +129,8 @@ function move(td, tr) {
 function complete(num) {
     //游戏完成  失败则给时间=0 成功给实际用时
     // document.getElementById('yTable').style.cssText += "pointer-events: none;";
-    var url = "http://203.195.221.189:5000/insert";
+    var url = "";
+    url=completeurl;
     var casename = "complete";
     var finaltime = Number(document.querySelector("h2").textContent.split(":")[0]) * 60 + Number(document.querySelector("h2").textContent.split(":")[1]);
 
@@ -151,7 +149,7 @@ function complete(num) {
         document.getElementById('completebox').style.cssText +="display:block";
         get(url, casename,function(data){
             data=JSON.parse(data);
-            document.querySelector("p.yours").textContent="你曾经失败了"+String(data.self.times)+",挑战成功最短用时"+String(data.self.time)+"\
+            document.querySelector("p.yours").textContent="你曾经失败了"+String(data.self.times)+"次,挑战成功最短用时："+String(data.self.time == 10000000?0:rewriteTime( data.self.time ))+"\
             目前排名第"+data.self.rank+"位!";
             document.getElementsByClassName('show')[2].textContent=String(data.all[0].username);
         });    
@@ -162,7 +160,7 @@ function complete(num) {
         document.getElementById('completebox').style.cssText +="display:block";
         get(url, casename,function(data){
             data=JSON.parse(data);
-            document.querySelector("p.yours").textContent="你曾经失败了"+String(data.self.times)+",挑战成功最短用时"+String(data.self.time)+"\
+            document.querySelector("p.yours").textContent="你曾经失败了"+String(data.self.times)+"次,挑战成功最短用时："+String(data.self.time == 10000000?0:rewriteTime( data.self.time ))+"\
             目前排名第"+data.self.rank+"位!";
         });    
     }
