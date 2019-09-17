@@ -22,6 +22,25 @@ function premap() {
     createTd();
     addCarrots();
     num = 0;
+    if (isiOS == true) {
+        // alert('ios');
+        for (var y = 1; y <= 6; y++) {
+            for (var x = 1; x <= 6; x++) {
+                let tdname = "you-column" + x + "," + y;
+                document.getElementById(tdname).addEventListener('click', function(e) {
+                    e.preventDefault();
+                    alert("click"+tdname);
+                    alert(this.id);
+                    move(this.id);
+                }.bind(document.getElementById(tdname)),false);
+                // document.body.addEventListener('touchstart', function (e) {
+                //     alert("touch"+e.target);
+                //     move(e.target.id);
+                //     e.stopPropagation();
+                // }, false);
+            }
+        }
+    }
     sessionStorage.setItem("isOver", false);
 }
 
@@ -47,32 +66,13 @@ function createEle(flag, type, num) {
 
 function listener() {
     var yourmove = document.getElementById('yTable');
-    if (isiOS == true) {
-        // alert('ios');
-        for (var y = 1; y <= 6; y++) {
-            for (var x = 1; x <= 6; x++) {
-                let tdname = "you-column" + x + "," + y;
-                document.getElementById(tdname).addEventListener('click', function(e) {
-                    e.preventDefault();
-                    alert("click"+tdname);
-                    alert(this.id);
-                    move(this.id).bind(document.getElementById(tdname));
-                },false);
-                // document.body.addEventListener('touchstart', function (e) {
-                //     alert("touch"+e.target);
-                //     move(e.target.id);
-                //     e.stopPropagation();
-                // }, false);
-            }
-        }
-    } else {
+
         yourmove.addEventListener('click', function (e) {
             e.preventDefault();
             // alert(e.target.id);
             move(e.target.id); //, e.path[1].id
             // move(e.toElement.id);//, e.path[1].id
         }, false);
-    }
 
     // if(isiOS==false&&isAndroid==false){
     //     attention("不支持该设备");
