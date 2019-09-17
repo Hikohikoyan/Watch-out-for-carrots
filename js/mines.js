@@ -50,7 +50,8 @@ function listener() {
                  let tdname="you-column"+x+","+y;
                 document.getElementById(tdname).addEventListener('click', function(e) {
                     e.preventDefault();
-                    move(tdname);
+                    alert(e.target.id);
+                    move(e.target.id);
                 },false);
             }
         }
