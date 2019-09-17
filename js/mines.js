@@ -53,11 +53,13 @@ function listener() {
         e.preventDefault();
         move(e.toElement.id, e.path[1].id, e.target);
     }, false);
+    yourmove.addEventListener('touchstart', function (e) {
+        e.preventDefault();
+        move(e.target.id,e.path[1].id);
+    }, false);
 }
 premap();
 startbtn.addEventListener('mousemove', listener, false);
-
-
 function move(td, tr) {
     console.time('move')
     if (tr == "" || td == undefined || tr == undefined || td == "yTable") {
@@ -71,7 +73,6 @@ function move(td, tr) {
     if (inside.flag) {//有没有点过这个el
         return;
     }
-    console.timeEnd('move');
     switch(gamer(inside.type)) {
         // 踩到白萝卜
         case 1:
@@ -116,12 +117,12 @@ function move(td, tr) {
             break;
         }
     }
+    console.timeEnd('move');
 }
 
 function complete(num) {
     //游戏完成  失败则给时间=0 成功给实际用时
-                document.getElementById('yTable').style.cssText += "pointer-events: none;";
-
+    document.getElementById('yTable').style.cssText += "pointer-events: none;";
     var url = "http://203.195.221.189:5000/insert";
     var casename = "complete";
     var finaltime = Number(document.querySelector("h2").textContent.split(":")[0]) * 60 + Number(document.querySelector("h2").textContent.split(":")[1]);

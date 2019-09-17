@@ -162,6 +162,7 @@ function clearTable() {
 var timeout1;
 function start() {
     console.time('start');
+    document.getElementById('yTable').style.cssText += "pointer-events: all;";
     document.getElementById('completebox').style.cssText += "display:none";
     document.querySelector("h2").style.cssText = " -webkit-text-stroke-color: #8c6e62;-webkit-text-stroke-width: 2.5px;";
 
@@ -219,8 +220,10 @@ function restart() {
 backbtn.addEventListener('click', function () {
     if(JSON.parse(sessionStorage.getItem('ranklist'))){
         sessionStorage.setItem('ranklist',false);
-        window.location.href="http://192.168.137.1/Watch-out-for-carrots/game.html"+"?="+Math.random()*5; 
+        window.location.reload();
+        window.location.href="http://192.168.137.1/Watch-out-for-carrots/game.html"+"?="+Math.random()*5;
+        window.location.href="http://192.168.137.1/Watch-out-for-carrots/game.html";
         return;
     }
-    window.location.href="http://134.175.124.192/autumn"
+    window.location.href="http://134.175.124.192/autumn";
 }, false);
