@@ -50,6 +50,7 @@ function createEle(flag, type, num) {
 function listener() {
     var yourmove = document.getElementById('yTable');
     yourmove.addEventListener('click', function (e) {
+        e.preventDefault();
         move(e.toElement.id, e.path[1].id, e.target);
     }, false);
 }
@@ -60,6 +61,7 @@ backbtn.addEventListener('click', function () {
 }, false);
 
 function move(td, tr) {
+    console.time('move')
     if (tr == "" || td == undefined || tr == undefined || td == "yTable") {
         return;
     }
@@ -71,8 +73,8 @@ function move(td, tr) {
     if (inside.flag) {//有没有点过这个el
         return;
     }
+    console.timeEnd('move');
     switch(gamer(inside.type)) {
-
         // 踩到白萝卜
         case 1:
         {
@@ -97,7 +99,6 @@ function move(td, tr) {
             }
             sessionStorage.setItem("isOver", true);
             complete(0);
-            document.getElementById('yTable').style.cssText = "background-image:unset;pointer-events: none;";
             break;
         }
         case 2:
@@ -121,6 +122,7 @@ function move(td, tr) {
 
 function complete(num) {
     //游戏完成  失败则给时间=0 成功给实际用时
+    document.getElementById('yTable').style.cssText += "pointer-events: none;";
     var url = "http://203.195.221.189:5000/insert";
     var casename = "complete";
     var finaltime = Number(document.querySelector("h2").textContent.split(":")[0]) * 60 + Number(document.querySelector("h2").textContent.split(":")[1]);
@@ -198,6 +200,7 @@ function addmineNum(x,y){
 }
 
 function addCarrots() {
+    console.time('addmine');
     var minesnum = 7, whitenum = 5, welcomenum = 1;
     var total = whitenum + minesnum + welcomenum;
     randommines();
@@ -233,6 +236,8 @@ function addCarrots() {
         var obj = createEle(false, "welcome", 0);
         minemap.set("{" + x + "," + y + "}", obj);
     }
+    console.timeEnd('addmine');
+
 }
 
 function addColor() {
@@ -267,6 +272,7 @@ function switchColor(num, x, y) {
 }
 
 function gamer(type) {
+    console.time('gamer');
     if (type == "white") {
         return 1;
     }
@@ -277,5 +283,6 @@ function gamer(type) {
     if (type == "welcome") {
         return -1;
     }
+    console.timeEnd('gamer');
     return 2;
 }

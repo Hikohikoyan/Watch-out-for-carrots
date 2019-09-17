@@ -104,29 +104,31 @@ startbtn.addEventListener('click', clearTable, false);
 
 function clearTable() {
     // clearInterval(tinterval);
+    console.time('startbtn');
     document.getElementById("start").value = "重新开始";
+    startbtn.setAttribute('disabled', 'disabled');
+    setTimeout(() => {
+        startbtn.addEventListener('click', restart, false);
+        startbtn.removeAttribute('disabled');
+    }, 300);
     document.querySelector("#yTable").style.cssText += "background-image:unset;";
     startbtn.removeEventListener('click', clearTable);
     let num = document.querySelectorAll("td").length;
     for (let i = 0; i < num; i++) {
         document.querySelectorAll("td")[i].style.cssText += "display:table-cell;";
     }
+    console.timeEnd('startbtn');
     start();
-    setTimeout(() => {
-        startbtn.setAttribute('disabled', 'disabled');
-        startbtn.addEventListener('click', restart, false);
-    }, 100);
-    setTimeout(() => {
-        startbtn.removeAttribute('disabled');
-    }, 5000);
+
+    // setTimeout(() => {
+    //     startbtn.removeAttribute('disabled');
+    // }, 5000);
+
 }
 
-function restart() {
-        window.location.reload();
-    // });
-}
 var timeout1;
 function start() {
+    console.time('start');
     document.getElementById('completebox').style.cssText += "display:none";
     document.querySelector("h2").style.cssText = " -webkit-text-stroke-color: #8c6e62;-webkit-text-stroke-width: 2.5px;";
 
@@ -150,7 +152,6 @@ function start() {
         function startCount() {
             var second = parseInt((new Date().getTime() - startTime) / 1000);
             if (JSON.parse(sessionStorage.getItem("isOver"))) {
-                console.log(0000);
                 //clearTimeout(timeout2);
                 clearTimeout(timeout1);
                 return;
@@ -162,7 +163,6 @@ function start() {
                 second = second - 60;
             }
             if (min == 5) {
-                console.log(timeout1);
                 sessionStorage.setItem('isOver',true);
                 attention("时间到！！");
                 complete(0);
@@ -172,9 +172,16 @@ function start() {
         }
         timeout1 = setTimeout(startCount, 500);
     }
-
-
     document.getElementById('ranklist').addEventListener('click', function () {
         sessionStorage.setItem('isOver',true);
     }, false);
+    console.timeEnd('start');
+}
+
+function restart() {
+    // window.location.href="192.168.137.1/Watch-out-for-carrots/game.html";
+    clearTimeout(timeout1);
+    premap();
+    start();
+// });
 }
