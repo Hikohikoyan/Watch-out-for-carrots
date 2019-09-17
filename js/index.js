@@ -204,7 +204,8 @@ function start() {
         }
         timeout1 = setTimeout(startCount, 1000);
     }
-    document.getElementById('ranklist').addEventListener('click', function () {
+    document.getElementById('ranklist').addEventListener('click', function (e) {
+        e.preventDefault();
         sessionStorage.setItem('isOver',true);
         sessionStorage.setItem('ranklist',true);
     }, false);
@@ -215,7 +216,7 @@ function restart() {
     console.log('restart');
     window.location.href="http://192.168.137.1/Watch-out-for-carrots/game.html"+"?="+Math.random()*5;
 }
-backbtn.addEventListener('click', function () {
+backbtn.addEventListener('click', function (e) {
     e.preventDefault();
     if(JSON.parse(sessionStorage.getItem('ranklist'))){
         sessionStorage.setItem('ranklist',false);
