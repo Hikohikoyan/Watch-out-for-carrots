@@ -2,21 +2,19 @@ var minemap = new Map();
 var rankarr = new Array();
 var num = 0;
 var clicktime = 0;
-
-
 function premap() {
-    function prenodes(classname, name) {
+    function prenodes(classname, name,line) {
         var pair = "";
         for (var j = 1; j < 7; j++) {
-            pair = pair + "<td class='" + classname + "'id='" + name + j + "' style='cursor:pointer;'></td>";
+            pair = pair + "<td class='" + classname + "'id='" + name +line+','+ j + "' style='cursor:pointer;'></td>";
         }
         return pair;
     }
     var pair2 = "";
     var pair3 = "";
     for (let a = 1; a < 7; a++) {
-        pair2 = pair2 + "<tr class='line' id='tr" + a + "' >" + prenodes("mines", "td") + "</tr>";
-        pair3 = pair3 + "<tr class='you-map' id='you-line" + a + "' data-index='1'" + ">" + prenodes("you-column", "you-column") + "</tr>";
+        pair2 = pair2 + "<tr class='line' id='tr" + a + "' >" + prenodes("mines", "td",a) + "</tr>";
+        pair3 = pair3 + "<tr class='you-map' id='you-line" + a + "' data-index='1'" + ">" + prenodes("you-column", "you-column",a) + "</tr>";
     }
     document.getElementById('gTable').innerHTML = pair2;
     document.getElementById('yTable').innerHTML = pair3;
@@ -25,7 +23,6 @@ function premap() {
     num = 0;
     sessionStorage.setItem("isOver", false);
 }
-
 function createTd() {
     minemap.clear();
     for (let a = 0; a < 6; a++) {
@@ -37,7 +34,6 @@ function createTd() {
         }
     }
 }
-
 function createEle(flag, type, num) {
     let obj = new Object;
     obj.flag = flag;
@@ -45,38 +41,49 @@ function createEle(flag, type, num) {
     obj.num = num;
     return obj;
 }
-
-
 function listener() {
     var yourmove = document.getElementById('yTable');
+    if(isiOS==true){
+        alert('ios');
+    }
+    // document.getElementsByClassName('you-column').length;
+        // document.body.addEventListener('touchstart', function (e) {
+        //     yourmove.addEventListener('click', function (e) {
+        //     alert(e.toElement);
+        //     console.log(e.toElement);
+        // move(e.toElement.id);
+        // }, false);
+    //     return;
+    // }
     // if(isAndroid==true){
         yourmove.addEventListener('click', function (e) {
             e.preventDefault();
-            move(e.toElement.id, e.path[1].id, e.target);
+            // alert(e.target.id);
+            move(e.target.id);//, e.path[1].id
+            // move(e.toElement.id);//, e.path[1].id
         }, false);
     // }
-    // if(isiOS==true){
-    //     document.body.addEventListener('touchstart', function (e) {
-    //     move(e.target.id,e.path[1].id);
-    //     }, false);
-    // }
+
     // if(isiOS==false&&isAndroid==false){
     //     attention("不支持该设备");
     // }
 }
 premap();
 startbtn.addEventListener('mousemove', listener, false);
-function move(td, tr) {
-    console.time('move')
-    var y = Number(td.replace("you-column", ""));
-    var x = Number(tr.replace("you-line", ""));
+function move(td) {//, tr
+    // console.time('move');
+    // console.log(td);
+    var y = Number((td.replace("you-column", "")).split(",")[1]);
+    var x = Number((td.replace("you-column", "")).split(",")[0]);//  (tr.replace("you-line", ""))
+    console.log(x+","+y);
     if (x == "" || x == undefined || y == undefined || y == "yTable"||y == " ") {
         return;
     }
-    var elementg = document.querySelectorAll("#td" + y)[x - 1];
-    var grass = "{" + x + "," + y + "}";
+    tdname="td"+x+","+y;
+    var elementg = document.getElementById(tdname);//"#td" + y [x - 1]
+    var grass = "{" +x+","+y + "}";
     var inside = minemap.get(grass);
-    if (inside.flag||JSON.parse(sessionStorage.getItem('isOver'))==true) {//有没有点过这个el
+    if (inside.flag||JSON.parse(sessionStorage.getItem('isOver'))==true||inside.flag==undefined) {//有没有点过这个el
         return;
     }
     switch(gamer(inside.type)) {
@@ -98,7 +105,7 @@ function move(td, tr) {
                 let line = a + 1;
                 for (let b = 0; b < 6; b++) {
                     let column = b + 1;
-                    let element = document.querySelectorAll("#td" + column)[line - 1];
+                    let element = document.getElementById("td"+line+","+column);
                     removegrass(element, "{" + line + "," + column + "}");
                 }
             }
@@ -259,7 +266,7 @@ function addColor() {
     }
 }
 function switchColor(num, x, y) {
-    ele = document.querySelectorAll("#td" + y)[x - 1]
+    ele = document.getElementById("td"+x+","+y);
     switch (num) {
         case 1:
             ele.style.backgroundColor = "#a1dbcb";

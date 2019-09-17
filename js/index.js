@@ -173,9 +173,16 @@ function clearTable() {
     for (let i = 0; i < num; i++) {
         document.querySelectorAll("td")[i].style.cssText = "display:table-cell;";
     }
+    document.getElementById("start").value = "重新开始";
+    startbtn.setAttribute('disabled', 'disabled');
     console.log("切换棋盘");
     startbtn.removeEventListener('click', clearTable);
     start();
+        setTimeout(() => {
+        startbtn.removeEventListener('click', clearTable, false);
+        startbtn.addEventListener('click', restart, false);
+        startbtn.removeAttribute('disabled');
+    }, 3000);
 }
 
 function start() {
@@ -224,6 +231,7 @@ function start() {
 
     function restart() {
         console.log('restart');
+        window.location.reload();
         window.location.href = window.location.href + "?t=" + Math.random() * 5;
     }
     backbtn.addEventListener('click', function () {

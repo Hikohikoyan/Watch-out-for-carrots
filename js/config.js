@@ -2,13 +2,13 @@ const startbtn = document.querySelector("#start");
 const backbtn = document.querySelector("#back");
 const rankurl="http://111.231.174.100:5000/rank";//查看排行榜
 const completeurl="http://111.231.174.100:5000/insert";//提交成绩
-const indexurl="";//报名表
+const indexurl="";//报名表 html里有个a标签也要填这个
 var u = navigator.userAgent;
 var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
 var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
-if(window.location.href.split('/')[window.location.href.split('/').length-1]!="game.html"){
-    window.location.href="http://localhost/Watch-out-for-carrots/game.html";
-}
+// if(window.location.href.split('/')[window.location.href.split('/').length-1]!="game.html"){
+//     window.location.href="http://localhost/Watch-out-for-carrots/game.html";
+// }//去掉用来reload()添加的随机数
 document.getElementById('attcha').addEventListener('click',function(){
     // e.preventDefault();
     document.getElementById('attentionbox').style.cssText +='visibility: hidden;';
