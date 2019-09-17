@@ -58,9 +58,9 @@ function listener() {
                 //     move(e.target.id);
                 // },false);
                 document.body.addEventListener('touchstart', function (e) {
-                    alert(e.toElement.id);
-                    alert(e.target.id);
-                    move(e.toElement.id);
+                    e.stopPropagation();
+                    // alert(e.target.id);
+                    move(e.target.id);
                 }, false);
             }
         }
