@@ -1,12 +1,15 @@
 const startbtn = document.querySelector("#start");
 const backbtn = document.querySelector("#back");
-document.getElementById('attcha').addEventListener('click',function(){
+document.getElementById('attcha').addEventListener('click',function(e){
+    e.preventDefault();
     document.getElementById('attentionbox').style.cssText +='visibility: hidden;';
 },false);
-document.getElementById('welcomecha').addEventListener('click',function(){
+document.getElementById('welcomecha').addEventListener('click',function(e){
+    e.preventDefault();
     document.getElementById('welcomebox').style.cssText +='display:none';
 },false);
-document.getElementById('finalcha').addEventListener('click',function(){
+document.getElementById('finalcha').addEventListener('click',function(e){
+    e.preventDefault();
     document.getElementById('completebox').style.cssText +='display: none;';
 },false);
 
@@ -119,7 +122,7 @@ function checkBBT(){
     var data = JSON.stringify({
         "url": url
     });
-    post("https://hemc.100steps.net/2019/fleeting-station-test/api/station",data,function(){
+    post("",data,function(){
     // wx.config({
         //     debug: false,
         //     appId: res.appId,

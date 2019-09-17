@@ -2,6 +2,7 @@ var storage = JSON;
 document.getElementById('ranklist').addEventListener('click',rank,false);
 function rank(){
     sessionStorage.setItem('ranklist',true);
+    document.getElementById('ranklist').setAttribute('disabled','disabled');
     document.querySelector('h2').textContent="排行榜";
     document.getElementById('yTable').style.cssText="display:none;";
     document.getElementById('gTable').style.cssText="display:none;";
@@ -87,7 +88,7 @@ function rank(){
 
         }
         setTimeout(() => {
-            document.getElementById('ranklist').addEventListener('click',rank,false);
+            document.getElementById('ranklist').removeAttribute('disabled');
         }, 60000);
     });
     /*
@@ -169,7 +170,7 @@ function start() {
     addTime();
     function addTime() {
         //  console.log(second);
-        // var second = 0;
+        var second = 0;
         var min = 0;
         var startTime = new Date().getTime();
         startCount();
@@ -191,11 +192,8 @@ function start() {
                 return;
             }
             // second++;
-
-            if (second > 59) {
-                min++;
-                second = second - 60;
-            }
+            min=Math.floor(second/60);
+            second%=60;
             if (min == 5) {
                 sessionStorage.setItem('isOver',true);
                 attention("时间到！！");
@@ -218,6 +216,7 @@ function restart() {
     window.location.href="http://192.168.137.1/Watch-out-for-carrots/game.html"+"?="+Math.random()*5;
 }
 backbtn.addEventListener('click', function () {
+    e.preventDefault();
     if(JSON.parse(sessionStorage.getItem('ranklist'))){
         sessionStorage.setItem('ranklist',false);
         window.location.reload();
