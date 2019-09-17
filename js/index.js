@@ -142,7 +142,7 @@ function clearTable() {
     setTimeout(() => {
         startbtn.addEventListener('click', restart, false);
         startbtn.removeAttribute('disabled');
-    }, 300);
+    }, 1000);
     document.querySelector("#yTable").style.cssText += "background-image:unset;";
     let objects =document.getElementsByClassName('mines');
     let objects2 =document.getElementsByClassName('you-column');

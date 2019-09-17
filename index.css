@@ -137,8 +137,6 @@ h2 {
     margin-top: -300px;
     overflow-x: hidden;
     overflow-y: scroll;
-    pointer-events: none;
-
 }
 .yTable::-webkit-scrollbar ,.ranklist::-webkit-scrollbar ,#rankcontainer::-webkit-scrollbar {display:none}
 /*变成梯仔的class*/
@@ -250,7 +248,7 @@ h2 {
 /*显示游戏规则*/
 td {
     display: none;
-    cursor:pointer;
+    cursor:pointer !important;
 }
 
 #yTable {
@@ -258,7 +256,7 @@ td {
     background-size: 96%;
     background-repeat: no-repeat;
     background-position: center;
-    cursor:pointer;
+    cursor:pointer !important;
 }
 #rankcontainer{
     width: 300px;
