@@ -52,14 +52,15 @@ function listener() {
         for (var y = 1; y <= 6; y++) {
             for (var x = 1; x <= 6; x++) {
                 let tdname = "you-column" + x + "," + y;
-                // document.getElementById(tdname).addEventListener('click', function(e) {
-                //     e.preventDefault();
-                //     alert(e.target.id);
-                //     move(e.target.id);
-                // },false);
+                document.getElementById(tdname).addEventListener('click', function(e) {
+                    e.preventDefault();
+                    alert("click"+tdname);
+                    alert(e.target.id);
+                    move(e.target.id);
+                },false);
                 document.body.addEventListener('touchstart', function (e) {
                     e.stopPropagation();
-                    // alert(e.target.id);
+                    alert("touch"+e.target.id);
                     move(e.target.id);
                 }, false);
             }

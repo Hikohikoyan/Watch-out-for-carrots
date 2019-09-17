@@ -13,7 +13,7 @@ document.getElementById('attcha').addEventListener('click',function(){
     // e.preventDefault();
     document.getElementById('attentionbox').style.cssText +='visibility: hidden;';
 },false);
-document.getElementById('welcomecha').addEventListener('click',function(){
+document.getElementById('welcomebox').addEventListener('click',function(){
     // e.preventDefault();
     document.getElementById('welcomebox').style.cssText +='display:none';
 },false);
