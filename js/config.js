@@ -59,10 +59,14 @@ function attention(text) {
     }, 7000);
 }
 function rewriteTime(second){
+    var min=Math.floor(second/60);
+    var str_second="";
     if(second<10){
-        return String("0:0"+second);
+        str_second= String("0"+(second%=60));
+    }else{
+        str_second=String((second%=60))
     }
-    return String(Math.floor(second/60)+":"+(second%=60));
+    return String(min+":"+str_second);
 }
 function read_statuscode(statusCode, responseText) { //用来提示的 仅此而已
     if (statusCode == 200) {
