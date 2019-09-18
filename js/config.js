@@ -60,7 +60,7 @@ function attention(text) {
 }
 function rewriteTime(second){
     if(second<10){
-        return String("00:0"+second);
+        return String("0:0"+second);
     }
     return String(Math.floor(second/60)+":"+(second%=60));
 }
