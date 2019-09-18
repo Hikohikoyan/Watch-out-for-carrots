@@ -1,0 +1,22 @@
+{
+    "all": [{
+        "0":[{
+            "username":"xxxs",
+            "time":"00:01",
+            "times":0,
+            "rank":1
+        }],
+        "1":[{
+            "username":"xsa",
+            "time":"00:21",
+            "times":0,
+            "rank":1
+        }]
+    }],
+    "self": [{
+        "time": 1000000,
+        "times": 99,
+        "username": "you",
+        "rank": 9
+    }]
+}
