@@ -6,7 +6,7 @@ from flask_cors import *
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__)
-    app.config['JSON_AS_ASCII'] = False
+    app.config['DEBUG'] = false
     CORS(app,resources=r'/*')
     from . import db
     db.init_app(app)
