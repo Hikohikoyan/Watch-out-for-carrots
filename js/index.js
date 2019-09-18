@@ -67,7 +67,7 @@ function rank() {
                 document.getElementById(yourline).style.cssText += "display:none";
             } else {
                 document.getElementById(yourline).childNodes[0].textContent = Number(list.self.rank);
-                document.getElementById(yourline).childNodes[1].textContent = list.self.username;
+                document.getElementById(yourline).childNodes[1].textContent = "你";
                 document.getElementById(yourline).childNodes[2].textContent = (list.self.time == 10000000 ? 0 : rewriteTime(list.self.time));
                 document.getElementById(yourline).childNodes[3].textContent = list.self.times;
                 // document.getElementById(yourline).childNodes[0].style.cssText +="border-bottom: none;";
