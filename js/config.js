@@ -3,7 +3,7 @@ const backbtn = document.querySelector("#back");
 const rankurl="http://111.231.174.100:5000/rank";//查看排行榜
 const completeurl="http://111.231.174.100:5000/insert";//提交成绩
 const indexurl="";//报名表 html里有个a标签也要填这个
-const myurl=window.location.hostname+"/Watch-out-for-carrots/game.html";
+const myurl=window.location.href.split('?')[0];
 var u = navigator.userAgent;
 var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
 var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
@@ -34,7 +34,7 @@ function fillURL(casename,str){
             url=completeurl+str;
             break;
         case "reload":
-            url=myurl+new Date().getTime();
+            url=myurl+"?t="+new Date().getTime();
         default:
             break;
     }
