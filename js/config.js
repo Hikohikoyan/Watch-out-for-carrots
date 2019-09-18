@@ -59,6 +59,9 @@ function attention(text) {
     }, 7000);
 }
 function rewriteTime(second){
+    if(second<10){
+        return String("00:0"+second);
+    }
     return String(Math.floor(second/60)+":"+(second%=60));
 }
 function read_statuscode(statusCode, responseText) { //用来提示的 仅此而已
