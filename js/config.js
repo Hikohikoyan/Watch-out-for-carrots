@@ -61,7 +61,7 @@ function attention(text) {
 function rewriteTime(second){
     var min=Math.floor(second/60);
     var str_second="";
-    if(second<10){
+    if((second%=60)<10){
         str_second= String("0"+String(second%=60));
     }else{
         str_second=String((second%=60))
