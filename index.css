@@ -466,6 +466,7 @@ td:active {
     padding-left: 10.5px;
     padding-right: 11.5px;
     overflow-x: scroll;
+    overflow-y: scroll;
 }
 
 .rankhead {
