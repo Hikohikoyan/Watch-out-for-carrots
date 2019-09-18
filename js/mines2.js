@@ -151,13 +151,13 @@ function complete(num) {
     var str="";
     if (num == 5) {
         document.querySelector('h4').textContent = "恭喜你成功了！";
+        document.getElementById('completepic').src = 'assets/great.png';
         str= "?time=" + finaltime;
         if (finaltime < 5) {
             attention("时间错乱了！");
             return;
         }
         if (sessionStorage.getItem('welcome') == 1) {
-            document.querySelector('h4').textContent = "恭喜你成功了！";
             str= "?time=" + (finaltime - 1);
         }
         sessionStorage.setItem('isOver', true);
