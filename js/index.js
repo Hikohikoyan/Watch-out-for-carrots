@@ -51,7 +51,7 @@ function rank() {
         document.getElementById('rankline0').childNodes[1].innerText = "用户名";
         document.getElementById('rankline0').childNodes[2].innerText = "成功用时";
         document.getElementById('rankline0').childNodes[3].innerText = "失败次数";
-        document.getElementsByClassName('gaming')[0].style.cssText = "visibility:hidden;"
+        document.getElementsByClassName('gaming')[0].style.cssText = "display:none;"
         if (totallist == 0) {
             document.getElementById('rankline1').innerText = "暂时无人上榜";
             document.getElementById('rankline1').style.cssText = "color:#8c6e62;padding: 10%;font-size: 160%;text-align: center;"
@@ -232,7 +232,7 @@ function start() {
     function restart() {
         console.log('restart');
         window.location.reload();
-        window.location.href = window.location.href + "?t=" + Math.random() * 5;
+        window.location.href = fillURL('reload');
     }
     backbtn.addEventListener('click', function () {
         // e.preventDefault();
@@ -240,7 +240,7 @@ function start() {
         if (JSON.parse(sessionStorage.getItem('ranklist'))) {
             sessionStorage.setItem('ranklist', false);
             window.location.reload();
-            window.location.href = url + "?t=" + Math.random() * 5;
+            window.location.href =fillURL('reload');
             window.location.href = url;
             return;
         }

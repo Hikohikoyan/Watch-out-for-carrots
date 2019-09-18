@@ -3,12 +3,14 @@ const backbtn = document.querySelector("#back");
 const rankurl="http://111.231.174.100:5000/rank";//查看排行榜
 const completeurl="http://111.231.174.100:5000/insert";//提交成绩
 const indexurl="";//报名表 html里有个a标签也要填这个
+const myurl=window.location.hostname+"/Watch-out-for-carrots/game.html";
 var u = navigator.userAgent;
 var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
 var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
 // if(window.location.href.split('/')[window.location.href.split('/').length-1]!="game.html"){
-//     window.location.href="http://localhost/Watch-out-for-carrots/game.html";
+//     window.location.href=window.location.hostname+"/Watch-out-for-carrots/game.html";
 // }//去掉用来reload()添加的随机数
+
 document.getElementById('attcha').addEventListener('click',function(){
     // e.preventDefault();
     document.getElementById('attentionbox').style.cssText +='visibility: hidden;';
@@ -25,7 +27,19 @@ document.getElementById('completebox').addEventListener('click',function(e){
     }, 200);
 },false);
 
-
+function fillURL(casename,str){
+    var url="";
+    switch (casename) {
+        case "submit":
+            url=completeurl+str;
+            break;
+        case "reload":
+            url=myurl+new Date().getTime();
+        default:
+            break;
+    }
+    return url;
+}
 function attention(text) {
     document.getElementById('attention').textContent=String(text);
     document.getElementById('attentionbox').style.cssText += "visibility: unset;";
@@ -88,6 +102,9 @@ function post(url, package,sync,fun) {
     }
     let obj = package;
     xmlhttp2.open("POST", url, true);
+    xmlhttp2.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+    xmlhttp2.setRequestHeader( "Access-Control-Allow-Origin","*" );
+    xmlhttp2.setRequestHeader( "Access-Control-Allow-Methods","POST,GET" );
     xmlhttp2.setRequestHeader("Content-Type", "application/json");
     xmlhttp2.send(JSON.stringify(obj));
     xmlhttp2.onreadystatechange = function () {
@@ -98,23 +115,27 @@ function post(url, package,sync,fun) {
         }
     }
 };
-function get(url, casename,sync,fun) {
+function get(url,sync,fun) {
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.open("GET", url, true);
+    xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+    xmlhttp.setRequestHeader( "Access-Control-Allow-Origin","*" );
+    xmlhttp.setRequestHeader( "Access-Control-Allow-Methods","POST,GET" );
     xmlhttp.setRequestHeader("Content-Type", "application/json");
     if(typeof sync === 'function') {
         fun = sync;sync =true;
     }else if(typeof sync === 'undefined'){
          sync =true;
     }
-    xmlhttp.send();
+    console.error();
+    xmlhttp.send(); 
     xmlhttp.onreadystatechange = function () {
-        if (xmlhttp.readyState == 4) {//&&xmlhttp.status==200
+        if (xmlhttp.readyState == 4 &&xmlhttp.status==200) {//&&xmlhttp.status==200
             fun.call(this,xmlhttp.responseText);
             read_statuscode(xmlhttp.status, xmlhttp.responseText);
-                return;
+            return;
         }else{
-            console.log(xmlhttp.status);
+            read_statuscode(xmlhttp.status, xmlhttp.responseText);
         }
     }
 }

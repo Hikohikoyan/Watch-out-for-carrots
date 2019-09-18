@@ -2,17 +2,22 @@ body {
     background-color: #cbe0ba;
     background-image: url(./assets/background.png);
     background-repeat: repeat;
-    background-size: 45%;
+    background-size: 50%;
     margin: 2%;
     padding: 0;
     overflow: hidden;
 }
-input:-webkit-autofill {-webkit-box-shadow: 0 0 0px 1000px white inset;}
+
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px white inset;
+}
+
 element {
 
     -webkit-touch-callout: none;
-   
-   }
+
+}
+
 .title {
     text-align: center;
 }
@@ -139,7 +144,13 @@ h2 {
     overflow-y: scroll;
     pointer-events: none;
 }
-.yTable::-webkit-scrollbar ,.ranklist::-webkit-scrollbar ,#rankcontainer::-webkit-scrollbar {display:none}
+
+.yTable::-webkit-scrollbar,
+.ranklist::-webkit-scrollbar,
+#rankcontainer::-webkit-scrollbar {
+    display: none
+}
+
 /*变成梯仔的class*/
 .you-column:hover,
 .you-column:active {
@@ -165,7 +176,8 @@ h2 {
 
 .white_carrot {
     width: 9vh;
-    height: 13vh;    background-image: url(./assets/big.png);
+    height: 13vh;
+    background-image: url(./assets/big.png);
     background-repeat: round;
     background-size: 100%;
 }
@@ -252,17 +264,18 @@ h2 {
 /*显示游戏规则*/
 td {
     display: none;
-    cursor:pointer !important;
+    cursor: pointer !important;
 }
 
 #yTable {
     background-image: url("./assets/rule.png");
-    background-size: 96%;
+    background-size: 94%;
     background-repeat: no-repeat;
     background-position: center;
-    cursor:pointer !important;
+    cursor: pointer !important;
 }
-#rankcontainer{
+
+#rankcontainer {
     width: 300px;
     position: relative;
     margin-top: 0px;
@@ -277,6 +290,7 @@ td {
     background-position: center;
     display: none;
 }
+
 #start {
     background-color: #f4d087;
     border-color: #825b3f;
@@ -310,7 +324,6 @@ td:active {
 }
 
 #attentionbox {
-    top: 0;
     text-align: center;
     background-color: orange;
     opacity: 0.76;
@@ -325,18 +338,29 @@ td:active {
     /* align-items: inherit; */
     position: fixed;
     top: 8vh;
-    left: 0; right: 0;
+    left: 0;
+    right: 0;
     margin-left: auto;
     margin-right: auto;
+    height: 64px;
+    border-radius: 1rem;
 
     visibility: hidden;
 }
 
-#attcha ,.chacha{
+#attcha,
+.chacha {
     width: 30px;
     position: absolute;
     right: 0;
     margin: 5px;
+}
+
+.chacha::before {
+    content: " ";
+    width: 50px;
+    height: 50px;
+    display: inline;
 }
 
 .icon_att {
@@ -345,10 +369,12 @@ td:active {
     float: left;
     margin-left: 4px;
 }
+
 #attention {
-    white-space: normal;
+    white-space: nowrap;
     /* position: absolute; */
     /* height: 20px; */
+    overflow-x: scroll;
     color: white;
     /* margin: 0; */
     padding: 0;
@@ -358,7 +384,8 @@ td:active {
     padding: 0;
     margin-left: 50px;
     width: 200px;
-    margin-top: 15px;
+    margin-bottom: 17px;
+    margin-top: 17px;
 }
 
 @keyframes shake {
@@ -385,6 +412,7 @@ td:active {
 }
 
 @-webkit-keyframes shake {
+
     0%,
     100% {
         -webkit-transform: translateX(0);
@@ -406,12 +434,14 @@ td:active {
     }
 }
 
-#attentionbox:hover,#attentionbox:active {
+#attentionbox:hover,
+#attentionbox:active {
     animation: shake 1s linear forwards;
     -webkit-animation: shake 1s linear forwards;
 
 }
-.ranklist{
+
+.ranklist {
     background-color: #f9f4ea;
     border-color: #8c6e62;
     border-style: solid;
@@ -437,7 +467,8 @@ td:active {
     padding-right: 11.5px;
     overflow-x: scroll;
 }
-.rankhead{
+
+.rankhead {
     background-color: #f9f4ea;
     border-color: #8c6e62;
     border-style: solid;
@@ -462,11 +493,13 @@ td:active {
     padding-left: 10.5px;
     padding-right: 11.5px;
 }
-.rankcaption{
+
+.rankcaption {
     display: inline-block;
     height: 38px !important;
 }
-.rankline{
+
+.rankline {
     height: 38px !important;
     display: block;
     margin: 0;
@@ -474,16 +507,21 @@ td:active {
     margin-top: -5px;
     /* margin-bottom: 5px; */
 }
-#rankitem1{
+
+#rankitem1 {
     width: 32px;
 }
-#rankitem2{
+
+#rankitem2 {
     width: 48px;
 }
-#rankitem3,#rankitem4{
+
+#rankitem3,
+#rankitem4 {
     width: 64px;
 }
-#dengji_img>img{
+
+#dengji_img>img {
     width: 180px;
     margin-top: 5px;
     /* float: right; */
@@ -491,7 +529,8 @@ td:active {
     right: -60px;
     pointer-events: none;
 }
-.ranktable{
+
+.ranktable {
     height: auto;
     background-color: #f9f4ea;
     border-color: #8c6e62;
@@ -502,11 +541,13 @@ td:active {
     overflow-y: scroll;
     overflow-x: hidden;
 }
-#welcomebox{
+
+#welcomebox {
     z-index: 100;
     position: fixed;
     top: 20vh;
-    left: 0; right: 0;
+    left: 0;
+    right: 0;
     width: 300px;
     height: 400px;
     margin-left: auto;
@@ -521,7 +562,8 @@ td:active {
     text-align: center;
     display: none;
 }
-a{
+
+a {
     text-decoration: none;
     color: white;
     position: relative;
@@ -529,7 +571,8 @@ a{
     margin-bottom: -50px;
     font-size: 20px;
 }
-#welcomebox2{
+
+#welcomebox2 {
     background-image: url(./assets/letter.png);
     width: 180px;
     position: relative;
@@ -540,22 +583,25 @@ a{
     padding-right: 10px;
     text-align: left;
     white-space: normal;
-    height:400px;
+    height: 400px;
     word-wrap: break-word;
     overflow-y: scroll;
     padding-bottom: 30px;
 }
-.welcometext{
+
+.welcometext {
     font-size: 20px;
     margin: 0;
     color: chocolate;
     margin-top: -5px;
     margin-bottom: 5px;
 }
-span.welcometext{
+
+span.welcometext {
     font-weight: 800;
 }
-#completebox{
+
+#completebox {
     z-index: 200;
     background: bisque;
     opacity: 0.85;
@@ -569,7 +615,8 @@ span.welcometext{
     /* align-items: center; */
     position: fixed;
     top: 27vh;
-    left: 0; right: 0;
+    left: 0;
+    right: 0;
     margin-left: auto;
     margin-right: auto;
 
@@ -580,7 +627,8 @@ span.welcometext{
     display: none;
 
 }
-h4{
+
+h4 {
     color: chocolate;
     font-size: 25px;
     padding: 0;
@@ -588,7 +636,8 @@ h4{
     text-align: center;
     margin-top: 10px;
 }
-.yours{
+
+.yours {
     color: brown;
     font-size: 100%;
     padding: 10px;
@@ -596,23 +645,28 @@ h4{
     margin-left: 10px;
     margin-right: 15px;
 }
-p.show{
+
+p.show {
     padding-left: 20px;
 }
-.showlist,.currentlist{
+
+.showlist,
+.currentlist {
     display: flex;
     list-style: none;
     width: 270px;
     margin: 0;
 }
-.table_title{
+
+.table_title {
     margin-right: 10px;
     position: relative;
     width: 60px;
     height: 35px;
     white-space: pre;
 }
-li.show{
+
+li.show {
     color: brown;
     margin-left: 4px;
     margin-right: 1px;
@@ -621,11 +675,19 @@ li.show{
     height: 35px;
     white-space: pre;
 }
-#finaltext{
+
+#finaltext {
     position: relative;
     bottom: -50px;
     float: right;
     right: 100px;
     font-size: 150%;
     color: chocolate;
+}
+
+#completepic {
+    width: 80%;
+    padding: 10px;
+    position: relative;
+    top: 20px;
 }
