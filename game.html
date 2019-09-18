@@ -9,7 +9,6 @@
     minimum-scale=1, maximum-scale=1, user-scalable=no" />
     <meta name="description" content="百步梯2019秋季招新">
     <title>百步梯2019秋季招新</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="http://res2.wx.qq.com/open/js/jweixin-1.4.0.js "></script>
     <link rel="stylesheet" type="text/css" media="screen" href='./index.css'>
 </head>
@@ -25,7 +24,7 @@
         <div id="attentionbox">
             <img id="attcha" class="chacha" src="assets/chacha.png" >
             <input type="image" class="icon_att" src="./assets/ti1.png" >
-            <p id="attention">提示框</p>
+            <p id="attention"></p>
         </div>            
         <table id="gTable" class="gTable" cellpadding="0" cellspacing="0">
             <tbody>
@@ -42,31 +41,30 @@
         <div id="welcomebox">
             <img id="welcomecha" class="chacha" src="assets/chacha.png" >
             <p style="font-size: 80%;color: white;">点击关闭恢复游戏，游戏成功时可-1s</p>
-            <p class="welcometext">恭喜你收到了来自</p><span class="welcometext" id="depart">部门</span>
+            <p class="welcometext">恭喜你收到了来自</p><span class="welcometext" id="depart">梯仔的一封信</span>
             <div id="welcomebox2">
-                我们是dsahjbdjhakvdvDAHVGMCVAHGDVSDVSHGA<br>
-                VDhdsvajdgsajhdjhkaKGDJHKAgdashdhsajdvahjsvdhavghdn
+                Hello~我是梯仔，希望你喜欢这个小游戏。
             </div>
-            <a href="./" >点我立刻去报名</a>
+            <a href="./报名表" >点我立刻去报名</a>
             <img src="./assets/haha.png" alt="梯仔" width="50px">
         </div>
         <div id="completebox">
             <img id="finalcha" class="chacha" src="assets/chacha.png">
-            <img src="assets/complete.png" style="width: 300px;padding: 10px;position: relative;top: 20px;">
-            <h4>恭喜你第n次挑战失败！</h4>
-            <p class="yours">你一共挑战了1次，成功0次，最短用时无</p>
+            <img id="completepic" src="assets/complete.png" >
+            <h4>祝你玩得开心！</h4>
+            <p class="yours"></p>
         </div>
-    </div>
-    <div class="gaming" id="gamebox">
-        <div class="white_carrot"></div>
-        <span id="statistics">0</span>
-        <span id="ge">个</span>
-        <input id="start" type="submit" value="计时开始">
+        <div class="gaming" id="gamebox">
+                    <img  src="./assets/big.png" width="15%">
+                    <span id="statistics">0</span>
+                    <span id="ge">个</span>
+            <input id="start" type="submit" value="计时开始">
+        </div>    
     </div>
 
 </body>
 <script src="./js/config.js"></script>
-<script src="./js/mines.js"></script>
+<script src="./js/mines2.js"></script>
 <script src="./js/index.js"></script>
 
 </html>

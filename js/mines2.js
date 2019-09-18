@@ -7,7 +7,7 @@ function premap() {
     function prenodes(classname, name, line) {
         var pair = "";
         for (var j = 1; j < 7; j++) {
-            pair = pair + "<td class='" + classname + "'id='" + name + line + ',' + j + "' style='cursor:pointer;' onclick='move(this.id)''></td>";
+            pair = pair + "<td class='" + classname + "'id='" + name + line + ',' + j + "' style='cursor:pointer;'></td>";
         }
         return pair;
     }
@@ -22,17 +22,17 @@ function premap() {
     createTd();
     addCarrots();
     num = 0;
-    if (isiOS == true) {
-        // alert('ios');
+    //if (isiOS == true) {
         for (var y = 1; y <= 6; y++) {
             for (var x = 1; x <= 6; x++) {
-                let tdname = "you-column" + x + "," + y;
+                let tdname = "td" + x + "," + y;
                 var grid=document.getElementById(tdname);
-                grid.addEventListener('touchend', function(e) {
+                grid.colX = x; grid.colY = y;
+                grid.addEventListener('click', function(e) {
                     e.preventDefault();
-                    alert("touchend"+tdname);
-                    alert(this.id);
-                    move(this.id);
+                    //alert("click"+tdname);
+                    //alert(this.id);
+                    move(this.colX, this.colY);
                 }.bind(grid),false);
                 // document.body.addEventListener('touchstart', function (e) {
                 //     alert("touch"+e.target);
@@ -41,7 +41,7 @@ function premap() {
                 // }, false);
             }
         }
-    }
+    //}
     sessionStorage.setItem("isOver", false);
 }
 
@@ -66,15 +66,16 @@ function createEle(flag, type, num) {
 }
 
 function listener() {
-    var yourmove = document.getElementById('yTable');
+    //var yourmove = document.getElementById('yTable');
 
-        yourmove.addEventListener('click', function (e) {
+    //if (!isiOS) {
+        /*yourmove.addEventListener('click', function (e) {
             e.preventDefault();
-            // alert(e.target.id);
+            alert(e.target.id);
             move(e.target.id); //, e.path[1].id
             // move(e.toElement.id);//, e.path[1].id
-        }, false);
-
+        }, false);*/
+    //}
     // if(isiOS==false&&isAndroid==false){
     //     attention("不支持该设备");
     // }
@@ -82,11 +83,11 @@ function listener() {
 premap();
 startbtn.addEventListener('mousemove', listener, false);
 
-function move(td) { //, tr
+function move(x,y) { //, tr
     // console.time('move');
     // console.log(td);
-    var y = Number((td.replace("you-column", "")).split(",")[1]);
-    var x = Number((td.replace("you-column", "")).split(",")[0]); //  (tr.replace("you-line", ""))
+    //var y = Number((td.replace("you-column", "")).split(",")[1]);
+    //var x = Number((td.replace("you-column", "")).split(",")[0]); //  (tr.replace("you-line", ""))
     console.log(x + "," + y);
     if (x == "" || x == undefined || y == undefined || y == "yTable" || y == " ") {
         return;
@@ -105,14 +106,6 @@ function move(td) { //, tr
             document.getElementById('statistics').textContent = String(num);
             if (num == 5 && sessionStorage.getItem('isOver')) {
                 complete(num);
-                for (let a = 0; a < 6; a++) {
-                    let line = a + 1;
-                    for (let b = 0; b < 6; b++) {
-                        let column = b + 1;
-                        let element = document.getElementById("td" + line + "," + column);
-                        removegrass(element, "{" + line + "," + column + "}");
-                    }
-                }
             }
             removegrass(elementg, grass);
             inside.flag = true;
@@ -154,26 +147,22 @@ function move(td) { //, tr
 function complete(num) {
     //游戏完成  失败则给时间=0 成功给实际用时
     // document.getElementById('yTable').style.cssText += "pointer-events: none;";
-    var url = "";
-    url = completeurl;
-    var casename = "complete";
     var finaltime = Number(document.querySelector("h2").textContent.split(":")[0]) * 60 + Number(document.querySelector("h2").textContent.split(":")[1]);
-
+    var str="";
     if (num == 5) {
         document.querySelector('h4').textContent = "恭喜你成功了！";
         document.getElementById('completepic').src = 'assets/great.png';
-        url = url + "?time=" + finaltime;
+        str= "?time=" + finaltime;
         if (finaltime < 5) {
             attention("时间错乱了！");
             return;
         }
         if (sessionStorage.getItem('welcome') == 1) {
-            document.querySelector('h4').textContent = "恭喜你成功了！";
-            url = url + "?time=" + (finaltime - 1);
+            str= "?time=" + (finaltime - 1);
         }
         sessionStorage.setItem('isOver', true);
         document.getElementById('completebox').style.cssText += "display:block";
-        get(url, casename, function (data) {
+        get(fillURL("submit",str),function (data) {
             data = JSON.parse(data);
             document.querySelector("p.yours").textContent = "你曾经失败了" + String(data.self.times) + "次,挑战成功最短用时：" + String(data.self.time == 10000000 ? 0 : rewriteTime(data.self.time)) + "\
             目前排名第" + data.self.rank + "位!";
@@ -181,10 +170,10 @@ function complete(num) {
         });
     } else {
         document.querySelector('h4').textContent = "别灰心！再试一次吧~"
-        url = url + "?time=" + 0;
+        str= "?time=" + 0;
         sessionStorage.setItem('isOver', true);
         document.getElementById('completebox').style.cssText += "display:block";
-        get(url, casename, function (data) {
+        get(fillURL('submit',str), function (data) {
             data = JSON.parse(data);
             document.querySelector("p.yours").textContent = "你曾经失败了" + String(data.self.times) + "次,挑战成功最短用时：" + String(data.self.time == 10000000 ? 0 : rewriteTime(data.self.time)) + "\
             目前排名第" + data.self.rank + "位!";

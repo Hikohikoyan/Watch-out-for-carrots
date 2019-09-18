@@ -2,26 +2,44 @@ const startbtn = document.querySelector("#start");
 const backbtn = document.querySelector("#back");
 const rankurl="http://111.231.174.100:5000/rank";//查看排行榜
 const completeurl="http://111.231.174.100:5000/insert";//提交成绩
-const indexurl="";//报名表
+const indexurl="";//报名表 html里有个a标签也要填这个
+const myurl=window.location.href.split('?')[0];
 var u = navigator.userAgent;
 var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
 var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
-if(window.location.href.split('/')[window.location.href.split('/').length-1]!="game.html"){
-    window.location.href="http://localhost/Watch-out-for-carrots/game.html";
-}
+// if(window.location.href.split('/')[window.location.href.split('/').length-1]!="game.html"){
+//     window.location.href=window.location.hostname+"/Watch-out-for-carrots/game.html";
+// }//去掉用来reload()添加的随机数
+
 document.getElementById('attcha').addEventListener('click',function(){
     // e.preventDefault();
     document.getElementById('attentionbox').style.cssText +='visibility: hidden;';
 },false);
 document.getElementById('welcomecha').addEventListener('click',function(){
     // e.preventDefault();
-    document.getElementById('welcomebox').style.cssText +='display:none';
+    setTimeout(() => {
+        document.getElementById('welcomebox').style.cssText +='display:none';
+    }, 300);
 },false);
 document.getElementById('completebox').addEventListener('click',function(e){
-    document.getElementById('completebox').style.cssText +='display:none';
+    setTimeout(() => {
+        document.getElementById('completebox').style.cssText +='display:none';
+    }, 200);
 },false);
 
-
+function fillURL(casename,str){
+    var url="";
+    switch (casename) {
+        case "submit":
+            url=completeurl+str;
+            break;
+        case "reload":
+            url=myurl+"?t="+new Date().getTime();
+        default:
+            break;
+    }
+    return url;
+}
 function attention(text) {
     document.getElementById('attention').textContent=String(text);
     document.getElementById('attentionbox').style.cssText += "visibility: unset;";
@@ -32,16 +50,23 @@ function attention(text) {
         if(document.getElementById('attentionbox').style.visibility!="hidden"){
             document.getElementById('attentionbox').style.cssText +='visibility: hidden;';
         }
-        if(document.getElementById('welcomebox').style.display!="none"){
-            document.getElementById('welcomebox').style.cssText +='display:none';
-        }
+        // if(document.getElementById('welcomebox').style.display!="none"){
+        //     document.getElementById('welcomebox').style.cssText +='display:none';
+        // }
         if(JSON.parse(sessionStorage.getItem('ranklist'))==true){
             document.getElementById('completebox').style.cssText +='display: none;';
         }
     }, 7000);
 }
 function rewriteTime(second){
-    return String(Math.floor(second/60)+":"+(second%=60));
+    var min=Math.floor(second/60);
+    var str_second="";
+    if((second%=60)<10){
+        str_second= String("0"+String(second%=60));
+    }else{
+        str_second=String((second%=60))
+    }
+    return String(min+":"+str_second);
 }
 function read_statuscode(statusCode, responseText) { //用来提示的 仅此而已
     if (statusCode == 200) {
@@ -84,6 +109,9 @@ function post(url, package,sync,fun) {
     }
     let obj = package;
     xmlhttp2.open("POST", url, true);
+    xmlhttp2.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+    xmlhttp2.setRequestHeader( "Access-Control-Allow-Origin","*" );
+    xmlhttp2.setRequestHeader( "Access-Control-Allow-Methods","POST,GET" );
     xmlhttp2.setRequestHeader("Content-Type", "application/json");
     xmlhttp2.send(JSON.stringify(obj));
     xmlhttp2.onreadystatechange = function () {
@@ -94,39 +122,27 @@ function post(url, package,sync,fun) {
         }
     }
 };
-function get(url, casename,sync,fun) {
+function get(url,sync,fun) {
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.open("GET", url, true);
+    xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+    xmlhttp.setRequestHeader( "Access-Control-Allow-Origin","*" );
+    xmlhttp.setRequestHeader( "Access-Control-Allow-Methods","POST,GET" );
     xmlhttp.setRequestHeader("Content-Type", "application/json");
     if(typeof sync === 'function') {
         fun = sync;sync =true;
     }else if(typeof sync === 'undefined'){
          sync =true;
     }
-    xmlhttp.send();
+    console.error();
+    xmlhttp.send(); 
     xmlhttp.onreadystatechange = function () {
-        if (xmlhttp.readyState == 4&&xmlhttp.status==200) {
+        if (xmlhttp.readyState == 4 &&xmlhttp.status==200) {//&&xmlhttp.status==200
             fun.call(this,xmlhttp.responseText);
             read_statuscode(xmlhttp.status, xmlhttp.responseText);
-            if (casename == "complete") {
-                storage = JSON.parse(xmlhttp.responseText);
-                var len = storage.all.length;
-                var rank3 = new Object;
-                for (let i = 0; i <len; i++) {
-                    rank3.username = storage.all[i].username;
-                    rank3.time = storage.all[i].time;
-                    rank3.times = storage.all[i].times;
-                    sessionStorage.setItem("now" + i, rank3);
-                }
-                // let your = new Object;
-                // let your = storage.self.times;
-                // let your.time = storage.self.time;
-                // let your.rank = storage.self.rank;
-                return;
-            }
-
+            return;
         }else{
-            console.log(xmlhttp.status);
+            read_statuscode(xmlhttp.status, xmlhttp.responseText);
         }
     }
 }
@@ -135,7 +151,7 @@ function checkBBT(){
     var data = JSON.stringify({
         "url": url
     });
-    post("",data,function(){
+    post("//认证链接",data,function(){
     // wx.config({
         //     debug: false,
         //     appId: res.appId,

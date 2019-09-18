@@ -51,7 +51,7 @@ function rank() {
         document.getElementById('rankline0').childNodes[1].innerText = "用户名";
         document.getElementById('rankline0').childNodes[2].innerText = "成功用时";
         document.getElementById('rankline0').childNodes[3].innerText = "失败次数";
-        document.getElementsByClassName('gaming')[0].style.cssText = "visibility:hidden;"
+        document.getElementsByClassName('gaming')[0].style.cssText = "display:none;"
         if (totallist == 0) {
             document.getElementById('rankline1').innerText = "暂时无人上榜";
             document.getElementById('rankline1').style.cssText = "color:#8c6e62;padding: 10%;font-size: 160%;text-align: center;"
@@ -67,7 +67,7 @@ function rank() {
                 document.getElementById(yourline).style.cssText += "display:none";
             } else {
                 document.getElementById(yourline).childNodes[0].textContent = Number(list.self.rank);
-                document.getElementById(yourline).childNodes[1].textContent = list.self.username;
+                document.getElementById(yourline).childNodes[1].textContent = "你";
                 document.getElementById(yourline).childNodes[2].textContent = (list.self.time == 10000000 ? 0 : rewriteTime(list.self.time));
                 document.getElementById(yourline).childNodes[3].textContent = list.self.times;
                 // document.getElementById(yourline).childNodes[0].style.cssText +="border-bottom: none;";
@@ -171,11 +171,18 @@ function clearTable() {
     document.querySelector("#yTable").style.cssText = "background-image:unset;";
     let num = document.querySelectorAll("td").length;
     for (let i = 0; i < num; i++) {
-        document.querySelectorAll("td")[i].style.cssText = "display:table-cell;";
+        document.querySelectorAll("td")[i].style.cssText += "display:table-cell;";
     }
+    document.getElementById("start").value = "重新开始";
+    startbtn.setAttribute('disabled', 'disabled');
     console.log("切换棋盘");
     startbtn.removeEventListener('click', clearTable);
     start();
+        setTimeout(() => {
+        startbtn.removeEventListener('click', clearTable, false);
+        startbtn.addEventListener('click', restart, false);
+        startbtn.removeAttribute('disabled');
+    }, 3000);
 }
 
 function start() {
@@ -224,7 +231,8 @@ function start() {
 
     function restart() {
         console.log('restart');
-        window.location.href = window.location.href + "?t=" + Math.random() * 5;
+        window.location.reload();
+        window.location.href = fillURL('reload');
     }
     backbtn.addEventListener('click', function () {
         // e.preventDefault();
@@ -232,7 +240,7 @@ function start() {
         if (JSON.parse(sessionStorage.getItem('ranklist'))) {
             sessionStorage.setItem('ranklist', false);
             window.location.reload();
-            window.location.href = url + "?t=" + Math.random() * 5;
+            window.location.href =fillURL('reload');
             window.location.href = url;
             return;
         }
