@@ -127,7 +127,7 @@ function read_statuscode(statusCode, responseText) { //用来提示的 仅此而
 function get(url,sync,fun) {
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.open("GET", url, true);
-    // xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+    xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
     xmlhttp.setRequestHeader( "Access-Control-Allow-Origin","*" );
     xmlhttp.setRequestHeader( "Access-Control-Allow-Methods","POST,GET" );
     xmlhttp.setRequestHeader("Content-Type", "application/json");
@@ -141,9 +141,10 @@ function get(url,sync,fun) {
         if (xmlhttp.readyState == 4 ) {//&&xmlhttp.status==200
             if(xmlhttp.status==200||xmlhttp.status== 304){
             fun.call(this,xmlhttp.responseText);
-            read_statuscode(xmlhttp.status, xmlhttp.responseText);            
+            read_statuscode(xmlhttp.status, xmlhttp.responseText);
+            return;
         }
-        }
+    }
         read_statuscode(xmlhttp.status, xmlhttp.responseText);
     }
     xmlhttp.send(); 
@@ -160,9 +161,9 @@ function checkBBT(){
 var depart=new Array();
 var introtext=new Array();
 depart[0]="编辑部";introtext[0]="在这个美丽的招新季节，编辑部作为一个并不是专业排版的创作\
-出品部门为您准备了三款快乐套餐——写文画图摄影，总有一种快乐适合你！套餐一：摄影组带着相机去记\
+出品部门为您准备了三款快乐套餐——写文画图摄影，总有一种快乐适合你！    套餐一：摄影组带着相机去记\
 录生活的美好，行走四方去追猎光的身影。无论是一只猫的背影，还是城市华灯初上的繁复、或是某个Ta的\
-回眸一笑……摄影是凝固的时光，在这里展示你最好的摄影作品，只为让你眼中的美好被更多人知晓。套餐二：\
+回眸一笑……摄影是凝固的时光，在这里展示你最好的摄影作品，只为让你眼中的美好被更多人知晓。    套餐二：\
 原创写手组本套餐为使用者提供纸与笔，让您能勾勒清奇脑洞，也可抒发心中观点，若是今日无事想写个故事\
 亦是乐趣一件。一杆笔随您挥斥方遒，数张纸任你指点春秋，如果你的心中有言语，为什么不来到这里，让世界\
 听见你的声音？套餐三：可视化设计组火柴人玩家or当代达芬奇？甜甜科普图还是酷炫小短漫？只要您拥有创意和\
@@ -172,7 +173,7 @@ depart[1]="外联部";introtext[1]="我们也是门面颜值担当。日常我�
 百步梯各项活动筹集资金、寻求合作机会，以及与其他高校进行联谊和交流，与商\
 家进行洽谈合作，所以外联部不仅要开展大型的品牌交流活动，努力拉取赞助以保\
 证学生会中央财政和日常支出。同时也要协助各部门为展开其活动，在人员、资金、\
-物品等多方面予以支持，真的是实打实的HOLD住全场的幕后金主爸爸。\
+物品等多方面予以支持，真的是实打实的HOLD住全场的幕后金主爸爸。     \
 据说我们外联号称“最有钱”部门？还是颜值最高部门？不不，耳听为虚眼见为实";
 depart[2]="节目部";introtext[2]="这里是华南理工大学大学城校区广播台。\
 我们为每一个有播音主持梦想的你，提供一个绽放的舞台。每天下午的校园广播，\
