@@ -97,6 +97,8 @@ function read_statuscode(statusCode, responseText) { //用来提示的 仅此而
             case 404:
                 attention("网络出了点小问题");
                 break;
+            default:
+                break;
         }
     }
 }
