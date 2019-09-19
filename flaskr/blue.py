@@ -16,8 +16,8 @@ def hello():
 #获取排名
 @bp.route('/rank',methods=('GET',))
 def rank():
-    username = '测试'
-    openid = '123456'
+    username = session['nickname']
+    openid = session['openid']
     error = None
     db = get_db()
     cursor = db.cursor()
@@ -70,8 +70,8 @@ def rank():
 @bp.route('/insert', methods=('GET',))
 def insert():
     time = int(request.args.get('time'))
-    openid = '测试'
-    username = '123456'
+    openid = session['openid']
+    username = session['nickname']
     db = get_db()
     cursor = db.cursor()
     #查询user
