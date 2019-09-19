@@ -1,9 +1,12 @@
 const startbtn = document.querySelector("#start");
 const backbtn = document.querySelector("#back");
-const rankurl="http://111.231.174.100:5000/rank";//查看排行榜
-const completeurl="http://111.231.174.100:5000/insert";//提交成绩
-const indexurl="";//报名表 html里有个a标签也要填这个
+const rankurl="https://hemc.100steps.net/2019/recruit-autumn-game/rank";//查看排行榜
+const completeurl="https://hemc.100steps.net/2019/recruit-autumn-game/insert";//提交成绩
+const indexurl="https://hemc.100steps.net/2019/autumn-recruit/";//报名表 html里有个a标签也要填这个
 const myurl=window.location.href.split('?')[0];
+window.onload=function(){
+    checkBBT();
+}
 var u = navigator.userAgent;
 var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
 var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
@@ -71,6 +74,7 @@ function rewriteTime(second){
 function read_statuscode(statusCode, responseText) { //用来提示的 仅此而已
     if (statusCode == 200) {
         // attention("Success!");
+        console.log(statusCode);
         response = JSON.stringify(responseText);
         if (response.errcode == "40003") {
             attention("Wrong!");
@@ -78,10 +82,6 @@ function read_statuscode(statusCode, responseText) { //用来提示的 仅此而
         return responseText;
     } else {
         switch (statusCode) {
-            case 419:
-                attention("还没有关注公众号");
-                window.location.href = "https://hemc.100steps.net/2019/fleeting-station-test/api/station";
-                break;
             case 430:
                 attention("活动还没开始哦, 敬请期待~");
                 break;
@@ -100,32 +100,32 @@ function read_statuscode(statusCode, responseText) { //用来提示的 仅此而
         }
     }
 }
-function post(url, package,sync,fun) {
-    var xmlhttp2 = new XMLHttpRequest();
-    if(typeof sync === 'function') {
-        fun = sync;sync =true;
-    }else if(typeof sync === 'undefined'){
-        sync =true;
-    }
-    let obj = package;
-    xmlhttp2.open("POST", url, true);
-    xmlhttp2.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-    xmlhttp2.setRequestHeader( "Access-Control-Allow-Origin","*" );
-    xmlhttp2.setRequestHeader( "Access-Control-Allow-Methods","POST,GET" );
-    xmlhttp2.setRequestHeader("Content-Type", "application/json");
-    xmlhttp2.send(JSON.stringify(obj));
-    xmlhttp2.onreadystatechange = function () {
-        if (xmlhttp2.readyState == 4) {
-            read_statuscode(xmlhttp2.status, xmlhttp2.responseText);
-            storage = JSON.parse(xmlhttp2.responseText);
-            return;
-        }
-    }
-};
+// function post(url, package,sync,fun) {
+//     var xmlhttp2 = new XMLHttpRequest();
+//     if(typeof sync === 'function') {
+//         fun = sync;sync =true;
+//     }else if(typeof sync === 'undefined'){
+//         sync =true;
+//     }
+//     let obj = package;
+//     xmlhttp2.open("POST", url, true);
+//     xmlhttp2.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+//     xmlhttp2.setRequestHeader( "Access-Control-Allow-Origin","*" );
+//     xmlhttp2.setRequestHeader( "Access-Control-Allow-Methods","POST,GET" );
+//     xmlhttp2.setRequestHeader("Content-Type", "application/json");
+//     xmlhttp2.send(JSON.stringify(obj));
+//     xmlhttp2.onreadystatechange = function () {
+//         if (xmlhttp2.readyState == 4) {
+//             read_statuscode(xmlhttp2.status, xmlhttp2.responseText);
+//             storage = JSON.parse(xmlhttp2.responseText);
+//             return;
+//         }
+//     }
+// };
 function get(url,sync,fun) {
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.open("GET", url, true);
-    xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+    // xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
     xmlhttp.setRequestHeader( "Access-Control-Allow-Origin","*" );
     xmlhttp.setRequestHeader( "Access-Control-Allow-Methods","POST,GET" );
     xmlhttp.setRequestHeader("Content-Type", "application/json");
@@ -134,37 +134,26 @@ function get(url,sync,fun) {
     }else if(typeof sync === 'undefined'){
          sync =true;
     }
-    console.error();
-    xmlhttp.send(); 
+
     xmlhttp.onreadystatechange = function () {
-        if (xmlhttp.readyState == 4 &&xmlhttp.status==200) {//&&xmlhttp.status==200
+        if (xmlhttp.readyState == 4 ) {//&&xmlhttp.status==200
+            if(xmlhttp.status==200||xmlhttp.status== 304){
             fun.call(this,xmlhttp.responseText);
-            read_statuscode(xmlhttp.status, xmlhttp.responseText);
-            return;
-        }else{
-            read_statuscode(xmlhttp.status, xmlhttp.responseText);
+            read_statuscode(xmlhttp.status, xmlhttp.responseText);            
         }
+        }
+        read_statuscode(xmlhttp.status, xmlhttp.responseText);
     }
+    xmlhttp.send(); 
 }
 function checkBBT(){
-    url="https://hemc.100steps.net/2019/autumn-recruit/game.html";
-    var data = JSON.stringify({
-        "url": url
+    var checkurl="https://hemc.100steps.net/2018/fireman/auth.php?redirect=https://hemc.100steps.net/2019/recruit-autumn-game/get_wx&state=divdestui68";
+    get(checkurl,function(data,status,responseText){
+        if(data.errcode != 0 ) {
+            window.location.href="https://hemc.100steps.net/2018/fireman/auth.php?redirect=https://hemc.100steps.net/2019/recruit-autumn-game/get_wx&state=divdestui68";
+        };
+        read_statuscode(status,responseText);
     });
-    post("//认证链接",data,function(){
-    // wx.config({
-        //     debug: false,
-        //     appId: res.appId,
-        //     timestamp: res.timestamp,
-        //     nonceStr: res.nonceStr,
-        //     signature: res.signature,
-        //     jsApiList: [
-        //     ]
-        // });
-        // wx.ready(function(){
-        //     console.log("OK")
-        // });
-    })
 }
 var depart=new Array();
 var introtext=new Array();
